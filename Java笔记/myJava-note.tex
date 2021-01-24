@@ -1,0 +1,92 @@
+\documentclass[30pt]{article}
+\usepackage[space,fancyhdr,fntef]{ctexcap}
+\usepackage{fontspec}
+\fontspec{宋体}
+\setmainfont{Times New Roman}
+%\fontsize{50pt}{50pt}\selectfont
+\renewcommand{\rmdefault}{ptm}
+\usepackage[namelimits,sumlimits,nointlimits]{amsmath}
+\usepackage[bottom=20mm,top=30mm,left=25mm,right=25mm,centering]{geometry}
+\usepackage{color}
+\usepackage{CJKfntef}%下划线宏包160页
+\usepackage{xcolor}
+\usepackage{arydshln}%234页，虚线表格宏包
+\pagestyle{fancy} \fancyhf{}
+\fancyhead[OL]{\color{gray}~~~班序号：Java41班 \hfill 姓名：王松年~~~}
+\fancyfoot[C]{\color{gray}\thepage}
+%\renewcommand{\footrulewidth}{0.4pt}%改为0pt即可去掉页脚上面的横线
+%\usepackage{parskip}
+%\usepackage{indentfirst}
+\usepackage{graphicx}%插图宏包，参见手册318页
+\definecolor{dkgreen}{RGB}{106,135,89}
+\definecolor{dkblue}{RGB}{103,150,163}
+\definecolor{wgray}{RGB}{248,248,248}
+\usepackage{listings}
+\lstset{language=Java,
+backgroundcolor=\color{wgray},
+rulesepcolor=\color{red!20!green!20!blue!20},%代码块边框为淡青色
+%lablestep=1,
+%lablesep=5pt,
+%lablestyle=\tiny,
+%tablesize=4,
+%captionpos=b,
+basicstyle=\ttfamily\small,
+keywordstyle=\color{orange},
+commentstyle=\color{gray},
+stringstyle=\color{dkgreen},
+numberstyle=\tiny,
+numbersep=8pt,
+frame=single,%topline.bottomline,lines,single,leftline
+identifierstyle=\color{dkblue},
+numbers=left,
+stepnumber=1,
+xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+breaklines=true,
+showstringspaces=true
+}
+\usepackage[xetex,colorlinks]{hyperref}%394页  \href{网址}{文本}
+\hypersetup{urlcolor=blue}
+%\linebreak[2]%换行，152页
+\usepackage{fancybox}%盒子宏包55页
+
+\begin{document}
+
+\newcommand{\dm}[1]{\colorbox{wgray}{\lstinline^#1^}}
+\newcommand{\myroman}[1]{\uppercase\expandafter{\romannumeral#1}}
+\newcounter{num}[section] \renewcommand{\thenum}{\arabic{num}.} \newcommand{\num}{\refstepcounter{num}\text{\thenum}}
+%\newlength{\mylen}
+%\settowidth{\mylen}{Tips}
+%\settoheight{\myheight}{T}
+\newenvironment{tips}{\kaishu\zihao{-6}\color{blue}{\noindent\rule[-3pt]{\textwidth}{0.5pt}\par \em \noindent {\zihao{-5} \textcolor[rgb]{1.00,0.00,0.00}{Tips}}}\par}{\\ \rule[3mm]{\textwidth}{0.5pt}\par}
+
+\newenvironment{zhengming}{\kaishu\zihao{-5}\color{blue}{\noindent\em 证明：}\par}{\hfill $\diamondsuit$\par}
+
+%\begin{lstlisting}
+%1
+%\end{lstlisting}
+
+%
+%\newlength{\mylen}
+%\settowidth{\mylen}{For iasasasaasasaasdadadsadasd =10}
+%\makebox[0pt][l]%55页
+%{
+%\color{wgray}\rule[0pt]{\mylen}{5pt}%59页
+%}
+
+
+%\lstinline[参数]符号 源程序 符号。
+%\CTEXsetup[name={Day~,}]{section}
+
+%\href{https://www.baidu.com/?tn=40020637_11_oem_dg}{百度}
+
+%\rule[1.3mm]{1cm}{1pt}tips\rule[2.5mm]{1cm}{1pt}
+%
+%
+%\begin{tips}
+%123
+%\end{tips}
+
+
+\end{document}
+
+

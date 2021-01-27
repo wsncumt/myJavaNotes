@@ -1,0 +1,98 @@
+\documentclass[a4paper]{report}
+\usepackage[space,fancyhdr,fntef]{ctexcap}
+\usepackage{fontspec}
+\fontspec{宋体}
+\setmainfont{Times New Roman}
+%\fontsize{50pt}{50pt}\selectfont
+\renewcommand{\rmdefault}{ptm}
+\usepackage[namelimits,sumlimits,nointlimits]{amsmath}
+\usepackage[text={169mm,250mm},bottom=20mm,top=25mm,left=25mm,right=15mm,centering]{geometry}
+\usepackage{color}
+\usepackage{CJKfntef}%下划线宏包160页
+\usepackage{xcolor}
+\usepackage{arydshln}%234页，虚线表格宏包
+\pagestyle{fancy} \fancyhf{}
+\fancyhead[OC]{\color{gray}\rightmark}
+
+\fancyhead[EC]{\color{gray}\leftmark}
+\fancyfoot[C]{\color{gray}\thepage}
+\renewcommand{\headrule}{\color{gray}\hrule width\headwidth}
+%\renewcommand{\footrulewidth}{0.4pt}%改为0pt即可去掉页脚上面的横线
+%\usepackage{parskip}
+%\usepackage{indentfirst}
+\usepackage{graphicx}%插图宏包，参见手册318页
+\definecolor{dkgreen}{RGB}{106,135,89}
+\definecolor{dkblue}{RGB}{103,150,163}
+\definecolor{wgray}{RGB}{248,248,248}
+\definecolor{WGRAY}{RGB}{248,248,248}
+\usepackage{listings}
+\lstset{language=Java,
+backgroundcolor=\color{wgray},
+rulesepcolor=\color{red!20!green!20!blue!20},%代码块边框为淡青色
+%lablestep=1,
+%lablesep=5pt,
+%lablestyle=\tiny,
+%tablesize=4,
+%captionpos=b,
+basicstyle=\ttfamily\small,
+keywordstyle=\color{orange},
+commentstyle=\color{gray},
+stringstyle=\color{dkgreen},
+numberstyle=\tiny,
+numbersep=8pt,
+frame=single,%topline.bottomline,lines,single,leftline
+identifierstyle=\color{dkblue},
+numbers=left,
+stepnumber=1,
+xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+breaklines=true
+}
+\usepackage[xetex,colorlinks]{hyperref}%394页  \href{网址}{文本}
+\hypersetup{urlcolor=blue}
+%\linebreak[2]%换行，152页
+\usepackage{fancybox}%盒子宏包55页
+\setcounter{secnumdepth}{4}
+\CTEXoptions[contentsname={目\hspace{15pt}录}]
+\CTEXsetup[beforeskip={-40pt},afterskip={20pt plus 2pt minus 2pt}]{chapter}
+
+%目录设置
+\usepackage{titletoc}
+\usepackage[toc]{multitoc}
+\titlecontents{chapter}[4em]{\addvspace{2.3mm}\bf}{\contentslabel{4.0em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\titlecontents{section}[4em]{}{\contentslabel{2.5em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\titlecontents{subsection}[7.2em]{}{\contentslabel{3.3em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\usepackage{fancyvrb}%75页抄录宏包
+\begin{document}
+\flushbottom%版心底部对齐
+\newcommand{\dm}[1]{\colorbox{wgray}{\lstinline`#1`}}
+\newcommand{\myroman}[1]{\uppercase\expandafter{\romannumeral#1}}
+\newcounter{num}[section] \renewcommand{\thenum}{\arabic{num}.} \newcommand{\num}{\refstepcounter{num}\text{\thenum}}
+
+\newenvironment{tips}{\kaishu\zihao{-6}\color{blue}{\noindent\rule[-3pt]{\textwidth}{0.5pt}\par \em \noindent {\zihao{-5} \textcolor[rgb]{1.00,0.00,0.00}{Tips}}}\par}{\\ \rule[3mm]{\textwidth}{0.5pt}\par}
+
+\newenvironment{zhengming}{\kaishu\zihao{-5}\color{blue}{\noindent\em 证明：}\par}{\hfill $\diamondsuit$\par}
+
+%\tableofcontents
+%\pagenumbering{Roman}%设置目录页码
+%\clearpage
+%\pagenumbering{arabic}%设置正文页码
+%\chapter{JavaSE}
+%\href{https://docs.oracle.com/javase/8/docs/api/index.html}{Java官方文档}
+
+核心需求：
+\begin{itemize}
+\itemsep=0pt \parskip=0pt
+  \item 用户能够登录到系统上：包括管理员用户和普通用户
+  \item 管理员：查阅某本书籍的信息，增加书籍的信息，删除书籍的信息，查看所有书籍列表，退出程序
+  \item 普通用户：查阅某个书籍的信息，借阅书籍，归还书籍，退出程序
+\end{itemize}
+上述所涉及到的对象：
+
+书籍、管理员、普通用户
+
+封装也是面向对象的重要核心之一，设计类的时候，尽可能的把属性封装起来。
+
+通过\dm{public}修饰的方法，来间接操作\dm{privite}修饰的属性。
+
+\dm{IOperstion}接口其实就是把所有的用户操作给统一规范起来了。只要这个类实现了\dm{IOperstion}这个接口，就可以作为用户操作。
+\end{document} 

@@ -1,4 +1,4 @@
-\documentclass[30pt]{article}
+\documentclass[a4paper]{report}
 \usepackage[space,fancyhdr,fntef]{ctexcap}
 \usepackage{fontspec}
 \fontspec{宋体}
@@ -6,14 +6,17 @@
 %\fontsize{50pt}{50pt}\selectfont
 \renewcommand{\rmdefault}{ptm}
 \usepackage[namelimits,sumlimits,nointlimits]{amsmath}
-\usepackage[bottom=20mm,top=30mm,left=25mm,right=25mm,centering]{geometry}
+\usepackage[text={169mm,250mm},bottom=20mm,top=25mm,left=25mm,right=15mm,centering]{geometry}
 \usepackage{color}
 \usepackage{CJKfntef}%下划线宏包160页
 \usepackage{xcolor}
 \usepackage{arydshln}%234页，虚线表格宏包
 \pagestyle{fancy} \fancyhf{}
-\fancyhead[OL]{\color{gray}~~~班序号：Java41班 \hfill 姓名：王松年~~~}
+\fancyhead[OC]{\color{gray}\rightmark}
+
+\fancyhead[EC]{\color{gray}\leftmark}
 \fancyfoot[C]{\color{gray}\thepage}
+\renewcommand{\headrule}{\color{gray}\hrule width\headwidth}
 %\renewcommand{\footrulewidth}{0.4pt}%改为0pt即可去掉页脚上面的横线
 %\usepackage{parskip}
 %\usepackage{indentfirst}
@@ -21,6 +24,7 @@
 \definecolor{dkgreen}{RGB}{106,135,89}
 \definecolor{dkblue}{RGB}{103,150,163}
 \definecolor{wgray}{RGB}{248,248,248}
+\definecolor{WGRAY}{RGB}{248,248,248}
 \usepackage{listings}
 \lstset{language=Java,
 backgroundcolor=\color{wgray},
@@ -41,52 +45,985 @@ identifierstyle=\color{dkblue},
 numbers=left,
 stepnumber=1,
 xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
-breaklines=true,
-showstringspaces=true
+breaklines=true
 }
 \usepackage[xetex,colorlinks]{hyperref}%394页  \href{网址}{文本}
 \hypersetup{urlcolor=blue}
 %\linebreak[2]%换行，152页
 \usepackage{fancybox}%盒子宏包55页
+\setcounter{secnumdepth}{4}
+\CTEXoptions[contentsname={目\hspace{15pt}录}]
+\CTEXsetup[beforeskip={-40pt},afterskip={20pt plus 2pt minus 2pt}]{chapter}
 
+%目录设置
+\usepackage{titletoc}
+\usepackage[toc]{multitoc}
+\titlecontents{chapter}[4em]{\addvspace{2.3mm}\bf}{\contentslabel{4.0em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\titlecontents{section}[4em]{}{\contentslabel{2.5em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\titlecontents{subsection}[7.2em]{}{\contentslabel{3.3em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\usepackage{fancyvrb}%75页抄录宏包
 \begin{document}
-
-\newcommand{\dm}[1]{\colorbox{wgray}{\lstinline^#1^}}
+\flushbottom%版心底部对齐
+\newcommand{\dm}[1]{\colorbox{wgray}{\lstinline`#1`}}
 \newcommand{\myroman}[1]{\uppercase\expandafter{\romannumeral#1}}
 \newcounter{num}[section] \renewcommand{\thenum}{\arabic{num}.} \newcommand{\num}{\refstepcounter{num}\text{\thenum}}
-%\newlength{\mylen}
-%\settowidth{\mylen}{Tips}
-%\settoheight{\myheight}{T}
+
 \newenvironment{tips}{\kaishu\zihao{-6}\color{blue}{\noindent\rule[-3pt]{\textwidth}{0.5pt}\par \em \noindent {\zihao{-5} \textcolor[rgb]{1.00,0.00,0.00}{Tips}}}\par}{\\ \rule[3mm]{\textwidth}{0.5pt}\par}
 
 \newenvironment{zhengming}{\kaishu\zihao{-5}\color{blue}{\noindent\em 证明：}\par}{\hfill $\diamondsuit$\par}
 
+\tableofcontents
+\pagenumbering{Roman}%设置目录页码
+\clearpage
+\pagenumbering{arabic}%设置正文页码
+\chapter{JavaSE}
+\href{https://docs.oracle.com/javase/8/docs/api/index.html}{Java官方文档}
+
+快捷键：
+
+1.ctrl+鼠标左键：把光标放在\dm{String}上，打开对应的源码
+\section{环境}
+\subsection{基础概念}
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item JDK：Java开发工具包，开发Java代码必备
+  \item JRE：Java运行时环境，运行Java程序必备
+  \item JVM：Java虚拟机
+\end{itemize}
+三者的关系：JDK中包含了JRE，JRE中又有JVM。
+\subsection[编译Java程序]{编译运行Java程序（命令行）}
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item javac:编译，把\dm{.java}文件变成\dm{.class}二进制字节码文件
+  \item java:让JVM解释执行字节码文件
+\end{itemize}
+
+\subsection{集成开发环境}
+使用IDEA集成开发环境进行Java程序的开发
+
+\section{变量和类型}
+\subsection{变量}
+变量：表示程序运行时可以改变的量，创建一个变量，就会为其分配一定的内存空间
+\subsection{常量}
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 字面值常量：例如$1,1.0,1.0f,"hello",true,false$等。
+  \item \dm{final}关键字修饰的量，在程序运行中无法修改其值。
+\end{itemize}
+\subsection{内置类型}
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 整数：\dm{byte},\dm{short},\dm{int},\dm{long}
+  \item 浮点数：\dm{float},\dm{double}，不能使用$=$直接判断两个浮点数是否相等。
+  \item 字符：\dm{char}，Java中的char占两个字节，使用unicode编码。
+  \item 布尔：\dm{boolean}
+\end{itemize}
+内置类型都有对应的包装类来描述他们。
+\subsection{引用类型}
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 字符串\dm{String}
+  \item 数组
+  \item 类
+\end{itemize}
+
+引用相当于是一个低配指针，没有指针加减的一些功能。
+
+\subsection{类型转换}
+隐式类型转换：把一个表示范围小的类型赋值给表示范围大的类型
+
+强制类型转换：用加括号的方式来进行强制类型转换。要注意部分类型之间无法进行强制类型转换，如布尔和整型，如果强制转换，则会出错。
+
+类型提升：把不同类型的数值放一起进行计算，会发生类型提升，\dm{byte}、\dm{short}类型进行计算时，通常先提升为\dm{int}类型进行计算。
+
+\subsection{变量的作用域}
+局部变量：作用域为当前代码块。
+
+成员变量：取决于\textbf{访问权限控制}字符。\dm{public}、\dm{private}、\dm{protected}、\dm{default}（就是空白）
+\subsection{变量的命名规范}
+
+1.必须由数字、字母、下划线、$\$$组成。
+
+2.变量名尽量有意义，采用驼峰命名法。（变量名小驼峰，类名大驼峰）
+
+\section{运算符}
+1.算数运算符：\dm{+}、\dm{-}、\dm{*}、\dm{/}、\dm{\%}。
+
+2.关系运算符：\dm{<}、\dm{<=}、\dm{==}、\dm{>}、\dm{>=}、\dm{!=}，关系运算符的返回值一定是\dm{boolean}类型。
+
+3.逻辑运算：\dm{&&}、\dm{||}、\dm{！}，逻辑运算符支持\textcolor[rgb]{1.00,0.00,0.00}{短路求值}。
+
+\dm{&}和\dm{|}的操作数为\dm{boolean}类型，也表示逻辑运算，但不支持短路求值。
+
+4.位运算：$\&$、$|$操作数是整数类型，$\sim$表示取反，$\^$表示异或。
+
+5.移位运算：\dm{<<}、\dm{>>}（算术右移，左侧补符号位）、\dm{>>>}（逻辑右移，左侧补0）。左移1位，相当于乘2，算数右移1位，相当于除2.
+
+6.条件运算：\dm{? :}
+
+7.运算符的优先级：不知道优先级时加括号。
+
+\section{注释}
+3种。
+\section{关键字}
+
+\section{分支和循环语句}
+\subsection{分支语句}
+1.\dm{if}
+
+2.\dm{switch}
+\subsection{循环语句}
+1.\dm{while}语句
+
+2.\dm{for}语句
+
+3.\dm{do...while}语句:至少执行一次
+
+4.\dm{for...each}
+
+5.\dm{continue}：跳过本次循环，直接进入下一循环
+
+6.\dm{break}：直接结束循环。
+\section{输入和输出}
+\subsection{输出}
+1.\dm{System.out.println()}:打印换行
+
+2.\dm{System.out.printf()}:格式化输出
+
+3.\dm{System.out.print()}:不格式化输出不打印换行
+
+\subsection{输入}
+1.\dm{System.in}:需要手动处理异常
+
+2.借用\dm{Scanner}类来进行输入
+
+\section{方法}
+1.基本语法：方法必须在类中，不能单独存在
+
+修饰限定符，返回值，方法名（驼峰命名），参数列表，方法体（只有在调用的时候才会执行方法体）
+
+2.方法调用：方法名+（实参列表），代码要进入方法体内部执行，并且完成参数传递过程，方法执行完毕，回到调用位置继续执行。
+
+3.方法重载：方法名相同，方法在同一个作用域中，方法的参数个数不同，参数类型不同。但是方法返回值的类型不影响重载。（\textcolor[rgb]{1.00,0.00,0.00}{重写}和\textcolor[rgb]{1.00,0.00,0.00}{重载}是两个完全不一样的概念）
+
+\section{数组}
+
+概念：批量创建一组相同类型的变量
+
+创建方式：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item \dm{int[] a = {1, 2, 3, 4};}
+\item \dm{int[] a = new int[]{1, 2, 3, 4};}
+\item \dm{int[] a = new int[num];}\dm{num}为数组的大小。
+\end{itemize}
+
+使用：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item \dm{arr.length}用于求数组长度
+\item \dm{arr[i]}，数组的下标是从0开始的，如果超出范围，则会抛出数组下标越界异常
+\end{itemize}
+
+引用：
+
+\section{面向对象}
+\subsection{类和对象的概念}
+类相当于是图纸，对象是根据图纸造出来的房子。类相当于C语言中的结构体，而对象则是该自定义类型创建出来的变量。
+
+\subsection{基本语法}
+类的创建：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item 修饰符：\dm{public}
+\item \dm{class}
+\item 类名：\dm{public}修饰的类名必须和文件名一致，通常以大驼峰的形式命名。
+\item 类体：用一对大括号括起来，里边包括成员变量和成员函数/方法
+\end{itemize}
+
+类的实例化（对象的创建）：使用\dm{new}关键字
+
+\subsection{\dm{this}关键字}
+\dm{this}关键字：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item 获取到当前对象的引用，即指向当前对象的引用。
+\item \dm{this}的类型就是当前类的类型。
+\item \dm{this}这个引用的指向不能修改。
+\item \dm{this}也可以用来调用方法
+\item \dm{this}不能是\dm{null}
+\end{itemize}
+
+当成员的名字和参数名字相同时，通过\dm{this.}的方式显示的区分出方法的参数名和成员的名字。
+\subsection{对象的初始化}
+1.默认值初始化：整数浮点数都初始化为0，布尔类型初始化为\dm{false}，引用类型初始化为空指针
+
+2.就地初始化：在创建成员的时候直接使用\dm{=}来赋值进行初始化。
+
+3.代码块初始化：在类里面用大括号进行初始化
+
+4.构造方法。（快捷键：alt+ins）
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 构造方法的方法名和类名一致。
+  \item 构造方法不需要写返回值的类型，内部也不需要写\dm{return}语句。
+  \item 构造方法不需要显示调用，\dm{new}的时候自动被调用
+  \item 构造方法支持重载
+\end{itemize}
+
+\subsection{\dm{toString}}
+用于打印对象的信息。
+\begin{lstlisting}[title=\dm{toString}方法]
+@Override
+public String toString(){
+    return this.name + "," + this.gender//假设这个类里面有name和gender两个成员变量
+}
+\end{lstlisting}
+
+也可以用alt+ins快捷键直接用.
+
+\section{包}
+包就相当于是目录，当代码中文件太多，就需要放在不同的目录中，即放在不同的包中。
+
+导入包中的类：\dm{import 包名}
+
+\subsection{常见的系统包}
+1.\dm{java.lang}：系统常用基础类\dm{String}、\dm{Object}，此包从JDK1.1后自动导入。
+
+2.\dm{java.lang.reflect:java}：反射编程包
+
+3.\dm{java.net}：进行网络编程开发包
+
+4.\dm{java.sql}：进行数据库开发的支持包
+
+5.\dm{java.util}：是Java提供的工具程序包。
+\subsection{\dm{static}关键字}
+1.类中的某个成员加上\dm{static}，说明这个成员是一个类属性/类方法。，如果没有\dm{static}，成员是一个实例属性/实例方法。
+
+2.类属性可以用类名访问。如：\dm{Cat.n}(这里\dm{Cat}是个类名，\dm{n}是类里边由\dm{static}关键字修饰的成员变量)。即不需要创建实例来通过类名访问类成员变量。
+
+3.修饰方法：静态方法。通过类名来访问，即调用静态方法不需要创建实例。\dm{this}关键字是只当前对象的引用，调用静态方法没有创建实例，所以在静态方法中不能使用\dm{this}。（静态方法和实例无关，只和类有关）同理也无法在\dm{static}方法中访问非\dm{static}的变量和方法。
+
+4.修饰代码块：例如
+\begin{lstlisting}[title=\dm{static}修饰代码块]
+static {
+    //这个加上static的代码块叫做“静态代码块”
+    //静态代码块只在类加载的时候执行一次
+    //一般用来初始化静态成员
+    //类加载始终是在创建实例之前
+    //static修饰的代码块始终是在普通的代码块之前执行的
+}
+\end{lstlisting}
+
+\subsection{静态导入包}
+\dm{import static 包名}
+
+\section{访问限定符}
+面向对象的特性包括：类和对象，抽象，封装，继承，组合，多态，反射/自省等。其中封装、继承、多态最具有代表性。
+\subsection{\dm{public}}
+修饰的成员可以被外部的类随意访问。
+
+\subsection{\dm{private}}
+修饰的成员只能在自己类的内部使用
+
+\subsection{\dm{protected}}
+修饰的成员
+
+\subsection{\dm{default}}
+即成员前不加任何修饰，这种成员只能在当前的包里被使用。（包级访问权限）
+
+\section{内部类}
+比较少用，仅作了解。
+
+把类的定义写在另一个类中。
+
+1.普通的内部类/成员内部类
+
+2.静态内部类（内部类前用\dm{static}修饰）
+
+静态内部类不依赖外部的\dm{this}，可以随意创建
+
+3.匿名内部类（相对比较常用）
+
+\begin{lstlisting}[title=匿名内部类]
+//假设当前包里有个A类。
+//此时创建了一个匿名内部类，这个类没有名字
+//这个类是A类的子类（继承自A类）
+A a = new A(){
+    //定义相关属性和方法
+}
+\end{lstlisting}
+
+4.局部内部类
+
+把类定义到方法里。
+
+\section{栈堆}
+JVM中的内存区除了堆和栈之外，还有方法区，方法区存的是“类相关的信息”。
+
+对于属性来说，如果是\textbf{实例属性}，其信息跟着实例走，如果是\textbf{类属性}，其信息在方法区中，对于方法来说，无论是否有\dm{static}修饰，对应的内容都是在方法区中。
+
+\section{\dm{String}类}
+\subsection{创建字符串}
+%\begin{lstlisting}[title=创建字符串]
+%//方式1
+%String str = "Hello";
+%//方式2
+%String str = new String("Hello");
+%//方式3
+%char[] array = {'a', 'b', 'c'};
+%String str = new String(array);
+%\end{lstlisting}
+\begin{lstlisting}[title=创建字符串]
+//方式1
+String str = "Hello";
+//方式2
+String str = new String("Hello");
+//方式3
+char[] array = {'a', 'b', 'c'};
+String str = new String(array);
+\end{lstlisting}
+Java中的字符串（\dm{String}）和字符数组（\dm{char[]}）之间没有关联关系
+
+\subsection{字符串比较}
+Java中如果针对引用类型使用\dm{==}，此时比较的是两个引用的地址是否相等。
+
+对于：
+\begin{lstlisting}[title=字符串比较1]
+String str1 = "Hello";
+String str2 = "Hello";
+\end{lstlisting}
+上边的\dm{str1}和\dm{str2}创建的的地址一样即\dm{str1 == str2}为\dm{true}，但是如果通过上边的方式2、3创建的，则不相等。
+
+Java中字符串常量会被保存到字符串常量池中，此时字符串只需要保存一份即可。
+
+
+比较字符串的内容是否相等应使用\dm{.equals()}方法。例如：
+\begin{lstlisting}[title=字符串比较2]
+String str1 = "Hello";
+String str2 = "Hello";
+System.out.println(str1.equals(str2));
+\end{lstlisting}
+
+如果字符串变量和字符串常量比较，应按如下格式书写：
+\begin{lstlisting}[title=字符串比较3]
+String str1 = "Hello";
+
+//不建议写成这种方式，一旦str1是null，此时就会抛出空指针异常
+if(str1.equals("Hello")){
+    //代码块
+}
+//建议写成如下方式，如果str1是null，不会抛出异常，而是返回false
+if("Hello".equals(str1)){
+    //代码块
+}
+\end{lstlisting}
+
+\subsection{字符串常量池}
+池：计算机中一个非常重要的术语。例如内存池，线程池，进程池，数据库连接池，对象池……等。
+
+池的目的就是为了降低开销，提高效率。本质是把频繁使用的东西保存好，以备用到的时候随时就能用。
+
+Java会把一些字符串常量放到内置的“字符串常量池”中。
+
+可以使用\dm{String}中的\dm{intern()}的方法手动把\dm{String}对象加入到字符串的常量池中。即：
+\begin{lstlisting}[title=加入字符串到常量池]
+String str1 = new String("Hello").intern();
+\end{lstlisting}
+此段代码的含义是，\dm{new}了一个\dm{String}对象，该\dm{String}对象的内容是\dm{"hello"}，然后调用\dm{intern}方法，该方法拿着当前的字符串去字符串常量池中找，看当前这个内容是否存在于池中。
+
+如果存在，直接返回该池中字符串对应的地址，如果不存在，则把当前的字符串内容加到常量池中，然后返回池中的地址。
+\subsection{字符串不可变}
+%在第12集的2小时17分处
+Java的\dm{String}是不可变对象（对象本身不能修改）。
+
+\dm{final}修饰的是常量，如果修饰的是一个引用类型，表示的是该引用的指向（引用中存的地址不能改），若修饰类，表示这个类不能被其他类继承。
+
+在\dm{String}的实现源码中，是用\dm{private}修饰的字符数组来存放字符串内容的，所以无法在\dm{String}类的外部通过[]的形式来获取或修改该字符数组的内容。
+
+Java的\dm{String}设计成不可变的原因
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 方便放入池中，如果是可变的对象，一旦池中的内容发生改变，就会影响到所有引用这个池对象的结果
+  \item 对象内容不可变，则对象的hashCode也不可变。方便和hash表这样的结构配合使用
+  \item 对象不可变，线程安全更有保证
+\end{itemize}
+Java中为了方便修改，提供了\dm{StringBuilder}和\dm{StringBuffer}这样的类。
+
+通过“反射/自省”的方式修改字符串内容，例如
+\begin{lstlisting}[title=修改字符串]
+String str1 = "Hello";
+//通过反射的方式修改"Hello"的内容
+//反射是特殊手段，而不是常规手段
+
+//1.获取到String的类对象
+//2.根据“value”这个字段名字，在类对象中拿到对应的字段（仍然是图纸的一部分，相当于是局部放大图）
+Field valueField = String.class.getDeclaredField("value");
+//让value这个private的成员也能被访问
+valueFiled.setAccessible(true);
+//3.根据图纸，把str这个对象拆开，取出里面的零件
+char[] value = (char[])valueFiled.get(str);
+//4.修改零件的内容
+value[value.length] = 'a';
+\end{lstlisting}
+
+C++的\dm{std::string}就是可变对象
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 可变对象方便修改（修改起来比较高效）
+\end{itemize}
+C++为了高效的保存字符串，也有类似的“池”机制，由于是可变对象，涉及到“写时拷贝”机制。
+
+\subsection{字符串、字符、字节}
+\subsubsection{字符转字符串}
+使用一个数组，构造字符串。例如：
+\begin{lstlisting}[title=字符转字符串]
+char s = {'a', 'b', 'c'};
+String str = new String(s);
+\end{lstlisting}
+\subsubsection{字符串转字符}
+使用\dm{charAt}来获取到指定下标位置的字符。
+\begin{lstlisting}[title=字符串转字符]
+String str = "abc";
+System.out.println(str.charAt(0));
+//使用.length()方法获取到字符串长度，而数组的长度.length是一个属性
+System.out.println(str.length());
+\end{lstlisting}
+
+\dm{toCharArray}方法，该方法相当于是在内部创建了一个新的字符数组并返回，修改这个返回值并不会影响到原字符串的内容。
+\subsubsection{字节转字符串}
+使用一个字节数组来构造字符串（要求字节数组中保存的内容符合Java字符的编码方式）。
+
+
+\subsubsection{字符串转字节}
+使用\dm{getBytes}方法完成，在网络编程中经常会用到。
+\begin{lstlisting}[title=字符串转字节]
+String str = "abc";
+str.getBytes();//可以把当前字符串的内容转换到字节数组中
+\end{lstlisting}
+\subsection{字符串常见操作}
+\subsubsection{字符串的比较}
+1.比较相等：\dm{equals}是区分大小写的比较，\dm{equalsIgnore}是不区分大小写的比较
+
+2.比较大小：（按字典序来比较大小）\dm{compareTo()}
+
+\begin{lstlisting}[title=字符串比较大小]
+String str1 = "abc";
+String str2 = "abcd";
+int result = str1.copmareTo(str2);
+\end{lstlisting}
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 如果str1大于str2，返回一个正数
+  \item 如果str1等于str2，返回0
+  \item 如果str1小于str2，返回一个负数
+\end{itemize}
+
+同理，\dm{compareToIgnoreCase}为忽略大小写的比较。
+\subsubsection{字符串查找}
+\begin{lstlisting}
+//判断一个字符串是
+public boolean contains(CharSequence s)
+//从头开始查找指定字符串的位置，查到了返回位置的开始索引，如果查不到返回-1
+public int indexOf(String str)
+//从指定位置开始查找子字符串的位置
+public int indexOf(String str, int fromIndex)
+//从后向前查找子字符串的位置
+public int lastIndexOf(String str)
+//由指定位置从后向前查找
+public int lastIndexOf(String str, int fromIndex)
+//判断是否以指定字符串开头
+public boolean startsWith(String prefix)
+//从指定位置判断是否以指定字符串开头
+public boolean startsWith(String prefix)
+//判断是否以指定字符串结尾
+public boolean endsWith(String suffix)
+\end{lstlisting}
+
+开头结尾函数用法：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 判断某个链接的协议类型，用\dm{startsWith}
+  \item 判断某个文件的类型，会用\dm{endsWith}判断其扩展名
+\end{itemize}
+\subsubsection{字符串替换}
+\begin{lstlisting}
+//替换所有指定内容
+public String replaceAll(String regex, String replacement)
+//替换首个内容
+public String replaceFirst(String regex, String replacement)
+\end{lstlisting}
+由于字符串是不可变对象，替换不会修改原字符串，而是产生一个新的字符串。
+
+\begin{tips}
+\dm{String regex}：正则表达式
+
+正则表达式使用一些特殊的字符来描述某些字符串的筛选标准。正则表达式也是一个字符串。
+\end{tips}
+
+\subsubsection{字符串拆分}
+将一个字符串按照指定的分隔符划分为若干个子字符串
+\begin{lstlisting}
+//将字符串全部拆分
+public String[] split(String regex)
+//将字符串部分拆分，该数组长度就是limit极限
+public String[] split(String regex, int limit)
+\end{lstlisting}
+
+\textbf{注意事项}：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 字符$"|","*","+"$都得加上转义字符，前面加上$"\backslash"$。
+  \item 如果是$"."$，那么就得写成$"\backslash\backslash ."$。
+  \item 如果一个字符串有多个分隔符，可以用$"|"$作为连字符。
+\end{itemize}
+
+\subsubsection{字符串截取}
+从一个完整的字符串中截取出部分内容
+\begin{lstlisting}
+//从指定索引截取到结尾
+public String substring(int beginIndex)
+//截取部分内容
+public String substring(int beginIndex,int endIndex)
+\end{lstlisting}
+\textbf{注意事项}：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 索引是从0开始的。
+  \item \dm{substring(int beginIndex,int endIndex)}，包含下标为\dm{beginIndex}的字符，不包含\dm{endIndex}的字符。
+\end{itemize}
+\subsubsection{其他操作方法}
+\begin{lstlisting}
+//去掉字符串的左右空白符（空格，换行，回车，制表符等），保留中间空格
+public String trim()
+//字符串转大写
+public String toUpperCase()
+//字符串转小写
+public String toLowerCase()
+//字符串入池
+public native String intern()
+//字符串链接，等同于+，不入池
+public String concat(String str)
+//求字符串长度
+public int length()
+//判断是否为空字符串""，但不是null，而是长度为0
+public boolean isEmpty()
+\end{lstlisting}
+\dm{native}关键字修饰的方法称为本地方法，表明此方法不是由Java实现的，而是由实现JDK的语言实现的。
+
+\dm{String}类并没有提供首字母大写操作，需自己实现。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+public static String firstUpper(String str){
+    if ("".equals(str) || str == null){
+        return str;
+    }
+    if (str.length() > 1){
+        return str.substring(0,1).toUpperCase() + str.substring(1);
+    }
+    return str.toUpperCase();
+}
+\end{Verbatim}
 %\begin{lstlisting}
-%1
+%public static String firstUpper(String str){
+%    if ("".equals(str) || str == null){
+%        return str;
+%    }
+%    if (str.length() > 1){}
+%        return str.substring(0,1).toUpperCase() + str.substring(1);
+%    }
+%    return str.toUpperCase();
+%}
 %\end{lstlisting}
 
-%
-%\newlength{\mylen}
-%\settowidth{\mylen}{For iasasasaasasaasdadadsadasd =10}
-%\makebox[0pt][l]%55页
-%{
-%\color{wgray}\rule[0pt]{\mylen}{5pt}%59页
-%}
+\subsection{\dm{StringBuffer}和\dm{StringBuilder}}
+如果需要可变版本的\dm{String}，就需要\dm{StringBuffer}或\dm{StringBuilder}，这两个类的用法基本一致，下边以其中一个为例。
+\begin{lstlisting}[title=\dm{StringBuilder}用法]
+//1.append字符串的追加，等同于String的+=
+//Stringde +=会产生新的String对象，如果在循环中使用则极其低效
+StringBuilder stringBuilder = new StringBuilder("hello");
+for(int i = 0; i < 100; i++){
+    stringBuilder.append(i);
+}
+//字符串反转
+stringBuffer.rereverse();
+System.out.println(stringBuilder.toString());
+//字符串删除
+stringBuilder.delete(2,4);//从2删除到4（包含2不包含4）
+System.out.println(stringBuilder.toString());
+//插入数据
+stringBuilder.insert(0,"word");在位置0插入字符串word
+\end{lstlisting}
 
+\dm{String}、\dm{StringBuffer}和\dm{StringBuilder}的区别
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item \dm{String}的内容不可以修改，\dm{StringBuffer}与\dm{StringBuilder}的内容可以修改
+  \item \dm{StringBuffer}与\dm{StringBuilder}大部分功能相似。
+  \item \dm{StringBuffer}采用同步处理，属于线程安全操作，\dm{StringBuilder}未采用同步处理，属于线程不安全操作。
+\end{itemize}
 
-%\lstinline[参数]符号 源程序 符号。
-%\CTEXsetup[name={Day~,}]{section}
+\dm{synchronized}关键字：同步，一个方法加上该关键字，很可能就是线程安全的。
+\section{面向对象}
+主要是关于继承、组合、多态、抽象类、接口。
+\subsection{继承}
+目的就是为了让代码能够很好的被重复利用，为了把类进行代码重用。
 
-%\href{https://www.baidu.com/?tn=40020637_11_oem_dg}{百度}
+两个核心概念：父类（被继承）（又叫基类、超类）、子类（继承）（又叫派生类）
 
-%\rule[1.3mm]{1cm}{1pt}tips\rule[2.5mm]{1cm}{1pt}
-%
-%
-%\begin{tips}
-%123
-%\end{tips}
+\dm{extends}关键字
+\begin{lstlisting}[title=继承语法]
+class 子类 extends 父类{
 
+}
+\end{lstlisting}
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 继承也有一层“扩展”的意思，即在类保持现有功能的前提下，加入新的功能。
+  \item 使用\dm{extends}指定父类。
+  \item 子类会继承父类的所有的属性和方法
+  \item 对于父类的\dm{private}的字段和方法，子类中是无法访问的
+  \item 子类的实例中，也包含着父类的实例。可以使用\dm{super}关键字得到父类实例的引用
+\end{itemize}
 
+继承就是为了代码重用。
+
+每个类都有构造方法，如果不显示的创建构造方法，编译器就会给这个生成一个没有参数的构造方法。
+
+当父类里面没有写构造方法的时候，就被生成了没参数版本的构造方法。如果直接\dm{new}子类实例，就会调用刚才父类这个没参数版本的构造方法。
+
+当父类里有构造方法的时候，并且这个构造方法带有参数的时候，编译器就不再自动生成无参数版本的构造方法，此时再创建子类实例，就需要显示的调用父类的构造方法，并且进行传参，否则创建不出父类的实例，就会编译出错。因此需要在子类的构造方法中显示的调用父类构造方法即可。（使用\dm{super}关键字）
+
+从父类继承过来的属性，既可以用\dm{this.}的方式获取，也可以使用\dm{super.}的方式获取，获取到的是同一个属性。如果子类中新创建了一个相同的属性，则，只能通过\dm{super.}的方式获取父类的该属性，\dm{this.}获取到的是子类的对应属性。
+
+子类继承父类后，子类需要先构造父类：创建子类实例的时候，先构造父类对象（执行父类构造方法的逻辑），再构造子类对象（执行子类构造方法的逻辑）。父类的构造方法必须放在第一行。
+
+对象初始化的顺序：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+  \item 把父类的实例全部创建完再创建子类
+  \item 就地初始化和代码块是并列关系，按照在代码中出现的顺序来进行初始化。
+  \item 最后再执行构造方法中的代码
+\end{itemize}
+
+\subsubsection{\dm{protected}关键字}
+\dm{protected}关键字修饰的变量可以被子类（无论是不是在同一个包内）访问，也可以被同一包下的其他类访问。
+
+类前面加\dm{public}表示这个类可以被其他包使用，不加表示只能在当前包使用，不能加\dm{protected}和\dm{private}
+
+\subsubsection{\dm{final}关键字}
+\dm{final}关键字加在类前，可以显示的禁止类继承，以防止类继承被滥用。
+\subsection{组合}
+组合也是为了代码重用，也是面向对象的一个重要特性。一个类的成员也可以是其他的类。
+
+将多个类的实例作为另一个类的字段。
+
+组合表示\dm{has-a}语义
+可以理解为一个学校\textbf{包含}若干老师、学生和教室等。实际开发中大部分场景使用组合。
+
+继承表示\dm{is-a}语义，即\textbf{猫}是一种动物。
+\subsection{多态}
+\subsection{向上转型}
+使用父类的引用指向一个子类的实例。向上转型可以省略强制类型转换。
+
+不同类型的引用之间不能相互赋值，除非两者之间是父子关系。
+
+向上转型发生的时机：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item 直接赋值
+\item 方法传参
+\item 方法返回
+\end{itemize}
+向上转型后，无法通过父类引用访问子类特有的属性和方法
+
+\subsection{动态绑定}
+如果父类中包含的方法在子类中有对应的同名同参数的方法，就会进行动态绑定。（这里静态指的是编译期，动态指的是运行时。）运行时决定要调用哪个方法。
+
+如果方法只在父类存在，此时调用的方法就是父类的方法（不涉及动态绑定），如果方法只在子类中存在，此时调用方法就会编译报错（不涉及动态绑定）。
+
+如果某个方法在父类和子类中都存在，并且参数相同，此时调用该方法就会涉及到动态绑定。在程序运行时，看当前引用究竟指向的是父类实例还是子类实例，指向父类实例就调用父类中的那个方法，指向子类就调用子类中的那个方法。
+
+\begin{tips}
+需要给子类的方法加注解\dm{@Override},显式的告诉编译器当前这个子类方法是重写了父类的方法。
+
+注解是为了让编译器进行更好的检查和校验工作，加上注解\dm{@Override}就是明确的告诉编译器，我们的目的就是进行重写，防止无意中写出了这种方法重写的代码
+\end{tips}
+
+如果某个方法在父类和子类中都存在，但是参数不同，此时调用方法，不会涉及动态绑定，而是相当于方法重载。
+\subsection{方法重写}
+子类实现父类的同名方法，并且参数的类型和个数完全相同，这种情况称为覆写/重写/覆盖（Override）。
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item 重写和重载不一样。
+\item 普通方法可以重写，\dm{static}方法不能重写
+\item 重写中子类的方法的访问权限不能低于父类方法的访问权限
+\item  重写的方法返回值类型不一定和父类相同。（父类子类返回值要有一定的关系，假设返回值类型互不相干，就会编译出错，假设返回类型具有父子关系，就可以编译通过）
+\end{itemize}
+\subsection{理解多态}
+多态是一种程序设计的思想方法，具体的语法体现，向上转型、方法重写、动态绑定。
+
+多态：一个引用，对应到多种形态。多态的设计思想，本质上是“封装”的更进一步。
+\subsection{向下转型}
+
+把父类的引用转为子类的引用，向下转型必须保证操作合理，否则会存在问题。
+
+使用场景：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item 有些方法只有子类有，父类没有，此时使用多态的方式则无法执行到对应的子类方法，就必须把父类的引用转回成子类的引用，然后调用对应的方法
+\end{itemize}
+使用\dm{instanceof}做出判断（\dm{if(父类引用 instanceof 子类引用)}），判定当前的父类的引用是不是指向该子类，如果不是就不进行向下转型。
+
+\subsection{在构造方法中调用重写的一个方法}
+1.A是B的父类，构造B的时候，就需要先构造A的实例
+
+2.构造A的实例，就会调用A的构造方法
+
+3.调用A的构造方法（该方法里调用了另外一个方法\dm{func()}，\dm{func()}在B中重写）的时候，就会调用到\dm{this.func()}，而此时的\dm{this}指向的是子类B的实例，触发了方法的动态绑定。
+
+4.此时B中的初始化代码（包括就地初始化、代码块初始化以及构造方法的初始化都没有执行到）
+
+因此，要避免在构造方法中调用其他可能被重写的方法。
+
+\subsection{抽象类和接口}
+抽象类和接口是搭配多态来使用的。
+
+不需要实例化的类称为抽象类，本身没有方法体，只是为了被子类重写的方法，这种方法称为抽象方法。
+
+给类前面加上\dm{abstract}关键字表示为抽象类，此时如果创建抽象类的实例则会编译报错。抽象类中可以有普通的属性和方法，可以有静态的属性和方法，可以继承其他的类，也可以被其他的类继承。
+
+给方法前加上\dm{abstract}关键字表示为抽象方法，此时的方法不需要方法体，抽象方法只能在抽象类中存在（也可以在接口中存在），抽象方法的存在就是为了让子类进行重写。抽象方法不能是\dm{private}。
+
+接口：抽象类的进一步，抽象类只是不能实例化，其他方面与普通类类似。接口不仅不能实例化，同时也不具备类的各种特性。接口的作用是为了解决Java不能多继承的问题。
+
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item \dm{interface}关键字表示接口。\dm{public interface Shape{}}
+\item 接口中可以放抽象方法（不用写\dm{abstract}关键字）,接口中不能放普通的方法。
+\item 接口中不能放普通的属性，只能放\dm{public static final}修饰的属性,同理，\dm{public static final}也可以省略。
+\item 接口不能继承自其他的类，但是可以继承自其他的接口。
+\item 接口不能被其他的类继承，只能被其他的类实现（使用\dm{implements}关键字）。
+    \\ \dm{public class Circle implements Shape{ }}
+\end{itemize}
+
+抽象类和接口的对比：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item 抽象类和普通类差不多，只是不能实例化，接口与普通类相差很多（属性，方法和其他类的关系等）
+\item 一个类只能继承自一个抽象类，但是一个类可以实现多个接口
+\end{itemize}
+
+接口命名一般使用I作为前缀，接口命名的时候，一般使用形容词词性的单词进行命名。
+
+\begin{lstlisting}
+//动物类
+abstract pubilc Animal{
+    protected String name;
+    public Animal(String name){
+        this.name = name;
+    }
+}
+//跑的接口
+public interface IRunning{
+    abstract void run();
+}
+//飞的接口
+public interface IFlying {
+    void fly();
+}
+
+//小鸟类（继承动物的类并实现跑的接口）
+public class Bird extends Animal implements IRunning,IFlying{ // 多个接口以逗号隔开
+    public Bird(String name) {
+        super(name);
+    }
+
+    @Override
+    public void run() {
+        System.out.println(this.name + "一跳一跳的跑");
+    }
+
+    @Override
+    public void fly() {
+        System.out.println(this.name + "飞起来了");
+    }
+}
+
+\end{lstlisting}
+\begin{tips}
+接口相当于是一种约束，要求了实现该接口的类，必须重写所有接口中的抽象方法。
+\end{tips}
+
+接口和接口之间是可以继承的。（说是继承，表示成组合更合适点）
+\begin{lstlisting}
+//跑的接口
+public interface IRunning{
+    abstract void run();
+}
+//游泳的接口
+public interface ISwimming {
+    void swim();
+}
+
+//两栖类接口
+public interface IAmphibious extends IRunning ,ISwimming{
+    //此时该接口就同时包含了IRunning中的抽象方法
+    //也同时包含了ISwimming中的抽象方法
+}
+\end{lstlisting}
+\section{处理异常}
+异常是程序\textbf{运行}过程中出现的一种错误。
+
+防御式编程：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item LBYL(Look Before You Leap)：操作之前做充分的检查，检查完上一步之后，再来做下一步的操作。如果上一步失败，就不继续执行
+\item EAFP(It's Easier Ask Forgiveness than Permission)：事后获取原谅比事前获取许可更简单，先斩后奏。
+\end{itemize}
+
+\begin{lstlisting}
+//EAFP风格的语法
+
+try{
+    //有可能出现异常的语句
+}[catch (异常类型 异常对象){
+}......]
+[finally {
+    //异常出口
+}]
+\end{lstlisting}
+异常的具体语法：
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item \dm{try}关键字：\dm{try}语句块中放置可能会抛出异常的代码。
+\item \dm{catch}语句块中放置用来处理异常的代码，当\dm{try}中出现异常的时候，就去会进入\dm{catch}中执行
+\item \dm{throw}：主动抛出一个Java异常（Java的异常本质上就是一个一个的对象）。
+\item \dm{throws}：某个方法可能会抛出某些异常。
+\item \dm{finally}：一般用于异常处理完毕后的收尾工作。
+\end{itemize}
+\begin{lstlisting}
+try{
+    System.out.println("try 中异常之前的代码");
+    int[] a = null;
+    System.out.println(a[0]);
+    System.out.println("try中异常之后的代码");
+}catch (NullPointerException e){ //e为形参
+    System.out.println("catch中的代码");
+    System.out.println("e中的信息");
+    //这个方法能够打印出当前出现异常的代码对应的调用栈的信息
+    e.printStackTrace();
+}
+\end{lstlisting}
+上边代码中e类似于一个形参，当\dm{try}的代码抛出一个异常之后，e就对应着这个异常。通过e就可以获取到异常的一些具体信息（哪个代码中出现了异常）
+
+如果\dm{try}中可能抛出多种异常的化，也就需要多个\dm{catch}语句来进行处理，多个\dm{catch}语句与多分支语句类似。
+\begin{lstlisting}
+try{
+    //有可能出现异常的语句
+}catch (异常类型1 异常对象1){
+    //处理异常代码1
+}catch (异常类型2 异常对象2){
+    //处理异常代码2
+}
+\end{lstlisting}
+
+使用一个\dm{catch}语句捕获多个异常：如果程序对于多个异常的处理逻辑是一样的，就可以使用此方式。抛出这若干个异常中的任何一个，都会触发\dm{catch}
+\begin{lstlisting}
+try{
+    //有可能出现异常的语句
+}catch (异常类型1 | 异常类型2 异常对象1){
+    //处理异常代码1
+}
+\end{lstlisting}
+
+\dm{finally}中的逻辑无论是前面的代码中是否触发异常，都会执行到
+
+\dm{throw}：20视频的20分钟-24分钟
+
+\dm{throws}：标注当前的方法，可能抛出什么样的异常
+\begin{lstlisting}
+public static int divide(int x, int y) throws ArithmeticException{
+    if(y == 0){
+        throw new ArithmeticException("抛出0异常");
+    }
+    return x / y;
+}
+\end{lstlisting}
+\section{泛型}
+\begin{lstlisting}
+class 泛型类名称<类型形参列表>{
+    //可以使用的参数列表
+}
+
+class ClassName<T1, T2, T3, ...,Tn>{
+    //类体
+}
+\end{lstlisting}
+类型形参常用的名称
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item E表示Element
+\item K表示Key
+\item V表示Value
+\item N表示Number
+\item T表示Type
+\item S，U，V等等：第二、第三、第四个类型
+\end{itemize}
+
+实例：
+
+\begin{lstlisting}
+package Wsn;
+
+public class Myarray<E> {
+    private E[] array = null;
+    private int size;
+    private int capacity;
+
+    public Myarray(int capacity) {
+        //由于E的类型不确定，无法创建E的实例，所以要创建Object类型然后强制转换成E类型
+        array = (E[]) new Object[capacity];
+        size = 0;
+        this.capacity = capacity;
+    }
+    public void add(E data){
+        if (size < capacity) {
+            array[size++] = data;
+        }
+    }
+    public E get(int index){
+        return array[index];
+    }
+    public int size(){
+        return size;
+    }
+
+    public static void main(String[] args){
+        Myarray<String> str = new Myarray<>(10);
+        str.add("hello");
+        str.add("word");
+        int size = str.size();
+        String str1 = str.get(0);
+        String str2 = str.get(1);
+        System.out.println("当前数组元素的个数是：" + size);
+        System.out.println("它们分别是："+ "[" + str1 + "," + str2 + "]");
+    }
+}
+\end{lstlisting}
+\begin{itemize}
+\itemsep=0pt \parskip =0pt
+\item 使用泛型后，针对对象实例化的时候就需要填写泛型参数的实际类型
+\item Java的泛型只能是引用类型，如果是内置类型，必须使用其对应的包装类（包装类也是引用类型）
+\end{itemize}
+\subsection{类型边界}
+定义泛型类的时候，对未来实例化的时候能传入的实参类型作出限制
+
+\begin{lstlisting}
+class 泛型类名称<E extends U>{
+    //类体
+}
+\end{lstlisting}
+
+实例化时，E只能是U或U的子类，否则会报错。
 \end{document}
-
-

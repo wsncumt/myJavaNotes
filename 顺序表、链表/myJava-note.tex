@@ -1,0 +1,257 @@
+\documentclass[a4paper]{report}
+\usepackage[space,fancyhdr,fntef]{ctexcap}
+\usepackage{fontspec}
+\fontspec{宋体}
+\setmainfont{Times New Roman}
+%\fontsize{50pt}{50pt}\selectfont
+\renewcommand{\rmdefault}{ptm}
+\usepackage[namelimits,sumlimits,nointlimits]{amsmath}
+\usepackage[text={169mm,250mm},bottom=20mm,top=25mm,left=25mm,right=15mm,centering]{geometry}
+\usepackage{color}
+\usepackage{CJKfntef}%下划线宏包160页
+\usepackage{xcolor}
+\usepackage{arydshln}%234页，虚线表格宏包
+\pagestyle{fancy} \fancyhf{}
+\fancyhead[OC]{\color{gray}\rightmark}
+
+\fancyhead[EC]{\color{gray}\leftmark}
+\fancyfoot[C]{\color{gray}\thepage}
+\renewcommand{\headrule}{\color{gray}\hrule width\headwidth}
+%\renewcommand{\footrulewidth}{0.4pt}%改为0pt即可去掉页脚上面的横线
+%\usepackage{parskip}
+%\usepackage{indentfirst}
+\usepackage{graphicx}%插图宏包，参见手册318页
+\definecolor{dkgreen}{RGB}{106,135,89}
+\definecolor{dkblue}{RGB}{103,150,163}
+\definecolor{wgray}{RGB}{248,248,248}
+\definecolor{WGRAY}{RGB}{248,248,248}
+\usepackage{listings}
+\lstset{language=Java,
+backgroundcolor=\color{wgray},
+rulesepcolor=\color{red!20!green!20!blue!20},%代码块边框为淡青色
+%lablestep=1,
+%lablesep=5pt,
+%lablestyle=\tiny,
+%tablesize=4,
+%captionpos=b,
+basicstyle=\ttfamily\small,
+keywordstyle=\color{orange},
+commentstyle=\color{gray},
+stringstyle=\color{dkgreen},
+numberstyle=\tiny,
+numbersep=8pt,
+frame=single,%topline.bottomline,lines,single,leftline
+identifierstyle=\color{dkblue},
+numbers=left,
+stepnumber=1,
+xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+breaklines=true
+}
+\usepackage[xetex,colorlinks]{hyperref}%394页  \href{网址}{文本}
+\hypersetup{urlcolor=blue}
+%\linebreak[2]%换行，152页
+\usepackage{fancybox}%盒子宏包55页
+\setcounter{secnumdepth}{4}
+\CTEXoptions[contentsname={目\hspace{15pt}录}]
+\CTEXsetup[beforeskip={-40pt},afterskip={20pt plus 2pt minus 2pt}]{chapter}
+
+%目录设置
+\usepackage{titletoc}
+\usepackage[toc]{multitoc}
+\titlecontents{chapter}[4em]{\addvspace{2.3mm}\bf}{\contentslabel{4.0em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\titlecontents{section}[4em]{}{\contentslabel{2.5em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\titlecontents{subsection}[7.2em]{}{\contentslabel{3.3em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\usepackage{fancyvrb}%75页抄录宏包
+\begin{document}
+\flushbottom%版心底部对齐
+\newcommand{\dm}[1]{\colorbox{wgray}{\lstinline`#1`}}
+\newcommand{\myroman}[1]{\uppercase\expandafter{\romannumeral#1}}
+\newcounter{num}[section] \renewcommand{\thenum}{\arabic{num}.} \newcommand{\num}{\refstepcounter{num}\text{\thenum}}
+
+\newenvironment{tips}{\kaishu\zihao{-6}\color{blue}{\noindent\rule[-3pt]{\textwidth}{0.5pt}\par \em \noindent {\zihao{-5} \textcolor[rgb]{1.00,0.00,0.00}{Tips}}}\par}{\\ \rule[3mm]{\textwidth}{0.5pt}\par}
+
+\newenvironment{zhengming}{\kaishu\zihao{-5}\color{blue}{\noindent\em 证明：}\par}{\hfill $\diamondsuit$\par}
+
+\tableofcontents
+\pagenumbering{Roman}%设置目录页码
+\clearpage
+\pagenumbering{arabic}%设置正文页码
+\chapter{顺序表}
+\section{创建顺序表}
+\begin{lstlisting}
+//1.创建ArrayList实例
+ArrayList<String> arrayList = new ArrayList<>();
+//向上转型
+List<String> arrayList = new ArrayList<>();
+\end{lstlisting}
+\section{往顺序表中添加元素}
+\begin{lstlisting}[title=add一个参数]
+//2.添加元素
+//add一个参数版本的方法是把元素添加到顺序表的末尾
+arrayList.add("C");
+arrayList.add("C++");
+arrayList.add("Java");
+arrayList.add("Python");
+\end{lstlisting}
+
+\begin{lstlisting}[title=add两个参数]
+//2.添加元素
+//add两个参数版本的方法是把元素添加到顺序表的指定位置上
+arrayList.add(2,"JavaScript");
+//直接打印对象，会触发对象的toString方法
+System.out.println(arrayList);
+\end{lstlisting}
+\section{删除元素}
+\begin{lstlisting}
+//3.删除元素
+//按位置删除
+arrayList.remove(2);
+//按照值删除，如果有多个相同的值，只会删除第一个
+arrayList.remove("JavaScript");
+//特殊情况，删除整型的
+List<Integer> arrayList2 = new ArrayList<>();
+for (int i = 0; i < 5; i++) {
+    arrayList2.add(i + 1);
+}
+arrayList2.remove(2);//删除的是下标为2的元素而不是值为2的
+arrayList2.remove(Integer.valueOf(2));//这个才是删除值为2的元素
+\end{lstlisting}
+\section{查找}
+\begin{lstlisting}
+//4.查找
+
+//查找是否存在
+boolean ret  = arrayList.contains("Java");
+System.out.println("查找Java的结果："+ ret);
+//查找具体的位置
+int index = arrayList.indexOf("Java");
+System.out.println("查找Java的位置："+ index);
+\end{lstlisting}
+\section{获取/修改元素}
+\begin{lstlisting}
+//5.获取元素/修改元素
+//获取元素
+arrayList.get(0);//获取下标为0的元素
+//修改元素
+arrayList.set(0,"C#");//把下标为0的元素修改为C#
+\end{lstlisting}
+\section{迭代器：Iterator}
+迭代器是用来遍历集合的一种重要手段，在非线性结构迭代器会大显身手
+\begin{lstlisting}
+//6.遍历操作
+//通过下标遍历
+for (int i = 0; i < arrayList.size(); i++) {
+    System.out.println(arrayList.get(i));
+}
+
+//通过迭代器来遍历
+//先通过iterator方法获取到迭代器对象
+Iterator<String> iterator = arrayList.iterator();
+//再通过while循环来进行遍历
+while (iterator.hasNext()){
+    String elem = iterator.next();
+    System.out.println(elem);
+}
+
+//使用for-each来遍历
+for (String str:arrayList) {
+    System.out.println(str);
+}
+\end{lstlisting}
+\section{练习：扑克牌游戏}
+\begin{lstlisting}
+//一张扑克牌
+public class Card {
+    //花色
+    protected String suit;
+    //点数
+    protected String rank;
+
+    public Card(String suit, String rank) {
+        this.suit = suit;
+        this.rank = rank;
+    }
+    @Override
+    public String toString(){
+        return "(" + this.suit + this.rank + ")";
+    }
+}
+
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+public class PokerName {
+    //存放4种花色
+    public static final String[] suits = {"♥","♠","♣","♦"};
+    //存放点数
+    public static final String[] ranks = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
+
+    private static List<Card> buyPoker(){
+        List<Card> poker = new ArrayList<>();
+        for (int i = 0; i < suits.length; i++) {
+            for (int j = 0; j < ranks.length ; j++) {
+                poker.add(new Card(suits[i],ranks[j]));
+            }
+        }
+        poker.add(new Card("red","Joker"));
+        poker.add(new Card("black","Joker"));
+        return poker;
+    }
+
+    private static void shuffle(List<Card> poker){
+        Random random = new Random();
+        for (int i = poker.size()-1; i > 0 ; i--) {
+            int pos  = random.nextInt(i);
+            swap(poker,i,pos);
+        }
+    }
+
+    private static void swap(List<Card> poker, int i, int pos) {
+        Card tmp = poker.get(i);
+        poker.set(i,poker.get(pos));
+        poker.set(pos,tmp);
+    }
+
+    public static void main(String[] args) {
+        //1.创建出一副扑克牌
+        List<Card> poker = buyPoker();
+        System.out.println(poker);
+        System.out.println("-------------------------------------");
+        //2.洗牌
+        shuffle(poker);
+        System.out.println(poker);
+        System.out.println("-------------------------------------");
+        shuffle(poker);
+        System.out.println(poker);
+        System.out.println("-------------------------------------");
+        //标准库自带的洗牌方法
+        Collections.shuffle(poker);
+        System.out.println(poker);
+        //3.发牌：每个玩家发5张牌，这五张牌用另一个ArrayList表示
+        List<List<Card>> players = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入玩家的个数：");
+        int num = scanner.nextInt();
+        for (int i = 0; i < num; i++) {
+            players.add(new ArrayList<Card>());
+        }
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < num; j++) {
+                Card topCard = poker.remove(0);
+                List<Card> player = players.get(j);
+                player.add(topCard);
+            }
+        }
+        System.out.println(players);
+        System.out.println("-------------------------------------");
+        //4.展示手牌：
+        for (int i = 0; i < players.size(); i++) {
+            System.out.println("第" + (i + 1) + "位玩家的牌是：" + players.get(i));
+        }
+    }
+}
+\end{lstlisting}
+\end{document} 

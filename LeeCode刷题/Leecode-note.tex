@@ -6,7 +6,6 @@
 %\fontsize{50pt}{50pt}\selectfont
 \renewcommand{\rmdefault}{ptm}
 \usepackage[namelimits,sumlimits,nointlimits]{amsmath}
-\usepackage{amssymb}
 \usepackage[text={169mm,250mm},bottom=20mm,top=25mm,left=25mm,right=15mm,centering]{geometry}
 \usepackage{color}
 \usepackage{CJKfntef}%下划线宏包160页
@@ -69,65 +68,68 @@ breaklines=true
 \newcommand{\myroman}[1]{\uppercase\expandafter{\romannumeral#1}}
 \newcounter{num}[section] \renewcommand{\thenum}{\arabic{num}.} \newcommand{\num}{\refstepcounter{num}\text{\thenum}}
 
-\newenvironment{tips}{\kaishu\zihao{-6}\color{blue}{\noindent\rule[-3pt]{\textwidth}{0.5pt}\par \em \noindent {\zihao{-5} \textcolor[rgb]{1.00,0.00,0.00}{Tips}}}\par}{\\ \rule[3mm]{\textwidth}{0.5pt}\par}
+\newenvironment{tips}{\kaishu\zihao{-6}\color{blue}{\noindent\rule[-3pt]{\textwidth}{0.5pt}\par \em \noindent {\zihao{-5} \textcolor[rgb]{1.00,0.00,0.00}{Tips}}}\par}{\\ \rule[1mm]{\textwidth}{0.5pt}\par}
 
 \newenvironment{zhengming}{\kaishu\zihao{-5}\color{blue}{\noindent\em 证明：}\par}{\hfill $\diamondsuit$\par}
 
-%\tableofcontents
-%\pagenumbering{Roman}%设置目录页码
-%\clearpage
-%\pagenumbering{arabic}%设置正文页码
-%\chapter{JavaSE}
-%\href{https://docs.oracle.com/javase/8/docs/api/index.html}{Java官方文档}
+\tableofcontents
+\pagenumbering{Roman}%设置目录页码
+\clearpage
+\pagenumbering{arabic}%设置正文页码
+\num 员工的重要性\href{https://leetcode-cn.com/problems/employee-importance/}{员工的重要性}
 
-核心需求：
-\begin{itemize}
-\itemsep=0pt \parskip=0pt
-  \item 用户能够登录到系统上：包括管理员用户和普通用户
-  \item 管理员：查阅某本书籍的信息，增加书籍的信息，删除书籍的信息，查看所有书籍列表，退出程序
-  \item 普通用户：查阅某个书籍的信息，借阅书籍，归还书籍，退出程序
-\end{itemize}
-上述所涉及到的对象：
+给定一个保存员工信息的数据结构，它包含了员工唯一的id，重要度和直系下属的id。
+比如，员工1是员工2的领导，员工2是员工3的领导。他们相应的重要度为15, 10, 5。那么员工1的数据结构是[1, 15, [2]]，员工2的数据结构是[2, 10, [3]]，员工3的数据结构是[3, 5, []]。注意虽然员工3也是员工1的一个下属，但是由于并不是直系下属，因此没有体现在员工1的数据结构中。
 
-书籍、管理员、普通用户
+现在输入一个公司的所有员工信息，以及单个员工id，返回这个员工和他所有下属的重要度之和。
 
-封装也是面向对象的重要核心之一，设计类的时候，尽可能的把属性封装起来。
+\begin{lstlisting}
+示例 1:
 
-通过\dm{public}修饰的方法，来间接操作\dm{privite}修饰的属性。
+输入: [[1, 5, [2, 3]], [2, 3, []], [3, 3, []]], 1
+输出: 11
+解释:
+员工1自身的重要度是5，他有两个直系下属2和3，而且2和3的重要度均为3。因此员工1的总重要度是 5 + 3 + 3 = 11。
+注意:
+\end{lstlisting}
+一个员工最多有一个直系领导，但是可以有多个直系下属,员工数量不超过2000。
 
-\dm{IOperstion}接口其实就是把所有的用户操作给统一规范起来了。只要这个类实现了\dm{IOperstion}这个接口，就可以作为用户操作。
+\begin{tips}
+1.遍历整个员工列表employees，找到符合id的员工employee
 
-如果多个类之间公共的部分只有方法的话，就使用接口。
+2.这个员工employee如果没有下属employee.subordinates.size()==0，重要度就是自己的重要度employee.importance。
 
-如果多个类之间不光有方法，还有属性，此时使用继承（普通父类或抽象父类）。
+3.如果这个员工有下属，算出每个下属及下属的重要度。
+\end{tips}
 
-\section{串}
-定义：来自字母表$\Sigma$的字符所组成的有限序列。
+\begin{lstlisting}
+/*
+// Definition for Employee.
+class Employee {
+    public int id;
+    public int importance;
+    public List<Integer> subordinates;
+};
+*/
 
-通常，字符的种类不多，但是串长却要常常高出几个数量级。
+class Solution {
+    public int getImportance(List<Employee> employees, int id) {
 
-\subsection{术语}
-S[0,n)
-
-两个字符串相等：长度相等，对应的字符均相等
-
-\subsection{串匹配}
-文本：Text
-
-模式：pattern
-
-p是否出现？detection
-
-例如病毒的监控系统，更在意病毒对应的特征码是否在邮件中出现
-
-定位：location 首次在哪里出现？例如在网页上查找特定的入口
-
-几次：counting 共有几次出现？根据学生名单，统计出特定届次学生的名单
-
-哪里：enumeration各出现在哪里？确定特定阶次的学生是哪几位
-
-主要讨论首次在哪里出现
-
-\subsection{算法评测}
+        for(int i = 0;i < employees.size();i++){
+            Employee employee = employees.get(i);
+            if(employee.id == id){
+                if(employee.subordinates.size() == 0){//没有下属
+                    return employee.importance;
+                }
+                for(int j = 0; j < employee.subordinates.size(); j++){
+                    employee.importance += getImportance(employees,employee.subordinates.get(j));
+                }
+                return employee.importance;
+            }
+        }
+        return 0;
+    }
+}
+\end{lstlisting}
 
 \end{document} 

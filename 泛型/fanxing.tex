@@ -6,7 +6,6 @@
 %\fontsize{50pt}{50pt}\selectfont
 \renewcommand{\rmdefault}{ptm}
 \usepackage[namelimits,sumlimits,nointlimits]{amsmath}
-\usepackage{amssymb}
 \usepackage[text={169mm,250mm},bottom=20mm,top=25mm,left=25mm,right=15mm,centering]{geometry}
 \usepackage{color}
 \usepackage{CJKfntef}%下划线宏包160页
@@ -73,61 +72,71 @@ breaklines=true
 
 \newenvironment{zhengming}{\kaishu\zihao{-5}\color{blue}{\noindent\em 证明：}\par}{\hfill $\diamondsuit$\par}
 
-%\tableofcontents
-%\pagenumbering{Roman}%设置目录页码
-%\clearpage
-%\pagenumbering{arabic}%设置正文页码
-%\chapter{JavaSE}
-%\href{https://docs.oracle.com/javase/8/docs/api/index.html}{Java官方文档}
+\tableofcontents
+\pagenumbering{Roman}%设置目录页码
+\clearpage
+\pagenumbering{arabic}%设置正文页码
 
-核心需求：
+\chapter{泛型}
+\section{泛型定义}
+
+\section{泛型类}
+
+泛型类的语法：
+\begin{lstlisting}
+class 类名称<泛型标识,泛型标识……>{
+    private 泛型标识 变量名;
+    ……
+}
+\end{lstlisting}
+常用泛型标识：T、E、K、V
+
+泛型类不支持基本数据类型，只支持类类型。
+
+统一泛型类，根据不同的数据类型创建的对象，本质上是同一类型。（在逻辑上可以看成是多个不同的类型，但实际上都是相同的类型）
+\section{从泛型类派生子类}
+子类是泛型类，子类的泛型标识要和父类一致。（子类可以写多个泛型标识，即泛型扩展，只要父类的泛型类和子类中的一个一致即可）
+
+泛型类派生子类的时候，子类不是泛型类，那么父类要明确数据类型。
+
+\section{泛型接口}
+\subsection{泛型接口的定义}
+\begin{lstlisting}
+interface 接口名称<泛型标识,泛型标识,……>{
+    泛型标识 方法名();
+}
+\end{lstlisting}
+
+\subsection{泛型接口的使用}
+1.实现类不是泛型类，接口要明确数据类型
+
+2.实现类也是泛型类，实现类和接口的泛型类要一致
+\section{泛型方法}
+在调用方法的时候指明泛型的具体类型。
+\subsection{定义}
+\begin{lstlisting}
+修饰符 <T,E,...> 返回值类型 方法名(形参列表){
+    方法体
+}
+\end{lstlisting}
 \begin{itemize}
-\itemsep=0pt \parskip=0pt
-  \item 用户能够登录到系统上：包括管理员用户和普通用户
-  \item 管理员：查阅某本书籍的信息，增加书籍的信息，删除书籍的信息，查看所有书籍列表，退出程序
-  \item 普通用户：查阅某个书籍的信息，借阅书籍，归还书籍，退出程序
+  \item public与返回值类型中间的<T>非常重要，可以理解为声明此方法为泛型方法
+  \item 只有声明了<T>的方法才是泛型方法，泛型类中的使用了泛型的成员方法并不是泛型方法。
+  \item <T>表明该方法将使用泛型类型T,此时才可以在方法中使用泛型类型T.
+  \item 与泛型类的定义一样，此处T可以随便写为任意标识
 \end{itemize}
-上述所涉及到的对象：
 
-书籍、管理员、普通用户
+可变参数的泛型方法。
 
-封装也是面向对象的重要核心之一，设计类的时候，尽可能的把属性封装起来。
 
-通过\dm{public}修饰的方法，来间接操作\dm{privite}修饰的属性。
-
-\dm{IOperstion}接口其实就是把所有的用户操作给统一规范起来了。只要这个类实现了\dm{IOperstion}这个接口，就可以作为用户操作。
-
-如果多个类之间公共的部分只有方法的话，就使用接口。
-
-如果多个类之间不光有方法，还有属性，此时使用继承（普通父类或抽象父类）。
-
-\section{串}
-定义：来自字母表$\Sigma$的字符所组成的有限序列。
-
-通常，字符的种类不多，但是串长却要常常高出几个数量级。
-
-\subsection{术语}
-S[0,n)
-
-两个字符串相等：长度相等，对应的字符均相等
-
-\subsection{串匹配}
-文本：Text
-
-模式：pattern
-
-p是否出现？detection
-
-例如病毒的监控系统，更在意病毒对应的特征码是否在邮件中出现
-
-定位：location 首次在哪里出现？例如在网页上查找特定的入口
-
-几次：counting 共有几次出现？根据学生名单，统计出特定届次学生的名单
-
-哪里：enumeration各出现在哪里？确定特定阶次的学生是哪几位
-
-主要讨论首次在哪里出现
-
-\subsection{算法评测}
-
+泛型数组
+\begin{lstlisting}
+public class Fruit<>{
+    private T[] array;
+    
+    public Fruit(Class<T> clz,int length){
+        array = (T[])Array.newInstance(clz , length);
+    }
+}
+\end{lstlisting}
 \end{document} 

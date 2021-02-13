@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.4.27)  11 FEB 2021 13:35
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.4.27)  13 FEB 2021 16:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1139,9 +1139,8 @@ Package fontspec Info: Font family 'KaiTi(0)' created for font 'KaiTi' with
 
 
 LaTeX Font Warning: Font shape `TU/ptm/m/it' undefined
-(Font)              using `TU/ptm/m/n' instead on input line 97.
+(Font)              using `TU/ptm/m/n' instead on input line 89.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 135.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
 Make it at least 12.4pt.
@@ -1151,25 +1150,43 @@ This may cause the page layout to be inconsistent, however.
 [1
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 135.
+Overfull \hbox (8.0578pt too wide) in paragraph at lines 170--171
+[]\TU/KaiTi(0)/m/n/6.52437 如 果 找 到 了 待 删 除 元 素：|  将 该 元 素 前 一 个 位 置  |（[][][][]
+[][]）|  的[][][][][][]指 向 删 除 元 素 的[][][][][][]：| [][][][][][]。|  然 后 将[][][][][
+][]复 位，|  即 指 向[][][][][][]：|
+ []
+
+[2]
+
+LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <10.53937> not available
+(Font)              size <10.95> substituted on input line 214.
+
+[3] [4]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 348.
+ [5]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 348.
  (./Leecode-note.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 135.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 135.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 348.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 348.
 Package rerunfilecheck Info: File `Leecode-note.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E.
 
 
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 0.41063pt have occurred.
+
+
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 135.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 348.
  ) 
 Here is how much of TeX's memory you used:
- 27578 strings out of 492922
- 544562 string characters out of 6136751
- 781635 words of memory out of 5000000
- 31337 multiletter control sequences out of 15000+600000
- 533116 words of font info for 65 fonts, out of 8000000 for 9000
+ 27721 strings out of 492922
+ 550109 string characters out of 6136751
+ 795635 words of memory out of 5000000
+ 31471 multiletter control sequences out of 15000+600000
+ 535872 words of font info for 78 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 59i,11n,79p,872b,1096s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 59i,12n,79p,872b,1761s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Leecode-note.pdf (2 pages).
+Output written on Leecode-note.pdf (6 pages).

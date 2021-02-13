@@ -77,14 +77,15 @@ breaklines=true
 \clearpage
 \pagenumbering{arabic}%设置正文页码
 \chapter{顺序表}
-\section{创建顺序表}
+\section{顺序表的使用}
+\subsection{创建顺序表}
 \begin{lstlisting}
 //1.创建ArrayList实例
 ArrayList<String> arrayList = new ArrayList<>();
 //向上转型
 List<String> arrayList = new ArrayList<>();
 \end{lstlisting}
-\section{往顺序表中添加元素}
+\subsection{往顺序表中添加元素}
 \begin{lstlisting}[title=add一个参数]
 //2.添加元素
 //add一个参数版本的方法是把元素添加到顺序表的末尾
@@ -101,7 +102,7 @@ arrayList.add(2,"JavaScript");
 //直接打印对象，会触发对象的toString方法
 System.out.println(arrayList);
 \end{lstlisting}
-\section{删除元素}
+\subsection{删除元素}
 \begin{lstlisting}
 //3.删除元素
 //按位置删除
@@ -116,7 +117,7 @@ for (int i = 0; i < 5; i++) {
 arrayList2.remove(2);//删除的是下标为2的元素而不是值为2的
 arrayList2.remove(Integer.valueOf(2));//这个才是删除值为2的元素
 \end{lstlisting}
-\section{查找}
+\subsection{查找}
 \begin{lstlisting}
 //4.查找
 
@@ -127,7 +128,7 @@ System.out.println("查找Java的结果："+ ret);
 int index = arrayList.indexOf("Java");
 System.out.println("查找Java的位置："+ index);
 \end{lstlisting}
-\section{获取/修改元素}
+\subsection{获取/修改元素}
 \begin{lstlisting}
 //5.获取元素/修改元素
 //获取元素
@@ -135,7 +136,7 @@ arrayList.get(0);//获取下标为0的元素
 //修改元素
 arrayList.set(0,"C#");//把下标为0的元素修改为C#
 \end{lstlisting}
-\section{迭代器：Iterator}
+\subsection{迭代器：Iterator}
 迭代器是用来遍历集合的一种重要手段，在非线性结构迭代器会大显身手
 \begin{lstlisting}
 //6.遍历操作
@@ -158,7 +159,7 @@ for (String str:arrayList) {
     System.out.println(str);
 }
 \end{lstlisting}
-\section{练习：扑克牌游戏}
+\subsection{练习：扑克牌游戏}
 \begin{lstlisting}
 //一张扑克牌
 public class Card {
@@ -250,6 +251,468 @@ public class PokerName {
         //4.展示手牌：
         for (int i = 0; i < players.size(); i++) {
             System.out.println("第" + (i + 1) + "位玩家的牌是：" + players.get(i));
+        }
+    }
+}
+\end{lstlisting}
+\section{线性表的实现}
+\subsection{空间管理}
+根据实际需求动态调整，并同时保证高效率。
+
+发生上溢时，适当的扩大数组的容量，扩容策略：倍增式扩容。累计时间复杂度为$O(n)$，分摊复杂度为$O(1)$。
+
+\begin{lstlisting}
+public class MyArrayList<E> {
+    //属性
+    private E[] data = null;
+    //最大容量
+    private int capacity = 4;
+    //有效元素的个数
+    private int size = 0;
+
+    //构造方法
+    public MyArrayList(){
+        this.data = (E[])new Object[capacity];
+    }
+
+    //方法:增删改查
+
+    //实现扩容
+    private void realloc(){
+        capacity <<= 1;
+        E[] newData = (E[])new Object[capacity];
+        for (int i = 0; i < size; i++) {
+            newData[i] = data[i];
+        }
+        data = newData;
+        newData = null;
+    }
+
+    //尾插
+    public void add(E elem){
+        if (size >= capacity){
+            //如果满了，就需要扩容
+            realloc();
+        }
+        data[size++] = elem;
+    }
+    //指定位置插入元素
+    public void add(int index, E elem)throws IndexOutOfBoundsException{
+        if(index < 0 || index > size){//等于size相当于是尾插
+            throw new IndexOutOfBoundsException("下标越界");
+        }
+        if (size >= capacity){
+            //如果满了，就需要扩容
+            realloc();
+        }
+        for (int i = size - 1; i >= index; i--) {
+            data[i + 1] = data[i];
+        }
+        data[index] = elem;
+        size++;
+    }
+
+    //按照下标位置删除元素
+    public E remove(int index) throws IndexOutOfBoundsException{
+        if (index < 0){
+            throw new IndexOutOfBoundsException("输入的下标小于下界（下界为0）,你传入的下标是" + index + "。");
+        }
+        if (index >= size){
+            String str = "输入的下标超过上界（上界为" + (size - 1) + "）,你传入的下标是" + index + "。";
+            throw new IndexOutOfBoundsException(str);
+        }
+        E elem = data[index];
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i+1];
+        }
+        size--;
+        return elem;
+    }
+
+    //按照元素的值来删除元素
+    public boolean remove(E e){
+        int index = 0;
+        for (index = 0; index < size; index++) {
+            if (data[index].equals(e)){
+                break;
+            }
+        }
+        if (index >= size){
+            return false;
+        }
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        size--;
+        return true;
+    }
+
+    //根据下标获取元素
+    public E get(int index)throws IndexOutOfBoundsException {
+        if (index < 0){
+            throw new IndexOutOfBoundsException("输入的下标小于下界（下界为0）,你传入的下标是" + index + "。");
+        }
+        if (index >= size){
+            String str = "输入的下标超过上界（上界为" + (size - 1) + "）,你传入的下标是" + index + "。";
+            throw new IndexOutOfBoundsException(str);
+        }
+        return data[index];
+    }
+
+    //根据下标修改元素
+    public void set(int index, E e)throws IndexOutOfBoundsException {
+        if (index < 0){
+            throw new IndexOutOfBoundsException("输入的下标小于下界（下界为0）,你传入的下标是" + index + "。");
+        }
+        if (index >= size){
+            String str = "输入的下标超过上界（上界为" + (size - 1) + "）,你传入的下标是" + index + "。";
+            throw new IndexOutOfBoundsException(str);
+        }
+        data[index] = e;
+    }
+
+    //判断元素是否存在
+    public boolean contains(E e){
+        int i = 0;
+        for (; i < size; i++) {
+            if (data[i].equals(e)){
+                break;
+            }
+        }
+        if (i >= size){
+            return false;
+        }
+        return true;
+    }
+
+    //查找元素位置
+    public int indexOf(E e){
+
+        for (int i = 0; i < size; i++) {
+            if (data[i].equals(e)){
+                return i;
+            }
+        }
+
+        return -1;
+
+    }
+
+    //从后往前查找元素的位置
+    public int lastIndexOf(E e){
+        for (int i = size - 1; i >=0 ; i--) {
+            if (data[i].equals(e)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    //清空顺序表
+    public void clear(){
+        size = 0;
+    }
+
+    //表中元素的个数
+    public int size(){
+        return size;
+    }
+
+    //空表判断
+    public boolean isEmpty(){
+        return size == 0;
+    }
+
+    @Override
+    public String toString() {
+        if (size == 0){
+            return "[]";
+        }
+        String str = "[";
+        for (int i = 0; i < size - 1; i++) {
+            str += data[i];
+            str += ",";
+        }
+        str += data[size - 1];
+        str += "]";
+        return str;
+    }
+}
+\end{lstlisting}
+\chapter{链表}
+单向、不带傀儡节点、带环的链表面试常见。
+
+双向、带傀儡节点、带环的链表实际开发中常见。
+
+\begin{lstlisting}
+public class Node<E> {
+    public E val;
+    public Node<E> next;
+
+    public Node(E val){
+        this.val = val;
+    }
+}
+\end{lstlisting}
+
+\section{链表的使用}
+
+\begin{lstlisting}
+import java.util.Scanner;
+
+public class Test {
+    public static Node createList(){
+        Node<Integer> a = new Node<>(1);
+        Node<Integer> b = new Node<>(2);
+        Node<Integer> c = new Node<>(3);
+        Node<Integer> d = new Node<>(4);
+        a.next = b;
+        b.next = c;
+        c.next = d;
+        d.next = null;
+        return a;
+    }
+    public static void main(String[] args) {
+        Node head = createList();
+
+        //遍历链表，打印链表的每个元素
+        System.out.println("遍历链表，打印链表的每个元素");
+        for (Node tmp = head; tmp != null; tmp = tmp.next) {
+            System.out.println(tmp.val);
+        }
+        System.out.println("-----------------------------------------");
+        //找链表的最后一个节点
+        System.out.println("找链表的最后一个节点");
+        Node cur = head;
+        while(cur != null && cur.next != null){
+            cur = cur.next;
+        }
+        System.out.println(cur.val);
+        System.out.println("-----------------------------------------");
+        //遍历链表，找到链表的倒数第二个节点
+        System.out.println("遍历链表，找到链表的倒数第二个节点");
+        cur = head;
+        while(cur != null && cur.next != null && cur.next.next != null){
+            cur = cur.next;
+        }
+        System.out.println(cur.val);
+        System.out.println("-----------------------------------------");
+        //取链表的第n个节点
+        System.out.println("取链表的第n个节点:");
+        cur = head;
+        int index = 3;
+        for (int i = 1; i < index; i++) {
+            try{
+                cur = cur.next;
+            }catch(NullPointerException e){
+                System.out.println("节点超出上限，该链表共有" + i + "个节点！");
+                e.printStackTrace();
+            }
+        }
+        try{
+            System.out.println(cur.val);
+        }catch(NullPointerException e){
+            System.out.println("节点超出上限！");
+            e.printStackTrace();
+        }
+        System.out.println("-----------------------------------------");
+        //获取链表的长度
+        System.out.println("获取链表的长度:");
+        cur = head;
+        int count = 0;
+        for (;cur != null;cur = cur.next) {
+            count++;
+        }
+        System.out.println("该链表共有" + count + "个节点！");
+        System.out.println("-----------------------------------------");
+        //遍历链表，是否存在某个元素
+        System.out.println("遍历链表，是否存在某个元素:");
+        cur = head;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入要查找的元素：");
+        int findNum = scanner.nextInt();
+        for (;cur != null; cur = cur.next) {
+            if (cur.val.equals(findNum)){
+                break;
+            }
+        }
+        if (cur != null){
+            System.out.println("找到了！");
+        }else {
+            System.out.println("没找到！");
+        }
+    }
+}
+\end{lstlisting}
+
+\section{链表的插入删除}
+
+\begin{lstlisting}[title = 链表类]
+public class Node {
+    int val;
+    Node next;
+    public Node(int val){
+        this.val = val;
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[title = 链表的插入删除操作]
+public class Test {
+    public static Node creatList(){
+        Node a = new Node(1);
+        Node b = new Node(2);
+        Node c = new Node(3);
+        Node d = new Node(4);
+        a.next = b;
+        b.next = c;
+        c.next = d;
+        d.next = null;
+        return a;
+    }
+
+    //按值删除
+    public static Node removeValue(Node head, int toDelete){
+        if (head == null){
+            return head;
+        }
+        if (head.val == toDelete){
+            return head.next;
+        }
+
+        Node prev = head;
+        while (prev != null && prev.next != null && prev.next.val != toDelete){
+            prev = prev.next;
+        }
+        if (!(prev == null || prev.next == null)) {
+            Node deleteNode = prev.next;
+            prev.next = deleteNode.next;
+            deleteNode.next = null;//回收删除节点的下一个指针
+            return head;
+        }
+        return head;
+    }
+    //按节点位置删除1
+    public static Node removeNode(Node head,Node toDelete){
+        if (head == null){
+            return head;
+        }
+        if (head == toDelete){
+            return head.next;
+        }
+        Node prev = head;
+        while(prev != null &&  prev.next != toDelete){
+            prev = prev.next;
+        }
+        if (!(prev == null)){
+            prev.next = toDelete.next;
+            toDelete.next = null;
+            toDelete = null;
+            return head;
+        }
+        return head;
+    }
+    //按节点位置删除2
+    public static Node removeNode1(Node head,Node toDelete) {
+        if (head == null){
+            return head;
+        }
+        if (head == toDelete){
+            return head.next;
+        }
+        //无法删除最后一个节点
+        if (toDelete.next != null){
+            toDelete.val = toDelete.next.val;
+            toDelete.next = toDelete.next.next;
+            return head;
+        }
+        return head;
+    }
+    //统计有效值节点的个数
+    public static int size(Node head){
+        int count = 0;
+        for (Node cur = head; cur != null ; cur = cur.next) {
+            count++;
+        }
+        return count;
+    }
+    //按下标删除
+    public static Node removeIndex(Node head, int index){
+        //找到待删除节点的前一个位置index - 1
+        if (index < 0){
+            System.out.println("下标越界，下界为0。您输入的下界是" + index + "。");
+            return head;
+        }
+        if(index >= size(head)){
+            System.out.println("下标越界，上界为" + size(head) + "。您输入的下界是" + index + "。");
+            return head;
+        }
+        if (index == 0){
+            return head.next;
+        }
+        Node prev = head;
+        for (int i = 0; i < index - 1; i++) {
+            prev = prev.next;
+        }
+        prev.next = prev.next.next;
+        return head;
+    }
+
+    public static Node removeTail(Node head){
+        if (head == null){
+            return head;
+        }
+        Node pre = head;
+        while( pre != null &&pre.next.next!= null && pre.next != null){
+            pre = pre.next;
+        }
+        if (!(pre.next == null)){
+            pre = pre.next;
+            return head;
+        }
+        return head;
+    }
+    //把数组转为链表
+    public static Node arrayToLinkedList(int[] array){
+        Node head = new Node(0);
+        Node tmp = head;
+        for (int i = 0; i < array.length; i++) {
+            Node cur = new Node(array[i]);
+            tmp.next = cur;
+            tmp = tmp.next;
+        }
+        return head.next;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Node head = creatList();
+        Node insert = new Node(-3);
+        Node pre = null;
+        Node next = null;
+//        System.out.println("请输入要插入元素的位置（比如在2和3之间插入，则输入2）");
+//        int index = scanner.nextInt();
+//        for(pre = head;pre != null;pre = pre.next){
+//            if (index == pre.val){
+//                next = pre.next;
+//                break;
+//            }
+//        }
+//        if (pre != null){
+//            insert.next = next;
+//            pre.next = insert;
+//            insert = null;
+//        }else {
+//            System.out.println("下标越界，无法插入！");
+//        }
+//        for (pre = head;pre != null;pre = pre.next){
+//            System.out.println(pre.val);
+//        }
+        //节点插入到链表的头部
+        insert.next = head;
+        head = insert;
+        for (pre = head;pre != null;pre = pre.next){
+            System.out.println(pre.val);
         }
     }
 }

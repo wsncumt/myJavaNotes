@@ -76,7 +76,220 @@ breaklines=true
 \pagenumbering{Roman}%设置目录页码
 \clearpage
 \pagenumbering{arabic}%设置正文页码
-\num 员工的重要性\href{https://leetcode-cn.com/problems/employee-importance/}{员工的重要性}
+
+\num \href{https://leetcode-cn.com/problems/reverse-linked-list/}{反转一个单链表}
+
+
+
+\begin{lstlisting}[title = 示例]
+输入: 1->2->3->4->5->NULL
+输出: 5->4->3->2->1->NULL
+\end{lstlisting}
+
+\begin{tips}
+1.链表为空（\dm{head == null}）或者链表只有一个元素（\dm{head.next == null}）。反转后还是自身：\dm{return head;}
+
+2.链表反转：首先用一个引用储存当前元素的下一个元素。\dm{nextNode = curNode;}然后把当前元素\dm{curNode}的\dm{next}指向它的前一个元素\\ \dm{prevNode}：\dm{curNode.next = prevNode}
+
+3.第2步执行完后，处理下一个元素：\dm{prevNode = curNode;curNode = curNode.next}。
+
+4.\dm{curNode == null}时，说明到了链表的末端(循环退出条件)。此时\dm{prevNode}指向的是原链表的最后一个元素，即新链表的首节点：\\ \dm{return prevNode;}
+
+5.初始化：第一个元素没有前驱结点，反转后，原链表第一个节点为新链表的最后一个节点，新链表的最后一个节点的\dm{next}应指向\dm{null}。所以\dm{prevNode}初始化为\dm{null}：\dm{Node prevNode = null;}，\dm{curNode}最开始应指向链表的首节点：\dm{Node curNode = head;}。
+\end{tips}
+
+\begin{lstlisting}[title = 迭代版本]
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode prevNode = null;
+        ListNode curNode = head;
+
+        while(curNode != null){
+            ListNode nextNode = curNode.next;
+            curNode.next = prevNode;
+            prevNode = curNode;
+            curNode = nextNode;
+        }
+        return prevNode;
+    }
+}
+\end{lstlisting}
+
+\begin{tips}
+1.可以将问题分为一个头结点和链表的剩余部分。
+
+2.头结点为问题的平凡解：链表只有一个节点，直接返回。
+
+3.子问题的解：头节点（\dm{head}）的下一个节点\dm{head.next}的\dm{next}指向头结点。
+
+4.头结点指向\dm{null}
+\end{tips}
+
+\begin{lstlisting}[title = 递归版本]
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode p = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return p;
+    }
+}
+\end{lstlisting}
+
+\num \href{https://leetcode-cn.com/problems/remove-linked-list-elements/}{移除链表元素}
+
+删除链表中等于给定值 val 的所有节点。
+\begin{lstlisting}[title = 示例]
+输入: 1->2->6->3->4->5->6, val = 6
+输出: 1->2->3->4->5
+\end{lstlisting}
+
+\begin{tips}
+要考虑链表为空的情况。链表为空，直接返回\dm{null}
+
+使用傀儡节点\dm{dummy}来进行辅助删除。\dm{dummy.next = head}
+
+两个指针，一个指向待删除元素（\dm{cur}）。一个指向待删除元素的前一个位置（\dm{prev}）。
+
+如果找到了待删除元素：将该元素前一个位置（\dm{pre}）的\dm{next}指向删除元素的\dm{next}：\dm{pre.next = cur.next}。然后将\dm{cur}复位，即指向\dm{pre.next}：\dm{cur = pre.next}
+
+如果没有找到，两个指针同时向后移动：\dm{pre = pre.next;cur = cur.next;}
+
+循环结束的条件：\dm{cur}指向空，表示已经找到了链表的最后。
+
+最后返回\dm{dummy.next}
+\end{tips}
+
+\begin{lstlisting}
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        if (head == null){
+            return null;
+        }
+        ListNode dummy = new ListNode(0,head);
+        ListNode prev = dummy;
+        ListNode cur = dummy.next;
+        while(cur != null){
+            if(cur.val == val){
+                prev.next = cur.next;
+                cur = prev.next;
+            }else{
+                prev = prev.next;
+                cur = cur.next;
+            }
+        }
+        return dummy.next;
+    }
+}
+\end{lstlisting}
+
+\num \href{https://leetcode-cn.com/problems/pascals-triangle/}{杨辉三角}
+
+给定一个非负整数\dm{numRows}，生成杨辉三角的前\dm{numRows}行。
+
+\begin{lstlisting}
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+
+        List<List<Integer>> pasTri = new ArrayList<>();
+        if(numRows == 0){
+            return pasTri;
+        }
+        List<Integer> first = new ArrayList<>();
+        first.add(1);
+        pasTri.add(first);
+        if(numRows == 1){
+            return pasTri;
+        }
+        List<Integer> second = new ArrayList<>();
+        second.add(1);
+        second.add(1);
+        pasTri.add(second);
+        if(numRows == 2){
+            return pasTri;
+        }
+        for(int i = 3; i <= numRows; i++){
+            List<Integer> list1 = new ArrayList<>();
+            list1.add(1);
+            for(int j = 2; j <= i - 1; j++){
+                int a = pasTri.get(i - 1 - 1).get(j - 1);
+                int b = pasTri.get(i - 1 - 1).get(j - 1 - 1);
+                list1.add(a + b);
+            }
+            list1.add(1);
+            pasTri.add(list1);
+        }
+        return pasTri;
+    }
+}
+\end{lstlisting}
+
+\num \href{https://leetcode-cn.com/problems/three-consecutive-odds/}{存在连续三个奇数的数组}
+
+给你一个整数数组\dm{arr}，请你判断数组中是否存在连续三个元素都是奇数的情况：如果存在，请返回\dm{true}；否则，返回\dm{false}。
+\begin{lstlisting}[title=示例1 ]
+输入：arr = [2,6,4,1]
+输出：false
+解释：不存在连续三个元素都是奇数的情况。
+\end{lstlisting}
+\begin{lstlisting}[title=示例2]
+输入：arr = [1,2,34,3,4,5,7,23,12]
+输出：true
+解释：存在连续三个元素都是奇数的情况，即 [5,7,23] 。
+\end{lstlisting}
+
+\begin{lstlisting}[title=版本1：LeetCode提供的]
+class Solution {
+    public boolean threeConsecutiveOdds(int[] arr) {
+        for(int i = 0; i < arr.length - 2; i++){
+            if((arr[i] % 2 == 1) && (arr[i+1] % 2 == 1) && (arr[i + 2] % 2 == 1)){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[title=版本2：自己使用顺序表实现]
+public class MyArrayList1 {
+    public boolean threeConsecutiveOdds(List<Integer> arr) {
+        for (int i = 0; i < arr.size() - 2; i++) {
+            if ((arr.get(i) % 2 == 1) && (arr.get(i + 1) % 2 == 1) && (arr.get(i + 2) % 2 == 1)){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+\end{lstlisting}
+\num \href{https://leetcode-cn.com/problems/employee-importance/}{员工的重要性}
 
 给定一个保存员工信息的数据结构，它包含了员工唯一的id，重要度和直系下属的id。
 比如，员工1是员工2的领导，员工2是员工3的领导。他们相应的重要度为15, 10, 5。那么员工1的数据结构是[1, 15, [2]]，员工2的数据结构是[2, 10, [3]]，员工3的数据结构是[3, 5, []]。注意虽然员工3也是员工1的一个下属，但是由于并不是直系下属，因此没有体现在员工1的数据结构中。

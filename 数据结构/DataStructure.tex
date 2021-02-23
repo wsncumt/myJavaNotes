@@ -4967,5 +4967,1390 @@ unZipFile(zipFile,dstFile);
         }
     }
 \end{lstlisting}
+\chapter{二叉排序树}
+二叉排序树BST(Binaray Sort Tree)：对于二叉排序树的任何一个非叶子结点，要求左子节点的值小于当前节点的值，右子节点的值大于当前节点的值。
 
+如果有相同的值，可将该值放入左子节点或右子节点。
+\section{二叉排序树的创建和遍历}
+把一个数组创建成对应的二叉排序树，并使用中序遍历二叉排序树。
+\section{代码实现}
+\begin{lstlisting}
+public class BinarySortTreeDemo {
+    public static void main(String[] args) {
+        int[] arr = {7, 3, 2,10, 1,12, 5, 1, 9};
+        BinarySortTree binarySortTree = new BinarySortTree();
+        for (int num :
+                arr) {
+            binarySortTree.add(new Node(num));
+        }
+        binarySortTree.infixOrder();
+    }
+
+}
+
+//创建二叉排序树
+class BinarySortTree {
+    Node root;
+
+    public void add(Node node) {
+        if (root == null) {
+            root = node;
+            return;
+        }
+        root.add(node);
+    }
+
+    public void infixOrder() {
+        if (root == null) {
+            System.out.println("[]");
+            return;
+        }
+        root.infixOrder();
+    }
+
+    public BinarySortTree() {
+
+    }
+}
+
+//一个节点
+class Node {
+    public int num;
+    public Node left;
+    public Node right;
+
+    public Node() {
+
+    }
+
+    public Node(int num) {
+        this.num = num;
+    }
+
+    //添加节点的方法
+    //递归的形式添加节点
+    //必须满足二叉排序树
+    public void add(Node node) {
+        if (node == null) {
+            System.out.println("节点指向为空，无法添加");
+            return;
+        }
+        //传入节点的值和当前子树根节点的值的关系
+        if (this.num >= node.num) {
+            if (this.left == null) {
+                this.left = node;
+                return;
+            }
+            this.left.add(node);
+        } else {
+            if (this.right == null) {
+                this.right = node;
+                return;
+            }
+            this.right.add(node);
+        }
+
+    }
+
+    //中序遍历
+    public void infixOrder() {
+        if (this.left != null) {
+            this.left.infixOrder();
+        }
+
+        System.out.println(this.num);
+
+        if (this.right != null) {
+            this.right.infixOrder();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "num=" + num +
+                '}';
+    }
+}
+\end{lstlisting}
+\section{二叉排序树节点的删除}
+1.删除叶子结点
+
+2.删除非叶子结点：该节点只有一棵子树，该节点有两棵子树。
+
+\subsection{思路}
+删除叶子结点：
+\begin{itemize}
+  \item 找到要删除的节点\dm{targetNode}
+  \item 应当找到待删除节点的父节点\dm{parentNode}(还应考虑是否存在父节点)
+  \item 确定该节点是父节点的左子节点还是右子节点。
+  \item 根据前面的情况来对应删除。
+\end{itemize}
+
+删除非叶子结点：只有一颗子树
+\begin{itemize}
+  \item 找到要删除的节点\dm{targetNode}
+  \item 应当找到待删除节点的父节点\dm{parentNode}(还应考虑是否存在父节点)
+  \item 确定\dm{targetNode}的子节点是左子节点还是右子节点
+  \item 判断\dm{targetNode}是\dm{parentNode}的左子节点还是右子节点
+  \item 如果dm{targetNode}是\dm{parentNode}的左子节点：dm{targetNode}的子树是左子树，\dm{parentNode.left = targetNode.left}，如果dm{targetNode}的子树是右子树\dm{parentNode.left = targetNode.right}
+  \item 如果dm{targetNode}是\dm{parentNode}的右子节点：dm{targetNode}的子树是左子树，\dm{parentNode.right = targetNode.left}，如果dm{targetNode}的子树是右子树\dm{parentNode.right = targetNode.right}
+\end{itemize}
+
+删除非叶子节点：有两棵子树
+
+方式一：
+\begin{itemize}
+  \item 找到要删除的节点\dm{targetNode}
+  \item 应当找到待删除节点的父节点\dm{parentNode}(还应考虑是否存在父节点)
+ \item 从\dm{targetNode}的\textcolor[rgb]{1.00,0.00,0.00}{右子树}找到\textcolor[rgb]{1.00,0.00,0.00}{最小}的节点。
+ \item 使用临时变量将该最小节点的值保存，\dm{tmp}
+ \item 删除最小值
+ \item \dm{targetNode = tmp}
+\end{itemize}
+
+方式二：
+\begin{itemize}
+  \item 找到要删除的节点\dm{targetNode}
+  \item 应当找到待删除节点的父节点\dm{parentNode}(还应考虑是否存在父节点)
+ \item 从\dm{targetNode}的\textcolor[rgb]{1.00,0.00,0.00}{左子树}找到\textcolor[rgb]{1.00,0.00,0.00}{最大}的节点。
+ \item 使用临时变量将该最大节点的值保存，\dm{tmp}
+ \item 删除最大值
+ \item \dm{targetNode = tmp}
+\end{itemize}
+
+\subsection{代码实现}
+\begin{lstlisting}
+public class BinarySortTreeDemo {
+    public static void main(String[] args) {
+        int[] arr = {7, 3, 6, 5, 1, 2};
+        BinarySortTree binarySortTree = new BinarySortTree();
+        for (int num :
+                arr) {
+            binarySortTree.add(new Node(num));
+        }
+        binarySortTree.infixOrder();
+        System.out.println("----------------");
+        System.out.println("删除节点");
+        int del = new Scanner(System.in).nextInt();
+        binarySortTree.delNode(del);
+        binarySortTree.infixOrder();
+    }
+
+}
+
+//创建二叉排序树
+class BinarySortTree {
+    Node root;
+
+    public void add(Node node) {
+        if (root == null) {
+            root = node;
+            return;
+        }
+        root.add(node);
+    }
+
+    //查找要删除的节点
+    public Node search(int target) {
+        if (root == null) {
+            return null;
+        }
+        return root.search(target);
+    }
+
+    //查找删除节点的父节点
+    public Node searchParent(int target) {
+        if (root == null || root.num == target) {
+            return null;
+        }
+        return root.searchParent(target);
+    }
+
+    //删除节点
+    public void delNode(int del) {
+        //空树
+        if (root == null) {
+            System.out.println("树为空，无法删除");
+            return;
+        }
+        Node delNode = search(del);
+        Node parentNode = searchParent(del);
+        //没有找到节点
+        if (delNode == null) {
+            System.out.println("未找到节点！");
+            return;
+        }
+
+        //待删除节点为叶子结点
+        if (delNode.left == null && delNode.right == null) {
+            //如果该树只有一个节点，且该节点为待删除节点
+            //此时该节点的父节点为null
+            if (parentNode == null) {
+                root = null;
+                return;
+            }
+            if (delNode == parentNode.left) {
+                parentNode.left = null;
+                return;
+            }
+            if (delNode == parentNode.right) {
+                parentNode.right = null;
+                return;
+            }
+        }
+        //待删除节点有两棵子树
+        if (delNode.right != null && delNode.left != null) {
+            //随机填入该节点左树的最大值或右树的最小值。
+            int random = new Random().nextInt(2);
+            switch (random) {
+                case 0:
+                    int min = delRightTreeMin(delNode);
+                    delNode.num = min;
+                    break;
+                case 1:
+                    int max = delLeftTreeMin(delNode);
+                    delNode.num = max;
+                    break;
+            }
+            return;
+        }
+        //删除节点只有一个子树
+        if (delNode.left == null) {
+            if (parentNode == null){
+                root = root.right;
+                return;
+            }
+            if (delNode == parentNode.left) {
+                parentNode.left = delNode.right;
+                return;
+            }
+            if (delNode == parentNode.right) {
+                parentNode.right = delNode.right;
+                return;
+            }
+        }
+        if (delNode.right == null) {
+            if (parentNode == null){
+                root = root.left;
+                return;
+            }
+            if (delNode == parentNode.left) {
+                parentNode.left = delNode.left;
+                return;
+            }
+            if (delNode == parentNode.right) {
+                parentNode.right = delNode.left;
+                return;
+            }
+        }
+    }
+
+    /**
+     * 功能：
+     * 1.以node为根节点的右子树的最小值
+     * 2.同时删除这个最小节点
+     *
+     * @param node 二叉排序树的根节点
+     * @return 以node为根节点的右子树的最小值
+     */
+    public int delRightTreeMin(Node node) {
+        int tmp = 0;
+        Node curNode = node;
+        if (node.right != null) {
+            node = node.right;
+        }
+        while (node.left != null) {
+            node = node.left;
+        }
+        tmp = node.num;
+        delNode(tmp);
+        return tmp;
+    }
+
+    /**
+     * 功能：
+     * 1.以node为根节点的左子树的最大值
+     * 2.同时删除这个最大节点
+     *
+     * @param node 二叉排序树的根节点
+     * @return 以node为根节点的左子树的最大值
+     */
+    public int delLeftTreeMin(Node node) {
+        int tmp = 0;
+        Node curNode = node;
+        if (node.left != null) {
+            node = node.left;
+        }
+        while (node.right != null) {
+            node = node.right;
+        }
+        tmp = node.num;
+        delNode(tmp);
+        return tmp;
+    }
+
+    public void infixOrder() {
+        if (root == null) {
+            System.out.println("[]");
+            return;
+        }
+        root.infixOrder();
+    }
+
+    public BinarySortTree() {
+
+    }
+}
+
+//一个节点
+class Node {
+    public int num;
+    public Node left;
+    public Node right;
+
+    public Node() {
+
+    }
+
+    public Node(int num) {
+        this.num = num;
+    }
+
+    //添加节点的方法
+    //递归的形式添加节点
+    //必须满足二叉排序树
+    public void add(Node node) {
+        if (node == null) {
+            System.out.println("节点指向为空，无法添加");
+            return;
+        }
+        //传入节点的值和当前子树根节点的值的关系
+        if (this.num >= node.num) {
+            if (this.left == null) {
+                this.left = node;
+                return;
+            }
+            this.left.add(node);
+        } else {
+            if (this.right == null) {
+                this.right = node;
+                return;
+            }
+            this.right.add(node);
+        }
+
+    }
+
+    //传入要删除的节点
+
+    /**
+     * @param target 希望删除节点的值
+     * @return 找到返回对应的节点，找不到则返回null
+     */
+    public Node search(int target) {
+        if (target == this.num) {//找到
+            return this;
+        } else if (target < this.num) {
+            if (this.left != null) {
+                return this.left.search(target);
+            }
+        } else {
+            if (this.right != null) {
+                return this.right.search(target);
+            }
+        }
+        return null;
+    }
+    //要删除节点的父节点
+
+    /**
+     * @param target 要找的节点的值
+     * @return 目标节点的父节点
+     */
+    public Node searchParent(int target) {
+        if ((this.left != null && this.left.num == target) || (this.right != null && this.right.num == target)) {
+            return this;
+        }
+        //如果查找的值小于当前节点的值，并且当前节点的左子树存在，递归的向左查找
+        if (target < this.num && this.left != null) {
+            return this.left.searchParent(target);
+        }
+        //如果查找得值大于当前节点的值，并且当前节点的右子树存在，递归的向右查找
+        if (target > this.num && this.right != null) {
+            return this.right.searchParent(target);
+        }
+        return null;
+    }
+
+    //中序遍历
+    public void infixOrder() {
+        if (this.left != null) {
+            this.left.infixOrder();
+        }
+
+        System.out.println(this.num);
+
+        if (this.right != null) {
+            this.right.infixOrder();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "num=" + num +
+                '}';
+    }
+}
+\end{lstlisting}
+
+\chapter{平衡二叉树：AVL树}
+二叉排序树存在的问题，在某些情况下，二叉排序树会退化为链表，此时的查询速度明显降低（比单链表查询速度还低，因为相比单链表，二叉排序树每次都要判断另一个方向是否为空）。
+
+解决方案：平衡二叉树。
+\section{概念}
+1.平衡二叉树也叫平衡二叉搜索树，又被称为AVL树，可以保证查询效率较高。平衡二叉树必须满足二叉排序树。
+
+2.特点
+\begin{itemize}
+  \item 它是一棵空树或它的左右两个子树的高度差的绝对值不超过1.
+  \item 并且左右两棵子树也都是一棵平衡二叉树。
+  \item 实现方法：红黑树、AVL树、替罪羊树、Treap树、伸展树
+\end{itemize}
+\section{左旋-zag}
+\subsection{思路}
+1.创建一个新的节点，该新节点的值为根节点的值
+
+2.新节点的左子树设为当前节点的左子树
+
+3.新节点的右子树设为当前节点右子树的左子树
+
+4.当前节点的值换为其右子节点的值
+
+5.把当前节点的右子树设为右子树的右子树
+
+6.当前节点的左子树设置为新的节点。
+\subsection{代码实现}
+\begin{lstlisting}
+public class AVLTreeDemo {
+    public static void main(String[] args) {
+        int[] arr = {4, 3, 6, 5, 7, 8};
+        AVLTree avlTree = new AVLTree();
+        for (int a : arr
+        ) {
+            avlTree.add(new Node(a));
+        }
+        avlTree.infixOrder();
+        System.out.println(avlTree.root.height());
+        System.out.println("--------------------");
+        System.out.println(avlTree.root.leftHeight());
+        System.out.println(avlTree.root.rightHeight());
+    }
+}
+
+//创建AVL树
+class AVLTree {
+    Node root;
+
+    public void add(Node node) {
+        if (root == null) {
+            root = node;
+            return;
+        }
+        root.add(node);
+    }
+
+    //查找要删除的节点
+    public Node search(int target) {
+        if (root == null) {
+            return null;
+        }
+        return root.search(target);
+    }
+
+    //查找删除节点的父节点
+    public Node searchParent(int target) {
+        if (root == null || root.num == target) {
+            return null;
+        }
+        return root.searchParent(target);
+    }
+
+    //删除节点
+    public void delNode(int del) {
+        //空树
+        if (root == null) {
+            System.out.println("树为空，无法删除");
+            return;
+        }
+        Node delNode = search(del);
+        Node parentNode = searchParent(del);
+        //没有找到节点
+        if (delNode == null) {
+            System.out.println("未找到节点！");
+            return;
+        }
+
+        //待删除节点为叶子结点
+        if (delNode.left == null && delNode.right == null) {
+            //如果该树只有一个节点，且该节点为待删除节点
+            //此时该节点的父节点为null
+            if (parentNode == null) {
+                root = null;
+                return;
+            }
+            if (delNode == parentNode.left) {
+                parentNode.left = null;
+                return;
+            }
+            if (delNode == parentNode.right) {
+                parentNode.right = null;
+                return;
+            }
+        }
+        //待删除节点有两棵子树
+        if (delNode.right != null && delNode.left != null) {
+            //随机填入该节点左树的最大值或右树的最小值。
+            int random = new Random().nextInt(2);
+            switch (random) {
+                case 0:
+                    int min = delRightTreeMin(delNode);
+                    delNode.num = min;
+                    break;
+                case 1:
+                    int max = delLeftTreeMin(delNode);
+                    delNode.num = max;
+                    break;
+            }
+            return;
+        }
+        //删除节点只有一个子树
+        if (delNode.left == null) {
+            if (parentNode == null) {
+                root = root.right;
+                return;
+            }
+            if (delNode == parentNode.left) {
+                parentNode.left = delNode.right;
+                return;
+            }
+            if (delNode == parentNode.right) {
+                parentNode.right = delNode.right;
+                return;
+            }
+        }
+        if (delNode.right == null) {
+            if (parentNode == null) {
+                root = root.left;
+                return;
+            }
+            if (delNode == parentNode.left) {
+                parentNode.left = delNode.left;
+                return;
+            }
+            if (delNode == parentNode.right) {
+                parentNode.right = delNode.left;
+                return;
+            }
+        }
+    }
+
+    /**
+     * 功能：
+     * 1.以node为根节点的右子树的最小值
+     * 2.同时删除这个最小节点
+     *
+     * @param node 二叉排序树的根节点
+     * @return 以node为根节点的右子树的最小值
+     */
+    public int delRightTreeMin(Node node) {
+        int tmp = 0;
+        Node curNode = node;
+        if (node.right != null) {
+            node = node.right;
+        }
+        while (node.left != null) {
+            node = node.left;
+        }
+        tmp = node.num;
+        delNode(tmp);
+        return tmp;
+    }
+
+    /**
+     * 功能：
+     * 1.以node为根节点的左子树的最大值
+     * 2.同时删除这个最大节点
+     *
+     * @param node 二叉排序树的根节点
+     * @return 以node为根节点的左子树的最大值
+     */
+    public int delLeftTreeMin(Node node) {
+        int tmp = 0;
+        Node curNode = node;
+        if (node.left != null) {
+            node = node.left;
+        }
+        while (node.right != null) {
+            node = node.right;
+        }
+        tmp = node.num;
+        delNode(tmp);
+        return tmp;
+    }
+
+    public void infixOrder() {
+        if (root == null) {
+            System.out.println("[]");
+            return;
+        }
+        root.infixOrder();
+    }
+
+    public AVLTree() {
+
+    }
+}
+
+//一个节点
+class Node {
+    public int num;
+    public Node left;
+    public Node right;
+
+    public Node() {
+
+    }
+
+    public Node(int num) {
+        this.num = num;
+    }
+
+    //左旋-zag
+    public void zag() {
+        Node newNode = new Node(this.num);
+        //新节点的左子树为当前节点的左子树
+        newNode.left = this.left;
+
+        if (this.right != null) {
+            //新节点的右子树为当前节点右子树的左子树
+            newNode.right = this.right.left;
+            //当前节点的值置为右子节点的值
+            this.num = this.right.num;
+            //把当前节点的右子树设为当前节点右子树右子树的右子树
+            this.right = this.right.right;
+        }
+        //当前节点的左子树设置为新的节点
+        this.left = newNode;
+
+    }
+
+    //右旋-zig
+    public void zig() {
+        Node newNode = new Node(this.num);
+        //新节点的右子树为当前节点的右子树
+        newNode.right = this.right;
+
+        if (this.left != null) {
+            //新节点的左子树为当前节点左子树的右子树
+            newNode.left = this.left.right;
+            //当前节点的值置为左子节点的值
+            this.num = this.left.num;
+            //把当前节点的左子树设为当前节点左子树左子树的右子树
+            this.left = this.left.left;
+        }
+        //当前节点的右子树设置为新的节点
+        this.right = newNode;
+
+    }
+
+    public int leftHeight() {
+        return left == null ? 0 : left.height();
+    }
+
+    public int rightHeight() {
+        return right == null ? 0 : right.height();
+    }
+
+    /**
+     * 功能： 返回以node为根节点的树的高度
+     *
+     * @return
+     */
+    public int height() {
+        return Math.max(left == null ? 0 : left.height(), right == null ? 0 : right.height()) + 1;
+    }
+
+    //添加节点的方法
+    //递归的形式添加节点
+    //必须满足二叉排序树
+    public void add(Node node) {
+        if (node == null) {
+            System.out.println("节点指向为空，无法添加");
+            return;
+        } else if (this.num >= node.num) {//传入节点的值和当前子树根节点的值的关系
+            if (this.left == null) {
+                this.left = node;
+            } else {
+                this.left.add(node);
+            }
+        } else {
+            if (this.right == null) {
+                this.right = node;
+            } else {
+                this.right.add(node);
+            }
+        }
+//当右子树高度高于左子树时：即(rightHeight - leftHeight)>1，要左旋
+        if ((this.rightHeight() - this.leftHeight()) > 1) {
+            if (this.right != null && this.right.rightHeight() < this.right.leftHeight()) {
+                this.right.zig();
+            }
+            zag();
+            return;
+        }
+        //顺时针旋转
+        if ((this.leftHeight() - this.rightHeight()) > 1) {
+            if (this.left != null && this.left.right.rightHeight() > this.left.leftHeight()) {
+                this.left.zag();
+            }
+            zig();
+        }
+    }
+
+    //传入要删除的节点
+
+    /**
+     * @param target 希望删除节点的值
+     * @return 找到返回对应的节点，找不到则返回null
+     */
+    public Node search(int target) {
+        if (target == this.num) {//找到
+            return this;
+        } else if (target < this.num) {
+            if (this.left != null) {
+                return this.left.search(target);
+            }
+        } else {
+            if (this.right != null) {
+                return this.right.search(target);
+            }
+        }
+        return null;
+    }
+    //要删除节点的父节点
+
+    /**
+     * @param target 要找的节点的值
+     * @return 目标节点的父节点
+     */
+    public Node searchParent(int target) {
+        if ((this.left != null && this.left.num == target) || (this.right != null && this.right.num == target)) {
+            return this;
+        }
+        //如果查找的值小于当前节点的值，并且当前节点的左子树存在，递归的向左查找
+        if (target < this.num && this.left != null) {
+            return this.left.searchParent(target);
+        }
+        //如果查找得值大于当前节点的值，并且当前节点的右子树存在，递归的向右查找
+        if (target > this.num && this.right != null) {
+            return this.right.searchParent(target);
+        }
+        return null;
+    }
+
+    //中序遍历
+    public void infixOrder() {
+        if (this.left != null) {
+            this.left.infixOrder();
+        }
+
+        System.out.println(this.num);
+
+        if (this.right != null) {
+            this.right.infixOrder();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "num=" + num +
+                '}';
+    }
+}
+\end{lstlisting}
+\chapter{多路查找树-B树}
+\section{B树}
+B树某个节点为m，元素不超过m-1，不低于$\left\lceil\dfrac{m}{2}\right\rceil$,B树又称为$\left\lceil\dfrac{m} {2}\right\rceil,m树$。
+
+插入元素时，如果不满足B树规定，则发生分裂：将中间的元素移至父亲，同时该节点分为2个，父亲节点如果上溢，同样操作，直到根节点处。
+
+删除元素时：如果该节点处不满足B树规定的个数，首先从左顾右盼，如果有兄弟，且兄弟的元素个数比B树规定的最小的节点个数还多就从兄弟那里借（注意要满足中序性的要求），如果没有符合条件的兄弟就从父亲那里拿一个跟兄弟拼接。从父亲那里拿一个后如果父亲不满足条件也按上述执行，直到根节点。
+
+
+B树所有的关键字存放在叶子或非叶子节点中，B+树搜索与B树基本相同，但所有的关键字都处于叶子节点的链表中。非叶子节点相当于是叶子结点的索引
+
+B*树是B+树的变体，在B+树的非根非叶子节点再增加指向兄弟的指针。
+\section{2-3树}
+1.2-3树的所有叶子节点都在同一层（只要是B树都满足这个条件）
+
+2.有两个子节点的节点叫二节点。二节点要么没有子节点，要么有两个子节点。
+
+3.有三个子节点的节点叫三节点，三节点要么没有子节点，要么有三个子节点。
+
+4.2-3树是由二节点和三节点构成的树。
+
+
+\chapter{图}
+处理多对多的结构。
+\section{常用概念}
+1.顶点：vertex
+
+2.边：edge
+
+3.路径
+
+4.无向图：顶点之间的连接没有方向
+
+5.有向图
+
+6.带权图
+\section{图的表示方式}
+二维数组（邻接矩阵），链表表示：邻接表。
+
+邻接矩阵需要为每个顶点都分配n个边的空间。实际中有的边不存在，会造成一定的空间损失。
+
+邻接表的实现只关心存在的边，不关心不存在的边，因此没有空间浪费。邻接表通常由链表+数组组成。
+\section{图的代码实现}
+对于邻接矩阵，1表示直连，0表示不能直接连接。
+
+1.要存储图中各顶点的信息。使用String  ArrayList集合
+
+2.保存矩阵，使用二维数组表示边的关系。
+\begin{lstlisting}
+import java.util.ArrayList;
+import java.util.List;
+
+public class GraphDemo {
+    //存储顶点的信息，使用ArrayList
+    public List<String> vertexList;
+    private int[][] edges;//存储各条边的信息
+    private int numEdges;//表示边的条数
+
+    public static void main(String[] args) {
+        int n = 5;
+        String[] vertexValue = {"A", "B", "C", "D", "E"};
+        GraphDemo graph = new GraphDemo(n);
+        for (String vertex :
+                vertexValue) {
+            graph.insertVertex(vertex);
+        }
+        graph.showGraph();
+        //添加边
+        graph.insertEdge(0,1,1);
+        graph.insertEdge(0,2,1);
+        graph.insertEdge(2,1,1);
+        graph.insertEdge(3,1,1);
+        graph.insertEdge(4,1,1);
+        System.out.println("-------------------------------------");
+        graph.showGraph();
+    }
+
+    //构造器
+    public GraphDemo(int n) {
+        //初始化矩阵和ArrayList
+        vertexList = new ArrayList<>();
+        edges = new int[n][n];
+    }
+
+    //插入顶点
+    public void insertVertex(String vertex) {
+        this.vertexList.add(vertex);
+    }
+    //添加边
+
+    /**
+     * @param v1     点1的下标
+     * @param v2     点2的下标
+     * @param weight 边的权值，0或1
+     */
+    public void insertEdge(int v1, int v2, int weight) {
+        this.edges[v1][v2] = weight;
+        this.edges[v2][v1] = weight;
+        this.numEdges++;
+    }
+
+    //图的常用方法
+    //返回节点的个数
+    public int getNumOfVertex() {
+        return vertexList.size();
+    }
+
+    //返回边的数目
+    public int getNumOfEdges() {
+        return numEdges;
+    }
+
+    //返回节点i对应的数据,i指的是在节点顺序表中的下标
+    public String getVertexByIndex(int i) {
+        return vertexList.get(i);
+    }
+
+    //返回v1和v2的权值
+    public int getWeight(int v1, int v2) {
+        return edges[v1][v2];
+    }
+
+    public void showGraph() {
+        System.out.print("   ");
+        for (int i = 0; i < vertexList.size(); i++) {
+            System.out.print(vertexList.get(i));
+            System.out.print(" ");
+        }
+        System.out.println();
+        for (int i = 0; i < vertexList.size(); i++) {
+            System.out.print(vertexList.get(i));
+            System.out.print(": ");
+            for (int j = 0; j < vertexList.size(); j++) {
+                System.out.print(edges[i][j]);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+
+    }
+}
+\end{lstlisting}
+\section{图的遍历}
+\subsection{深度优先遍历}
+从初始访问节点出发，初始访问节点可能有多个邻接顶点，深度优先遍历的策略就是首先访问第一个邻接顶点，然后在以这个被访问的邻接顶点作为初始节点，访问它的第一个邻接顶点。相当于是每次都在访问完当前节点后首先访问当前节点的第一个邻接顶点。
+
+步骤：
+
+1.访问初始节点v，并标记节点v已访问。
+
+2.查找节点v的第一个邻接节点w。
+
+3.若w存在，则继续执行2，如果w不存在，则回到第一步，将从v的下一个节点继续。
+
+4.若w未被访问，对w进行深度优先遍历递归（即把w当做新的v）。
+
+5.查找节点v的w邻接节点的下一个邻接节点，转到步骤3.
+\subsection{代码实现}
+\begin{lstlisting}
+//类中添加一个boolean数组来标记各节点是否被访问
+
+//节点访问状态
+    public boolean visit[];
+
+//在构造器中对该数组进行初始化
+
+//得到第一个邻接节点的下标
+    public int getFirstNeighbor(int index) {
+        for (int j = 0; j < vertexList.size(); j++) {
+            if (edges[index][j] > 0) {
+                return j;
+            }
+        }
+        //没有就返回-1
+        return -1;
+    }
+    //根据前一个邻接节点的下标来获取下一个邻接节点
+
+    /**
+     * @param v1 当前节点
+     * @param v2 当前节点的邻接节点
+     * @return 下一个邻接节点
+     */
+    public int getNextNeighbor(int v1, int v2) {
+        for (int i = v2 + 1; i < vertexList.size(); i++) {
+            if (edges[v1][i] > 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    //深度优先遍历算法
+
+    /**
+     * @param index 从第index个节点开始访问
+     * @param visit 节点的访问状态
+     */
+    public void dfs(int index, boolean visit[]) {
+        //访问当前节点
+        System.out.println(vertexList.get(index));
+        //把当前节点访问状态变为已访问
+        this.visit[index] = true;
+        //获取当前节点的邻接节点
+        int w = getFirstNeighbor(index);
+        //如果该邻接节点存在
+        while (w != -1) {//说明找到了邻接顶点
+            //判断该邻接顶点是否被访问
+            if (!this.visit[w]) {//没有被访问，就以该节点为新的节点进行搜索
+                dfs(w, this.visit);
+            } else {//如果w被访问过，就找index的下一个邻接节点
+                w = this.getNextNeighbor(index, w);
+            }
+        }
+        //邻接节点不存在,如何访问全部的节点
+        //通过重载，对所有的节点进行dfs
+        //方法如下
+    }
+
+    public void dfs() {
+        //遍历所有的节点，进行dfs
+        for (int i = 0; i < vertexList.size(); i++) {
+            if (!visit[i]) {
+                dfs(i, this.visit);
+            }
+        }
+    }
+\end{lstlisting}
+\section{广度优先遍历BFS(BroadFirst Search)}
+类似于分层搜索，广度优先遍历需要使用一个队列以保持访问过的节点的顺序。以便按这个顺序来访问这些节点的邻接节点。
+
+\subsection{算法步骤}
+1.访问初始节点v并标记节点已被访问。
+
+2.节点入队列。
+
+3.队列非空时，继续执行，否则算法结束。
+
+4.出队列，取得队头节点u。
+
+5.查找u的第一个邻接节点w。
+
+6.如果节点u的邻接节点w不存在，转入步骤3，否则：
+\begin{itemize}
+  \item 若节点w尚未被访问，访问节点w同时，标记为已访问
+  \item 节点w入队列。
+  \item 查找u的继w邻接节点的下一个邻接节点w,转到步骤6。
+\end{itemize}
+\subsection{代码实现}
+\begin{lstlisting}
+//广度优先遍历
+    //对一个节点进行广度优先遍历
+    private void bfs(int index, boolean[] visit) {
+        //取出队列的头结点
+        int u;
+        //u的邻接点的下标w
+        int w;
+        //队列，用于记录节点的访问顺序
+        Queue<Integer> queue = new LinkedList<>();
+        //访问当前节点
+        System.out.println(vertexList.get(index));
+        //更改当前节点的访问状态
+        visit[index] = true;
+        //当前节点入队
+        queue.add(index);
+        //队列不为空时，进行访问
+        while (!queue.isEmpty()) {
+            //取出队首元素进行bfs
+            u = queue.poll();
+            //得到队首的第一个邻接节点
+            w = getFirstNeighbor(u);
+            while(w != -1){
+                if (!visit[w]) {
+                    //当前邻接节点没被访问
+                    //则进行访问，同时入队列
+                    System.out.println(vertexList.get(w));
+                    visit[w] = true;
+                    queue.add(w);
+                }else{
+                    w = getNextNeighbor(u,w);//广度优先
+                }
+            }
+        }
+    }
+
+    //遍历所有的节点都进行广度优先搜索
+    public void bfs(){
+        visit = new boolean[vertexList.size()];
+        for (int i = 0; i < vertexList.size(); i++) {
+            if (!this.visit[i]){
+                bfs(i,this.visit);
+            }
+        }
+    }
+\end{lstlisting}
+\section{图的全部代码汇总}
+\begin{lstlisting}
+package com.atWSN.graph;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class GraphDemo {
+    //存储顶点的信息，使用ArrayList
+    public List<String> vertexList;
+    private int[][] edges;//存储各条边的信息
+    private int numEdges;//表示边的条数
+
+    //节点访问状态
+    public boolean visit[];
+
+    public static void main(String[] args) {
+        int n = 5;
+        String[] vertexValue = {"A", "B", "C", "D", "E"};
+        GraphDemo graph = new GraphDemo(n);
+        for (String vertex :
+                vertexValue) {
+            graph.insertVertex(vertex);
+        }
+        graph.showGraph();
+        //添加边
+        graph.insertEdge(0, 1, 1);
+        graph.insertEdge(0, 2, 1);
+        graph.insertEdge(2, 1, 1);
+        graph.insertEdge(3, 1, 1);
+        graph.insertEdge(4, 1, 1);
+        System.out.println("-------------------------------------");
+        graph.showGraph();
+        graph.dfs();
+        System.out.println("-------------------------------------");
+        graph.bfs();
+    }
+
+    //构造器
+    public GraphDemo(int n) {
+        //初始化矩阵和ArrayList
+        vertexList = new ArrayList<>();
+        edges = new int[n][n];
+
+    }
+
+    //得到第一个邻接节点的下标
+    public int getFirstNeighbor(int index) {
+        for (int j = 0; j < vertexList.size(); j++) {
+            if (edges[index][j] > 0) {
+                return j;
+            }
+        }
+        //没有就返回-1
+        return -1;
+    }
+    //根据前一个邻接节点的下标来获取下一个邻接节点
+
+    /**
+     * @param v1 当前节点
+     * @param v2 当前节点的邻接节点
+     * @return 下一个邻接节点
+     */
+    public int getNextNeighbor(int v1, int v2) {
+        for (int i = v2 + 1; i < vertexList.size(); i++) {
+            if (edges[v1][i] > 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    //深度优先遍历算法
+
+    /**
+     * @param index 从第index个节点开始访问
+     * @param visit 节点的访问状态
+     */
+    public void dfs(int index, boolean visit[]) {
+        //访问当前节点
+        System.out.println(vertexList.get(index));
+        //把当前节点访问状态变为已访问
+        this.visit[index] = true;
+        //获取当前节点的邻接节点
+        int w = getFirstNeighbor(index);
+        //如果该邻接节点存在
+        while (w != -1) {//说明找到了邻接顶点
+            //判断该邻接顶点是否被访问
+            if (!this.visit[w]) {//没有被访问，就以该节点为新的节点进行搜索
+                dfs(w, this.visit);
+            } else {//如果w被访问过，就找index的下一个邻接节点
+                w = this.getNextNeighbor(index, w);
+            }
+        }
+        //邻接节点不存在,如何访问全部的节点
+        //通过重载，对所有的节点进行dfs
+        //方法如下
+    }
+
+    public void dfs() {
+        visit = new boolean[vertexList.size()];
+        //遍历所有的节点，进行dfs
+        for (int i = 0; i < vertexList.size(); i++) {
+            if (!visit[i]) {
+                dfs(i, this.visit);
+            }
+        }
+    }
+
+    //广度优先遍历
+    //对一个节点进行广度优先遍历
+    private void bfs(int index, boolean[] visit) {
+        //取出队列的头结点
+        int u;
+        //u的邻接点的下标w
+        int w;
+        //队列，用于记录节点的访问顺序
+        Queue<Integer> queue = new LinkedList<>();
+        //访问当前节点
+        System.out.println(vertexList.get(index));
+        //更改当前节点的访问状态
+        visit[index] = true;
+        //当前节点入队
+        queue.add(index);
+        //队列不为空时，进行访问
+        while (!queue.isEmpty()) {
+            //取出队首元素进行bfs
+            u = queue.poll();
+            //得到队首的第一个邻接节点
+            w = getFirstNeighbor(u);
+            while(w != -1){
+                if (!visit[w]) {
+                    //当前邻接节点没被访问
+                    //则进行访问，同时入队列
+                    System.out.println(vertexList.get(w));
+                    visit[w] = true;
+                    queue.add(w);
+                }else{
+                    w = getNextNeighbor(u,w);//广度优先
+                }
+            }
+        }
+    }
+
+    //遍历所有的节点都进行广度优先搜索
+    public void bfs(){
+        visit = new boolean[vertexList.size()];
+        for (int i = 0; i < vertexList.size(); i++) {
+            if (!this.visit[i]){
+                bfs(i,this.visit);
+            }
+        }
+    }
+
+    //插入顶点
+    public void insertVertex(String vertex) {
+        this.vertexList.add(vertex);
+    }
+    //添加边
+
+    /**
+     * @param v1     点1的下标
+     * @param v2     点2的下标
+     * @param weight 边的权值，0或1
+     */
+    public void insertEdge(int v1, int v2, int weight) {
+        this.edges[v1][v2] = weight;
+        this.edges[v2][v1] = weight;
+        this.numEdges++;
+    }
+
+    //图的常用方法
+    //返回节点的个数
+    public int getNumOfVertex() {
+        return vertexList.size();
+    }
+
+    //返回边的数目
+    public int getNumOfEdges() {
+        return numEdges;
+    }
+
+    //返回节点i对应的数据,i指的是在节点顺序表中的下标
+    public String getVertexByIndex(int i) {
+        return vertexList.get(i);
+    }
+
+    //返回v1和v2的权值
+    public int getWeight(int v1, int v2) {
+        return edges[v1][v2];
+    }
+
+    public void showGraph() {
+        System.out.print("   ");
+        for (int i = 0; i < vertexList.size(); i++) {
+            System.out.print(vertexList.get(i));
+            System.out.print(" ");
+        }
+        System.out.println();
+        for (int i = 0; i < vertexList.size(); i++) {
+            System.out.print(vertexList.get(i));
+            System.out.print(": ");
+            for (int j = 0; j < vertexList.size(); j++) {
+                System.out.print(edges[i][j]);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+
+    }
+}
+\end{lstlisting}
+
+\chapter{常用的算法}
+\section{二分查找算法--非递归实现}
+只适用于有序数列查找，时间复杂度：O(log n)。
+
+前边学过递归的方式，这里要求非递归的方式完成。
+\subsection{代码实现}
+\begin{lstlisting}
+package com.atWSN.Algorithm;
+
+/**
+ * 二分查找的算法
+ * <p>
+ * 要求：使用迭代的方式来完成
+ */
+public class BinarySearch {
+    public static void main(String[] args) {
+
+    }
+    //二分查找的非递归实现
+
+    /**
+     * 功能：二分查找
+     * 要求：迭代完成
+     *
+     * @param arr    从arr中查找,有序数组
+     * @param target 查找元素target
+     * @return 找到返回下标，没找到返回-1
+     * @author 王松年
+     */
+    public static int binarySearch(int[] arr, int target) {
+        int lo = 0;
+        int hi = arr.length - 1;
+        while (lo <= hi){
+            int mid = lo + ((hi - lo) >> 1);
+            if (arr[mid] == target){
+                return mid;
+            }else if(target < arr[mid]){
+                hi = mid - 1;
+            }else{
+                lo = mid + 1;
+            }
+        }
+        return -1;
+    }
+    
+    //二分查找递归版
+    public static int binarySearch(int arr[],int target,int lo,int hi){
+        if (lo > hi){
+            return -1;
+        }
+        int mid = lo + ((hi - lo)>>1);
+        if (arr[mid] == target){
+            return mid;
+        }else if(target < arr[mid]){
+            return binarySearch(arr,target,lo,mid -1);
+        }else{
+            return binarySearch(arr,target,mid + 1,hi);
+        }
+
+    }
+}
+\end{lstlisting}
 \end{document} 

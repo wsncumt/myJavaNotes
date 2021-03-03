@@ -1,0 +1,91 @@
+\documentclass[a4paper]{report}
+\usepackage[space,fancyhdr,fntef]{ctexcap}
+\usepackage{fontspec}
+\fontspec{宋体}
+\setmainfont{Times New Roman}
+%\fontsize{50pt}{50pt}\selectfont
+\renewcommand{\rmdefault}{ptm}
+\usepackage[namelimits,sumlimits,nointlimits]{amsmath}
+\usepackage[text={169mm,250mm},bottom=20mm,top=25mm,left=25mm,right=15mm,centering]{geometry}
+\usepackage{color}
+\usepackage{CJKfntef}%下划线宏包160页
+\usepackage{xcolor}
+\usepackage{arydshln}%234页，虚线表格宏包
+\pagestyle{fancy} \fancyhf{}
+\fancyhead[OC]{\color{gray}\rightmark}
+
+\fancyhead[EC]{\color{gray}\leftmark}
+\fancyfoot[C]{\color{gray}\thepage}
+\renewcommand{\headrule}{\color{gray}\hrule width\headwidth}
+%\renewcommand{\footrulewidth}{0.4pt}%改为0pt即可去掉页脚上面的横线
+%\usepackage{parskip}
+%\usepackage{indentfirst}
+\usepackage{graphicx}%插图宏包，参见手册318页
+\definecolor{dkgreen}{RGB}{106,135,89}
+\definecolor{dkblue}{RGB}{103,150,163}
+\definecolor{wgray}{RGB}{248,248,248}
+\definecolor{WGRAY}{RGB}{248,248,248}
+\usepackage{listings}
+\lstset{language=Java,
+backgroundcolor=\color{wgray},
+rulesepcolor=\color{red!20!green!20!blue!20},%代码块边框为淡青色
+%lablestep=1,
+%lablesep=5pt,
+%lablestyle=\tiny,
+%tablesize=4,
+%captionpos=b,
+basicstyle=\ttfamily\small,
+keywordstyle=\color{orange},
+commentstyle=\color{gray},
+stringstyle=\color{dkgreen},
+numberstyle=\tiny,
+numbersep=8pt,
+frame=single,%topline.bottomline,lines,single,leftline
+identifierstyle=\color{dkblue},
+numbers=left,
+stepnumber=1,
+xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+breaklines=true
+}
+\usepackage[xetex,colorlinks]{hyperref}%394页  \href{网址}{文本}
+\hypersetup{urlcolor=blue}
+%\linebreak[2]%换行，152页
+\usepackage{fancybox}%盒子宏包55页
+\setcounter{secnumdepth}{4}
+\CTEXoptions[contentsname={目\hspace{15pt}录}]
+\CTEXsetup[beforeskip={-40pt},afterskip={20pt plus 2pt minus 2pt}]{chapter}
+
+%目录设置
+\usepackage{titletoc}
+\usepackage[toc]{multitoc}
+\titlecontents{chapter}[4em]{\addvspace{2.3mm}\bf}{\contentslabel{4.0em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\titlecontents{section}[4em]{}{\contentslabel{2.5em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\titlecontents{subsection}[7.2em]{}{\contentslabel{3.3em}}{}{\titlerule*[5pt]{$\cdot$}\contentspage}
+\usepackage{fancyvrb}%75页抄录宏包
+\begin{document}
+\flushbottom%版心底部对齐
+\newcommand{\dm}[1]{\colorbox{wgray}{\lstinline`#1`}}
+\newcommand{\myroman}[1]{\uppercase\expandafter{\romannumeral#1}}
+\newcounter{num}[section] \renewcommand{\thenum}{\arabic{num}.} \newcommand{\num}{\refstepcounter{num}\text{\thenum}}
+
+\newenvironment{tips}{\kaishu\zihao{-6}\color{blue}{\noindent\rule[-3pt]{\textwidth}{0.5pt}\par \em \noindent {\zihao{-5} \textcolor[rgb]{1.00,0.00,0.00}{Tips}}}\par}{\\ \rule[3mm]{\textwidth}{0.5pt}\par}
+
+\newenvironment{zhengming}{\kaishu\zihao{-5}\color{blue}{\noindent\em 证明：}\par}{\hfill $\diamondsuit$\par}
+
+\tableofcontents
+\pagenumbering{Roman}%设置目录页码
+\clearpage
+\pagenumbering{arabic}%设置正文页码
+
+\chapter{网络编程入门}
+\section{软件结构}
+\subsection{C/S结构}
+全称为Client/Sever结构，指的是客户端和服务器结构，常见的有QQ，迅雷等软件。
+\subsection{B/S结构}
+全称为Browser/Sever结构，指的是浏览器和服务器结构，常见的有谷歌，火狐等软件。
+
+两种架构各有优势，但都离不开网络的支持，网络编程，就是在一定的协议下，实现两台计算机的通讯程序。
+\section{网络通信协议}
+\subsection{TCP/IP协议}
+传输控制协议/因特网互联协议。
+\end{document} 

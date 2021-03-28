@@ -79,11 +79,56 @@
 \contentsline {subsubsection}{\numberline {5.2.1.1}\color@box {}{wgray}{\lstinline `Lock`}锁的基本使用}{57}{subsubsection.5.2.1.1}% 
 \contentsline {subsubsection}{\numberline {5.2.1.2}使用\color@box {}{wgray}{\lstinline `Lock`}锁同步不同方法中的同步代码块}{58}{subsubsection.5.2.1.2}% 
 \contentsline {subsubsection}{\numberline {5.2.1.3}锁的可重入性}{59}{subsubsection.5.2.1.3}% 
-\contentsline {subsection}{\numberline {5.2.2}\color@box {}{wgray}{\lstinline `lockInterruptibly()`}}{60}{subsection.5.2.2}% 
+\contentsline {subsection}{\numberline {5.2.2}\color@box {}{wgray}{\lstinline `lockInterruptibly()`}}{61}{subsection.5.2.2}% 
 \contentsline {subsection}{\numberline {5.2.3}\color@box {}{wgray}{\lstinline `tryLock()`}方法}{65}{subsection.5.2.3}% 
 \contentsline {subsubsection}{\numberline {5.2.3.1}\color@box {}{wgray}{\lstinline `tryLock(long time,TimeUnit unit)`}}{65}{subsubsection.5.2.3.1}% 
 \contentsline {subsubsection}{\numberline {5.2.3.2}\color@box {}{wgray}{\lstinline `tryLock()`}方法}{66}{subsubsection.5.2.3.2}% 
-\contentsline {section}{\numberline {5.3}\color@box {}{wgray}{\lstinline `ReentrantReadWriteLock`}}{66}{section.5.3}% 
-\contentsline {subsection}{\numberline {5.3.1}\color@box {}{wgray}{\lstinline `ReentrantReadWriteLock.ReadLock`}}{66}{subsection.5.3.1}% 
-\contentsline {subsection}{\numberline {5.3.2}\color@box {}{wgray}{\lstinline `ReentrantReadWriteLock.WriteLock`}}{66}{subsection.5.3.2}% 
+\contentsline {subsubsection}{\numberline {5.2.3.3}\color@box {}{wgray}{\lstinline `tryLock`}不会造成死锁}{68}{subsubsection.5.2.3.3}% 
+\contentsline {subsubsection}{\numberline {5.2.3.4}\color@box {}{wgray}{\lstinline `newCondition()`}}{70}{subsubsection.5.2.3.4}% 
+\contentsline {subsubsection}{\numberline {5.2.3.5}多个\color@box {}{wgray}{\lstinline `Condition`}实现通知部分线程}{71}{subsubsection.5.2.3.5}% 
+\contentsline {subsubsection}{\numberline {5.2.3.6}实现生产者/消费者设计模式，两个线程交替打印}{74}{subsubsection.5.2.3.6}% 
+\contentsline {subsubsection}{\numberline {5.2.3.7}生产者/消费者设计模式-多对多}{76}{subsubsection.5.2.3.7}% 
+\contentsline {subsection}{\numberline {5.2.4}公平锁与非公平锁}{78}{subsection.5.2.4}% 
+\contentsline {subsection}{\numberline {5.2.5}几个常用的方法}{79}{subsection.5.2.5}% 
+\contentsline {subsubsection}{\numberline {5.2.5.1}\color@box {}{wgray}{\lstinline `int getHoldCount()`}}{79}{subsubsection.5.2.5.1}% 
+\contentsline {subsubsection}{\numberline {5.2.5.2}\color@box {}{wgray}{\lstinline `int getQueueLength()`}}{80}{subsubsection.5.2.5.2}% 
+\contentsline {subsubsection}{\numberline {5.2.5.3}\color@box {}{wgray}{\lstinline `int getWaitQueueLength(Condition condition)`}}{81}{subsubsection.5.2.5.3}% 
+\contentsline {subsubsection}{\numberline {5.2.5.4}\color@box {}{wgray}{\lstinline `boolean hasQueuedThread(Thread thread)`}}{83}{subsubsection.5.2.5.4}% 
+\contentsline {subsubsection}{\numberline {5.2.5.5}\color@box {}{wgray}{\lstinline `boolean hasQueuedThreads()`}}{83}{subsubsection.5.2.5.5}% 
+\contentsline {subsubsection}{\numberline {5.2.5.6}\color@box {}{wgray}{\lstinline `boolean hasWaiters(Condition condition)`}}{85}{subsubsection.5.2.5.6}% 
+\contentsline {subsubsection}{\numberline {5.2.5.7}\color@box {}{wgray}{\lstinline `boolean isFair()`}}{86}{subsubsection.5.2.5.7}% 
+\contentsline {subsubsection}{\numberline {5.2.5.8}\color@box {}{wgray}{\lstinline `boolean isHeldByCurrentThread()`}}{86}{subsubsection.5.2.5.8}% 
+\contentsline {subsubsection}{\numberline {5.2.5.9}\color@box {}{wgray}{\lstinline `boolean isLocked()`}}{87}{subsubsection.5.2.5.9}% 
+\contentsline {section}{\numberline {5.3}\color@box {}{wgray}{\lstinline `ReentrantReadWriteLock`}读写锁}{89}{section.5.3}% 
+\contentsline {subsection}{\numberline {5.3.1}读锁}{89}{subsection.5.3.1}% 
+\contentsline {subsection}{\numberline {5.3.2}写锁}{89}{subsection.5.3.2}% 
+\contentsline {subsection}{\numberline {5.3.3}\color@box {}{wgray}{\lstinline `ReadWriteLock`}接口}{89}{subsection.5.3.3}% 
+\contentsline {subsection}{\numberline {5.3.4}读写锁的基本使用方法}{89}{subsection.5.3.4}% 
+\contentsline {subsubsection}{\numberline {5.3.4.1}读读共享}{90}{subsubsection.5.3.4.1}% 
+\contentsline {subsubsection}{\numberline {5.3.4.2}写写互斥}{91}{subsubsection.5.3.4.2}% 
+\contentsline {subsubsection}{\numberline {5.3.4.3}读写互斥}{92}{subsubsection.5.3.4.3}% 
+\contentsline {chapter}{\numberline {第六章\hspace {.3em}}线程管理}{95}{chapter.6}% 
+\contentsline {section}{\numberline {6.1}线程组}{95}{section.6.1}% 
+\contentsline {subsection}{\numberline {6.1.1}设置守护线程组}{95}{subsection.6.1.1}% 
+\contentsline {section}{\numberline {6.2}捕获线程的执行异常}{95}{section.6.2}% 
+\contentsline {section}{\numberline {6.3}注入Hook钩子线程}{97}{section.6.3}% 
+\contentsline {section}{\numberline {6.4}线程池}{97}{section.6.4}% 
+\contentsline {subsection}{\numberline {6.4.1}线程池的定义}{97}{subsection.6.4.1}% 
+\contentsline {subsection}{\numberline {6.4.2}JDK对线程池的支持}{97}{subsection.6.4.2}% 
+\contentsline {subsection}{\numberline {6.4.3}线程池的基本使用}{97}{subsection.6.4.3}% 
+\contentsline {subsection}{\numberline {6.4.4}核心线程池的底层实现}{100}{subsection.6.4.4}% 
+\contentsline {subsection}{\numberline {6.4.5}拒绝策略}{101}{subsection.6.4.5}% 
+\contentsline {subsection}{\numberline {6.4.6}\color@box {}{wgray}{\lstinline `ThreadFactory`}}{103}{subsection.6.4.6}% 
+\contentsline {subsection}{\numberline {6.4.7}监控线程池}{104}{subsection.6.4.7}% 
+\contentsline {subsection}{\numberline {6.4.8}扩展线程池}{106}{subsection.6.4.8}% 
+\contentsline {subsection}{\numberline {6.4.9}优化线程池数量}{108}{subsection.6.4.9}% 
+\contentsline {subsection}{\numberline {6.4.10}线程池死锁}{108}{subsection.6.4.10}% 
+\contentsline {subsection}{\numberline {6.4.11}线程池中的异常处理}{108}{subsection.6.4.11}% 
+\contentsline {subsection}{\numberline {6.4.12}\color@box {}{wgray}{\lstinline `ForkJoinPool`}线程池}{112}{subsection.6.4.12}% 
+\contentsline {chapter}{\numberline {第七章\hspace {.3em}}保障线程安全的设计技术}{115}{chapter.7}% 
+\contentsline {section}{\numberline {7.1}Java运行时存储空间}{115}{section.7.1}% 
+\contentsline {section}{\numberline {7.2}无状态对象}{115}{section.7.2}% 
+\contentsline {section}{\numberline {7.3}不可变对象}{115}{section.7.3}% 
+\contentsline {section}{\numberline {7.4}线程特有对象}{116}{section.7.4}% 
+\contentsline {section}{\numberline {7.5}装饰器模式}{116}{section.7.5}% 
 \contentsfinish 

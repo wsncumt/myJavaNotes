@@ -1516,7 +1516,7 @@ public class Test03 {
             @Override
             public void run() {
                 synchronized (LOCK) {
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "开始等待" + System.currentTimeMillis());
                     try {
                         LOCK.wait();//线程等待，会释放锁对象
@@ -1524,7 +1524,7 @@ public class Test03 {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "结束等待" + System.currentTimeMillis());
                 }
             }
@@ -1537,12 +1537,12 @@ public class Test03 {
             public void run() {
                 //notify()方法也需要在同步代码块中由锁对象调用
                 synchronized (LOCK) {
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "开始唤醒" + System.currentTimeMillis());
 
                     LOCK.notify();//唤醒在LOCK锁对象上等待的某一个线程
                     //
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "结束唤醒" + System.currentTimeMillis());
                 }
             }
@@ -1579,7 +1579,7 @@ public class Test04 {
             @Override
             public void run() {
                 synchronized (list) {
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "开始运行" + System.currentTimeMillis());
                     try {
                         if (list.size() != 5) {
@@ -1588,7 +1588,7 @@ public class Test04 {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "结束运行" + System.currentTimeMillis());
                 }
             }
@@ -1601,16 +1601,16 @@ public class Test04 {
             public void run() {
                 //notify()方法也需要在同步代码块中由锁对象调用
                 synchronized (list) {
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "运行开始" + System.currentTimeMillis());
                     for (int i = 0; i < 10; i++) {
-                        System.out.println(Thread.currentThread().getName() 
+                        System.out.println(Thread.currentThread().getName()
                             + "添加第" + (i + 1) + "个数据");
                         list.add("data -- " + (i + 1));
                         if (list.size() == 5) {
                             list.notify();
                             System.out.println
-                                (Thread.currentThread().getName() 
+                                (Thread.currentThread().getName()
                                     + "已发出唤醒通知");
                         }
                         try {
@@ -1622,7 +1622,7 @@ public class Test04 {
                     }
 
                     //
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "运行结束" + System.currentTimeMillis());
                 }
             }
@@ -1673,10 +1673,10 @@ public class Test05 {
         public void run() {
             synchronized (OBJ) {
                 try {
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "开始等待");
                     OBJ.wait();
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "结束等待");
                 } catch (InterruptedException e) {
 //                    e.printStackTrace();
@@ -1742,10 +1742,10 @@ public class Test06 {
         public void run() {
             synchronized (LOCK){
                 try {
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "开始等待！");
                     LOCK.wait();
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "结束等待！");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -1773,14 +1773,14 @@ public class Test07 {
             @Override
             public void run() {
                 synchronized (LOCK){
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "开始等待！");
                     try {
                         LOCK.wait(5000);//如果5秒内没有被唤醒，会自动唤醒
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    System.out.println(Thread.currentThread().getName() 
+                    System.out.println(Thread.currentThread().getName()
                         + "结束等待！");
                 }
             }
@@ -1840,7 +1840,7 @@ public class Test10 {
          * 取数据的线程2结束等待！
          * 取数据的线程2从集合中取了x后，集合中剩余的数据数量：0
          * 取数据的线程1结束等待！
-         * Exception in thread "取数据的线程1" 
+         * Exception in thread "取数据的线程1"
          * java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
          *
          * 出现异常的原因：向集合中添加了一次数据，但取了两次
@@ -1854,19 +1854,19 @@ public class Test10 {
         synchronized (LOCK) {
 //            if (list.isEmpty()) {
             while (list.isEmpty()) {
-                System.out.println(Thread.currentThread().getName() 
+                System.out.println(Thread.currentThread().getName()
                     + "开始等待！");
                 try {
                     LOCK.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println(Thread.currentThread().getName() 
+                System.out.println(Thread.currentThread().getName()
                     + "结束等待！");
             }
             Object data = list.remove(0);
-            System.out.println(Thread.currentThread().getName() 
-                + "从集合中取了" + data + "后，集合中剩余的数据数量：" 
+            System.out.println(Thread.currentThread().getName()
+                + "从集合中取了" + data + "后，集合中剩余的数据数量："
                     + list.size());
         }
     }
@@ -1875,11 +1875,11 @@ public class Test10 {
     //添加完2数据后，通知等待的线程取数据
     public static void add() {
         synchronized (LOCK) {
-            System.out.println(Thread.currentThread().getName() 
+            System.out.println(Thread.currentThread().getName()
                 + "添加数据！");
             list.add("x");
             LOCK.notifyAll();
-            System.out.println(Thread.currentThread().getName() 
+            System.out.println(Thread.currentThread().getName()
                 + "完成添加数据！");
         }
     }
@@ -2331,7 +2331,7 @@ import java.util.Date;
 
 /**
  * @program: DataStructures
- * @description：在多线程环境中，把字符串转换为日期对象 
+ * @description：在多线程环境中，把字符串转换为日期对象
  * 多个线程使用同一个SimpleDateFormat对象可能会产生线程安全问题
  * 为每一个线程指定自己的SimpleDateFormat对象，使用ThreadLocal
  * @author:戛剑生
@@ -2339,7 +2339,7 @@ import java.util.Date;
  **/
 public class Test02 {
     //定义SimpleDateFormat对象，该对象可以字符串转换为日期
-    private static SimpleDateFormat sdf = 
+    private static SimpleDateFormat sdf =
         new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
     static ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<>();
 
@@ -2417,8 +2417,8 @@ public class Test03 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 //第一次调用ThreadLocal的get方法会返回null
-                System.out.println(i + 1 + "---" 
-                    + Thread.currentThread().getName() 
+                System.out.println(i + 1 + "---"
+                    + Thread.currentThread().getName()
                          + " value = " + threadLocal.get());
                 //如果没有初始值就设置:这里设置一个日期
                 if (threadLocal.get() == null) {
@@ -2555,9 +2555,11 @@ public class Test03 {
         try {
             //先获得锁
             lock.lock();
-            System.out.println(Thread.currentThread().getName() + " -- method1 -- " + System.currentTimeMillis());
+            System.out.println(Thread.currentThread().getName() +
+                " -- method1 -- " + System.currentTimeMillis());
             Thread.sleep(new Random().nextInt(1000) + 1);
-            System.out.println(Thread.currentThread().getName() + " -- method1 -- " + System.currentTimeMillis());
+            System.out.println(Thread.currentThread().getName() +
+                " -- method1 -- " + System.currentTimeMillis());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
@@ -2572,9 +2574,11 @@ public class Test03 {
         try {
             //先获得锁
             lock.lock();
-            System.out.println(Thread.currentThread().getName() + " -- method2 -- " + System.currentTimeMillis());
+            System.out.println(Thread.currentThread().getName()
+                + " -- method2 -- " + System.currentTimeMillis());
             Thread.sleep(new Random().nextInt(1000) + 1);
-            System.out.println(Thread.currentThread().getName() + " -- method2 -- " + System.currentTimeMillis());
+            System.out.println(Thread.currentThread().getName()
+                + " -- method2 -- " + System.currentTimeMillis());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
@@ -2728,10 +2732,10 @@ public class Test05 {
 
         public void serviceMethod() {
             try {
-//                lock.lock();//获得锁定，即使调用了现成的interrupt()方法
+//                lock.lock();//获得锁定，即使调用了线程的interrupt()方法
                               //也没有真正中断线程
                 lock.lockInterruptibly();//如果线程被中断了，不会获得锁，会抛出异常
-                System.out.println(Thread.currentThread().getName() 
+                System.out.println(Thread.currentThread().getName()
                     + " -- 获得锁！");
                 //模拟执行一段耗时的操作
                 for (int i = 0; i < Integer.MAX_VALUE >>> 2; i++) {
@@ -2740,7 +2744,7 @@ public class Test05 {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             } finally {
-                System.out.println(Thread.currentThread().getName() 
+                System.out.println(Thread.currentThread().getName()
                     + " -- 释放锁！");
                 lock.unlock();
             }
@@ -2779,23 +2783,23 @@ public class Test06 {
             try {
                 if (lockNumber % 2 == 1) {
                     lock1.lockInterruptibly();
-                    System.out.println(Thread.currentThread().getName() 
-                        + "获得锁" + lockNumber % 2 + "还需要获得锁" 
+                    System.out.println(Thread.currentThread().getName()
+                        + "获得锁" + lockNumber % 2 + "还需要获得锁"
                             + (lockNumber % 2 + 1));
                     Thread.sleep(new Random().nextInt(1000));
                     lock2.lockInterruptibly();
-                    System.out.println(Thread.currentThread().getName() 
-                        + "同时获得锁" + lockNumber % 2 
+                    System.out.println(Thread.currentThread().getName()
+                        + "同时获得锁" + lockNumber % 2
                             + "和锁" + (lockNumber % 2 + 1));
                 } else {
                     lock2.lockInterruptibly();
-                    System.out.println(Thread.currentThread().getName() 
-                        + "获得锁" + (lockNumber % 2 + 2) 
+                    System.out.println(Thread.currentThread().getName()
+                        + "获得锁" + (lockNumber % 2 + 2)
                             + "还需要获得锁" + (lockNumber % 2 + 1));
                     Thread.sleep(new Random().nextInt(1000));
                     lock1.lockInterruptibly();
-                    System.out.println(Thread.currentThread().getName() 
-                        + "同时获得锁" + (lockNumber % 2 + 2) 
+                    System.out.println(Thread.currentThread().getName()
+                        + "同时获得锁" + (lockNumber % 2 + 2)
                             + "和锁" + (lockNumber % 2 + 1));
                 }
             } catch (Exception e) {
@@ -2807,7 +2811,7 @@ public class Test06 {
                 if (lock2.isHeldByCurrentThread()) {//锁被当前线程持有就会释放
                     lock2.unlock();
                 }
-                System.out.println(Thread.currentThread().getName() 
+                System.out.println(Thread.currentThread().getName()
                     + "线程退出！");
             }
         }
@@ -2868,19 +2872,23 @@ public class Test07 {
         public void run() {
             try {
                 if (lock.tryLock(4, TimeUnit.SECONDS)) {//获得锁返回true
-                    System.out.println(Thread.currentThread().getName() + "获得锁");
+                    System.out.println(Thread.currentThread().getName()
+                        + "获得锁");
                     System.out.println("执行相应的任务");
-                    Thread.sleep(3000);//一个线程1获得锁并执行耗时任务，该任务需要3秒钟
+                    Thread.sleep(3000);//一个线程1获得锁并执行耗时任务
+                    //该任务需要3秒钟
                     // 另一个线程2尝试获得锁，线程2两秒内还没获得锁的话就会放弃
                 } else {//没有获得锁
-                    System.out.println(Thread.currentThread().getName() + "没有获得锁！");
+                    System.out.println(Thread.currentThread().getName()
+                        + "没有获得锁！");
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
                 if (lock.isHeldByCurrentThread()) {
                     lock.unlock();
-                    System.out.println(Thread.currentThread().getName() + "释放锁！");
+                    System.out.println(Thread.currentThread().getName()
+                        + "释放锁！");
                 }
             }
         }
@@ -2903,12 +2911,2141 @@ public class Test07 {
 \subsubsection{\dm{tryLock()}方法}
 仅在调用时锁定未被其他线程持有的锁。如果调用该方法时，锁对象被其他线程持有，则放弃。
 
-调用该方法尝试获得锁，如果该锁没有被其他线程占用则返回\dm{true}表示锁定成功。如果锁被其他线程占用则返回\dm{false}，不等待
-\section{\dm{ReentrantReadWriteLock}}
+调用该方法尝试获得锁，如果该锁没有被其他线程占用则返回\dm{true}表示锁定成功。如果锁被其他线程占用则返回\dm{false}，不等待。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description：tryLock()的基本使用，锁对象没有被其他线程持有的情况下
+ *              才会获得该锁定
+ * @author:戛剑生
+ * @creat: 2021-03-07 21:36:23
+ **/
+public class Test08 {
+    static class TimeLock implements Runnable {
+        private static ReentrantLock lock = new ReentrantLock();//定义一个锁对象
+
+        @Override
+        public void run() {
+            try {
+                if (lock.tryLock()) {//获得锁返回true
+                    System.out.println(Thread.currentThread().getName()
+                        + "获得锁");
+                    System.out.println("执行相应的任务");
+                    Thread.sleep(3000);//一个线程1获得锁并执行耗时任务
+                    //该任务需要3秒钟
+                    // 另一个线程2尝试获得锁，线程2两秒内还没获得锁的话就会放弃
+                } else {//没有获得锁
+                    System.out.println(Thread.currentThread().getName()
+                        + "没有获得锁！");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                if (lock.isHeldByCurrentThread()) {
+                    lock.unlock();
+                    System.out.println(Thread.currentThread().getName()
+                        + "释放锁！");
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        TimeLock timeLock = new TimeLock();
+        Thread t1 = new Thread(timeLock);
+        t1.setName("t1");
+        Thread t2 = new Thread(timeLock);
+        t2.setName("t2");
+        Thread t3 = new Thread(timeLock);
+        t3.setName("t3");
+        t1.start();
+        t2.start();
+        t3.start();
+
+    }
+}\end{Verbatim}
+
+\subsubsection{\dm{tryLock}不会造成死锁}
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description：使用tyrLock()可以避免死锁
+ * @author:戛剑生
+ * @creat: 2021-03-08 14:46:57
+ **/
+public class Test09 {
+    static class IntLock implements Runnable {
+        private static ReentrantLock lock1 = new ReentrantLock();
+        private static ReentrantLock lock2 = new ReentrantLock();
+        private int lockNum;
+
+        public IntLock(int lockNum) {
+            this.lockNum = lockNum;
+        }
+
+        @Override
+        public void run() {
+            if (lockNum % 2 == 0) {//偶数先获得锁1再获得锁2
+                while (true) {
+                    try {
+                        if (lock1.tryLock()) {
+                            System.out.println(Thread.currentThread().getName()
+                                + "获得锁1，还未获得锁2");
+                            Thread.sleep(new Random().nextInt(10));
+                            try {
+                                if (lock2.tryLock()) {
+                                    System.out.println(Thread.currentThread()
+                                        .getName()
+                                            + "同时获得锁1获得锁2");
+                                    return;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            } finally {
+                                if (lock2.isHeldByCurrentThread()) {
+                                    lock2.unlock();
+                                }
+                            }
+//                            break;
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (lock1.isHeldByCurrentThread()) {
+                            lock1.unlock();
+                        }
+                    }
+                }
+            } else {//奇数先获得锁2再获得锁1
+                while (true) {
+                    try {
+                        if (lock2.tryLock()) {
+                            System.out.println(Thread.currentThread().getName()
+                                + "获得锁2，还未获得锁1");
+                            Thread.sleep(new Random().nextInt(10));
+                            try {
+                                if (lock1.tryLock()) {
+                                    System.out.println(Thread.currentThread()
+                                        .getName()
+                                        + "同时获得锁1获得锁2");
+                                    return;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            } finally {
+                                if (lock1.isHeldByCurrentThread()) {
+                                    lock1.unlock();
+                                }
+                            }
+//                            break;
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (lock2.isHeldByCurrentThread()) {
+                            lock2.unlock();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        IntLock intLock1 = new IntLock(11);
+        IntLock intLock2 = new IntLock(22);
+        Thread t1 = new Thread(intLock1);
+        Thread t2 = new Thread(intLock2);
+        t1.setName("t1");
+        t2.setName("t2");
+        t1.start();
+        t2.start();
+    }
+}
+\end{Verbatim}
+
+\subsubsection{\dm{newCondition()}}
+
+关键字\dm{synchronized}与\dm{wait()}/\dm{notify()}两个方法一起使用可以实现等待/通知模式。
+
+在\dm{Lock}锁的\dm{newCondition()}方法返回一个\dm{Condition}对象 ,\dm{Condition}类也可以实现等待/通知模式。
+
+使用\dm{notify()}通知时，JVM会随机唤醒某个等待的线程，使用\dm{Condition}类可以选择性通知需要被唤醒的线程。\dm{Condition}常用的两个方法：\dm{await()}会使当前线程等待，同时会释放锁。当其他线程调用\dm{signal}时，线程会重新获得锁并继续执行。
+
+\dm{signal()}用于唤醒一个等待的线程。
+
+注意：在调用\dm{Condition}的\dm{await()}/\dm{signal()}方法时，也要求线程持有相关的\dm{Lock}锁，调用\dm{await()}后线程会释放这个锁，\dm{signal()}调用后会从当前\dm{Condition}对象的等待队列中，唤醒一个线程，唤醒的线程尝试获得锁，一旦获得锁成功就继续执行。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description：Condition等待与通知
+ * @author:戛剑生
+ * @creat: 2021-03-08 16:30:42
+ **/
+public class Test01 {
+    //定义锁
+    static Lock lock  = new ReentrantLock();
+    //获得Condition对象
+    static Condition condition = lock.newCondition();
+    //定义线程子类
+    static class SubThread extends Thread{
+        @Override
+        public void run() {
+            try {
+                lock.lock();//调用await方法前必须先获得锁。
+                System.out.println(Thread.currentThread().getName()
+                    + "获得锁");
+                condition.await();
+                System.out.println(Thread.currentThread().getName()
+                    + "线程等待");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+                System.out.println(Thread.currentThread().getName()
+                    +"释放锁");
+            }
+        }
+    }
+    public static void main(String[] args) {
+        SubThread t1 = new SubThread();
+        t1.setName("t1");
+        t1.start();//子线程启动后会转入等待状态
+
+        try {
+            Thread.sleep(3000);//主线程睡眠3秒
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //唤醒子线程的等待
+        try {
+            lock.lock();
+            condition.signal();//调用signal的线程也必须获得对应的锁
+                                //此时是main线程调用的
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+}\end{Verbatim}
+\subsubsection{多个\dm{Condition}实现通知部分线程}
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description:多个Condition实现通知部分线程
+ * @author:戛剑生
+ * @creat: 2021-03-08 16:49:17
+ **/
+public class Test02 {
+
+    static class Service {
+        private Lock lock = new ReentrantLock();
+        private Condition conditionA = lock.newCondition();
+        private Condition conditionB = lock.newCondition();
+
+        //定义方法，使用ConditionA等待
+        public void waitMethodA() {
+            try {
+                lock.lock();
+                System.out.println(Thread.currentThread().getName()
+                    + "开始等待" + System.currentTimeMillis());
+                conditionA.await();
+                System.out.println(Thread.currentThread().getName()
+                    + "结束等待" + System.currentTimeMillis());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        //定义方法，使用ConditionB等待
+        public void waitMethodB() {
+            try {
+                lock.lock();
+                System.out.println(Thread.currentThread().getName()
+                    + "开始等待" + System.currentTimeMillis());
+                conditionB.await();
+                System.out.println(Thread.currentThread().getName()
+                    + "结束等待" + System.currentTimeMillis());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        //定义方法唤醒ConditionA上的等待
+        public void signalA() {
+            try {
+                lock.lock();
+                System.out.println(Thread.currentThread().getName()
+                    + "唤醒A的时间" + System.currentTimeMillis());
+                conditionA.signal();
+                System.out.println(Thread.currentThread().getName()
+                    + "唤醒A的时间" + System.currentTimeMillis());
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        //定义方法唤醒ConditionB上的等待
+        public void signalB() {
+            try {
+                lock.lock();
+                System.out.println(Thread.currentThread().getName()
+                    + "唤醒B的时间" + System.currentTimeMillis());
+                conditionB.signal();
+                System.out.println(Thread.currentThread().getName()
+                    + "唤醒B的时间" + System.currentTimeMillis());
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Service service = new Service();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                service.waitMethodA();
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                service.waitMethodB();
+            }
+        }).start();
+        try {
+            Thread.sleep(3000);//main线程睡眠
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //唤醒conditionA的等待
+        service.signalA();
+        service.signalB();
+    }
+}\end{Verbatim}
+\subsubsection{实现生产者/消费者设计模式，两个线程交替打印}
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description：实现生产者/消费者设计模式，两个线程交替打印
+ * @author:戛剑生
+ * @creat: 2021-03-08 17:14:29
+ **/
+public class Test03 {
+    static class MyService{
+        private Lock lock=new ReentrantLock();//创建锁对象
+        private Condition condition = lock.newCondition();//创建condition对象
+        private boolean flag = true;//定义一个交替打印的标识
+
+        //定义方法：只打印----横线
+        public void printOne(){
+            try {
+                //锁定
+                lock.lock();
+                while (flag){//flag为true进行等待
+                    condition.await();
+                }
+                //flag为false进行打印
+                System.out.println(Thread.currentThread().getName()
+                    + "------------------");
+                //打印完后把flag置为true;
+                flag = true;
+                //通知另外的线程打印
+                condition.signal();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+        //定义方法：只打印****星号
+        public void printTwo(){
+            try {
+                //锁定
+                lock.lock();
+                while (!flag){//flag为false进行等待
+                    condition.await();//等待时会释放锁对象
+                }
+                //flag为true进行打印
+                System.out.println(Thread.currentThread().getName()
+                    + "***************");
+                //打印完后把flag置为false;
+                flag = false;
+                //通知另外的线程打印
+                condition.signal();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+
+    }
+
+    public static void main(String[] args) {
+        MyService myService = new MyService();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 100; i++) {
+                    myService.printOne();
+                }
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 100; i++) {
+                    myService.printTwo();
+                }
+            }
+        }).start();
+    }
+}\end{Verbatim}
+
+\subsubsection{生产者/消费者设计模式-多对多}
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description：使用Condition实现生产者/消费者设计模式，多对多
+ *  即有多个线程打印-----，多个线程打印*****
+ * @author:戛剑生
+ * @creat: 2021-03-08 17:14:29
+ **/
+public class Test04 {
+    static class MyService{
+        private Lock lock=new ReentrantLock();//创建锁对象
+        private Condition condition = lock.newCondition();//创建condition对象
+        private boolean flag = true;//定义一个交替打印的标识
+
+        //定义方法：只打印----横线
+        public void printOne(){
+            try {
+                //锁定
+                lock.lock();
+                while (flag){//flag为true进行等待
+                    condition.await();
+                }
+                //flag为false进行打印
+                System.out.println(Thread.currentThread().getName()
+                    + "------------------");
+                //打印完后把flag置为true;
+                flag = true;
+                //通知另外的线程打印
+                condition.signal();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+        //定义方法：只打印****星号
+        public void printTwo(){
+            try {
+                //锁定
+                lock.lock();
+                while (!flag){//flag为false进行等待
+                    condition.await();//等待时会释放锁对象
+                }
+                //flag为true进行打印
+                System.out.println(Thread.currentThread().getName()
+                    + "***************");
+                //打印完后把flag置为false;
+                flag = false;
+                //通知另外的线程打印
+                condition.signalAll();//唤醒所有的线程
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+
+    }
+
+    public static void main(String[] args) {
+        MyService myService = new MyService();
+        for (int i = 0;i < 10;i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < 100; i++) {
+                        myService.printOne();
+                    }
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < 100; i++) {
+                        myService.printTwo();
+                    }
+                }
+            }).start();
+        }
+    }
+}\end{Verbatim}
+\subsection{公平锁与非公平锁}
+大多数情况下，锁的申请都是非公平的，如果线程1与线程2都在请求A锁，当锁A可用时，系统只是会从阻塞队列中随机的选择一个线程，不能保证公平性。
+
+公平锁会按照时间的先后顺序保证先到先得。公平锁的这一特点不会使线程饥饿。
+
+\dm{synchronized}内部锁就是非公平的，\dm{ReentrantLock()}重入锁提供了一个构造方法：\\ \dm{ReentrantLock(boolean fair)},在创建锁对象时，实参传递\dm{true}可以把该锁设置为公平锁。公平锁看起来很公平，但是要实现公平锁必须要求系统维护一个有序队列。公平锁的实现成本相对较高，性能低。因此默认情况下锁是非公平的。不是特别的需求，一般不使用公平锁。
 
 
-\subsection{\dm{ReentrantReadWriteLock.ReadLock}}
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description：公平锁与非公平锁
+ * @author:戛剑生
+ * @creat: 2021-03-08 21:59:34
+ **/
+public class Test01 {
+//    static Lock lock = new ReentrantLock();//定义一个锁，默认是非公平锁。
+    static Lock lock = new ReentrantLock(true);//定义一个锁，公平锁。
+
+    public static void main(String[] args) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        lock.lock();
+                        System.out.println(Thread.currentThread().getName()
+                            + "获得了锁对象");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        lock.unlock();
+                    }
+                }
+            }
+        };
+
+        for (int i = 0; i < 5; i++) {
+            new Thread(runnable).start();
+        }
+        /**
+         * 运行程序发现：
+         *  1.如果是非公平锁
+         *      系统会倾向于让一个线程再次获得已经持有的锁
+         *      这种策略是高效的但是非公平。
+         *  2.如果是公平锁，多个线程不会发生同一个线程连续获得锁的可能。
+         *      保证了锁的公平，按照先到先得的顺序分配锁。
+         */
+    }
+}\end{Verbatim}
+\subsection{几个常用的方法}
+\subsubsection{\dm{int getHoldCount()}}
+可以返回当前线程调用\dm{lock()}方法的次数。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description：int getHoldCount()可以返回当前线程调用lock()方法的次数
+ * @author:戛剑生
+ * @creat: 2021-03-08 22:13:12
+ **/
+public class Test02 {
+    static ReentrantLock lock = new ReentrantLock();//定义一个锁对象
+    public static void m1(){
+        try {
+            lock.lock();
+            //打印线程调用lock()的次数
+            System.out.println(Thread.currentThread().getName()
+                + "--hold count ：" + lock.getHoldCount());
+            //调用m2方法
+            //ReentrantLock是可重入锁
+            //在m2方法中可再次获得该锁对象
+            m2();
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    public static void m2(){
+        try {
+            lock.lock();
+            //打印线程调用lock()的次数
+            System.out.println(Thread.currentThread().getName()
+                + "--hold count ：" + lock.getHoldCount());
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) {
+        //main线程调用m1
+        m1();
+        /**
+         * 程序运行结果：
+         * main--hold count ：1
+         * main--hold count ：2
+         */
+    }
+}\end{Verbatim}
+\subsubsection{\dm{int getQueueLength()}}
+返回正等待获得锁的线程预估数（可能会有误差）。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description:int getQueueLength()的使用
+ * @author:戛剑生
+ * @creat: 2021-03-08 22:23:49
+ **/
+public class Test03 {
+    static  private ReentrantLock lock = new ReentrantLock();
+    public static void sm(){
+        try {
+            lock.lock();
+            System.out.println(Thread.currentThread().getName()
+                + "获得锁，执行方法，估计等待获得锁的线程数"
+                    + lock.getQueueLength());
+            Thread.sleep(1000);//睡眠1秒，模拟执行时间
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+    public static void main(String[] args) {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                sm();
+            }
+        };
+
+        for (int i = 0; i < 10; i++) {
+            new Thread(r).start();
+        }
+    }
+}
+\end{Verbatim}
+\subsubsection{\dm{int getWaitQueueLength(Condition condition)}}
+返回与\dm{Condition}条件相关的等待的线程预估数。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description:int getWaitQueueLength(Condition condition)
+ * 返回与Condition条件相关的等待的线程预估数。
+ * @author:戛剑生
+ * @creat: 2021-03-08 22:33:59
+ **/
+public class Test04 {
+    static class Service {
+        private ReentrantLock lock = new ReentrantLock();
+        Condition condition = lock.newCondition();
+
+        public void waitMethod() {
+            try {
+                lock.lock();
+                System.out.println(Thread.currentThread().getName()
+                    + "进入等待前，现在该condition
+                        条件上等待的线程预估数："
+                         + lock.getWaitQueueLength(condition));
+                condition.await();
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        public void notifyMethod() {
+            try {
+                lock.lock();
+                condition.signalAll();//唤醒所有等待的线程
+                System.out.println("唤醒所有等待后，condition
+                    条件上等待的线程预估数："
+                        + lock.getWaitQueueLength(condition));
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Service service = new Service();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                service.waitMethod();
+            }
+        };
+        for (int i = 0; i < 10; i++) {
+            new Thread(runnable).start();
+        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //1秒后唤醒所有的等待
+        service.notifyMethod();
+    }
+}\end{Verbatim}
+\subsubsection{\dm{boolean hasQueuedThread(Thread thread)}}
+查询参数指定的线程是否在等待获得锁。
+
+\subsubsection{\dm{boolean hasQueuedThreads()}}
+查询是否还有线程在等待获得该锁。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description boolean hasQueuedThread(Thread thread)
+ * 查询指定的线程是否在等待获得锁
+ * boolean hasQueuedThreads()：查询是否有线程在等待获得锁
+ * @author:戛剑生
+ * @creat: 2021-03-09 08:30:16
+ **/
+public class Test05 {
+    static ReentrantLock lock = new ReentrantLock();
+
+    public static void waitMethod() {
+        try {
+            lock.lock();
+            System.out.println(Thread.currentThread().getName()
+                + "获得了锁。");
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println(Thread.currentThread().getName()
+                + "释放了锁对象！");
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                waitMethod();
+            }
+        };
+        Thread[] threads = new Thread[10];//定义线程数组
+        //给线程数组的元素赋值，每个线程都调用waitMethod方法并启动线程
+        for (int i = 0; i < threads.length; i++) {
+            threads[i] = new Thread(r);
+            threads[i].setName("t" + (i + 1));
+            threads[i].start();
+        }
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //判断数组中的每个线程是否在等待获得锁
+        System.out.println(threads[0].getName()
+            +lock.hasQueuedThread(threads[0]));
+        System.out.println(threads[1].getName()
+            +lock.hasQueuedThread(threads[1]));
+        System.out.println(threads[2].getName()
+            +lock.hasQueuedThread(threads[2]));
+        System.out.println(threads[3].getName()
+            +lock.hasQueuedThread(threads[3]));
+        System.out.println(threads[4].getName()
+            +lock.hasQueuedThread(threads[4]));
+        System.out.println(threads[5].getName()
+            +lock.hasQueuedThread(threads[5]));
+        System.out.println(threads[6].getName()
+            +lock.hasQueuedThread(threads[6]));
+        System.out.println(threads[7].getName()
+            +lock.hasQueuedThread(threads[7]));
+        System.out.println(threads[8].getName()
+            +lock.hasQueuedThread(threads[8]));
+        System.out.println(threads[9].getName()
+            +lock.hasQueuedThread(threads[9]));
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //再次判断是否还有线程在等待获得该锁
+        System.out.println(lock.hasQueuedThreads());
+    }
+}
+\end{Verbatim}
+\subsubsection{\dm{boolean hasWaiters(Condition condition)}}
+查询是否有线程在等待指定的\dm{Condition}条件。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description：boolean hasWaiters(Condition condition)
+ * 查询是否有线程在等待指定的condition条件
+ * @author:戛剑生
+ * @creat: 2021-03-09 08:57:18
+ **/
+public class Test06 {
+    static ReentrantLock lock = new ReentrantLock();
+    static Condition condition = lock.newCondition();
+
+    static void sm() {
+        try {
+            lock.lock();
+            System.out.println(Thread.currentThread().getName()
+                + "获得锁定！");
+            System.out.println("是否有线程在等待当前condition条件？"
+                + lock.hasWaiters(condition) + "等待数量"
+                    + lock.getWaitQueueLength(condition));
+            condition.await(new Random().nextInt(3),
+                TimeUnit.SECONDS);//超时后自动唤醒
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println(Thread.currentThread().getName()
+                + "释放锁对象");
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                sm();
+            }
+        };
+        for (int i = 0; i < 10; i++) {
+            new Thread(r).start();
+        }
+    }
+}\end{Verbatim}
+\subsubsection{\dm{boolean isFair()}}
+判断是否为公平锁。
+
+\subsubsection{\dm{boolean isHeldByCurrentThread()}}
+判断当前线程是否持有锁。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description：boolean isHeldByCurrentThread()
+ * 判断锁是否被当前线程持有
+ * boolean isFair()
+ * 判断是否为公平锁
+ * @author:戛剑生
+ * @creat: 2021-03-09 09:14:56
+ **/
+public class Test07 {
+    static class Service {
+        private ReentrantLock lock = new ReentrantLock();
+
+        //通过构造方法接收boolean，判断当前锁是否公平
+        public Service(boolean isFair) {
+            this.lock = new ReentrantLock(isFair);
+        }
+
+        public void serviceMethod() {
+            try {
+                System.out.println("是否为公平锁？" +
+                    (lock.isFair() ? "是" : "不是")
+                        + "--" + Thread.currentThread().getName()
+                        + " 调用lock前是否持有锁？"
+                        + (lock.isHeldByCurrentThread() ? "持有" : "未持有"));
+                lock.lock();
+                System.out.println(Thread.currentThread().getName()
+                    + " 调用lock后是否持有锁？"
+                        + (lock.isHeldByCurrentThread() ? "持有" : "未持有"));
+            } finally {
+                try {
+                    lock.unlock();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                int num = new Random().nextInt(10);
+                System.out.println(num);
+                Service service = new Service(num % 2 == 0);
+                service.serviceMethod();
+            }
+        };
+        for (int i = 0; i < 3; i++) {
+            new Thread(r, "t" + (i + 1)).start();
+        }
+    }
+}\end{Verbatim}
+
+\subsubsection{\dm{boolean isLocked()}}
+查询当前锁是否被线程持有。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @program: DataStructures
+ * @description：isLocked()判断锁是否被当前线程持有
+ * @author:戛剑生
+ * @creat: 2021-03-09 09:37:42
+ **/
+public class Test08 {
+    static ReentrantLock lock = new ReentrantLock();
+
+    static void sm() {
+        try {
+            System.out.println("lock是否被" + Thread.currentThread().getName()
+                + "持有？" + (lock.isLocked() ? "是" : "否"));
+            lock.lock();
+            System.out.println(Thread.currentThread().getName()
+                + "获得锁！");
+            System.out.println("线程获得锁后lock是否被"
+                + Thread.currentThread().getName() + "持有？"
+                    + (lock.isLocked() ? "是" : "否"));
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                lock.unlock();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("11-----" + lock.isLocked());
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                sm();
+            }
+        }).start();
+        try {
+            Thread.sleep(3000);//确保子线程执行结束
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("22-----" + lock.isLocked());
+    }
+}\end{Verbatim}
+\section{\dm{ReentrantReadWriteLock}读写锁}
+
+\dm{synchronized}内部锁与\dm{ReentrantLock}锁都是独占锁（排它锁），同一时间只允许一个线程执行同步代码块中的代码，可以保证线程的安全性，但是执行效率低。
+
+\dm{ReentrantReadWriteLock}读写锁可以理解为一种改进的排它锁，也可以称作共享/排它锁。允许多个线程同时读取共享数据，但一次只允许一个线程对共享数据进行更新。
+
+读写锁通过读锁与写锁来完成操作。线程在读取共享数据前必须先持有读锁，该读锁可以同时被多个线程持有，即读锁是共享的。
+
+线程在修改共享数据前必须先持有写锁，写锁是排他的，当一个线程持有写锁时，其他线程无法获得相应的锁。
+
+读锁只是在读线程之间共享，任何一个线程持有读锁时，其他线程无法获得写锁，以保证线程在读取数据期间没有其他线程对数据进行更新。使得读线程能够读到数据的最新值，保证在读数据期间共享变量不被修改。提高了读取数据的并发性。
+
+读写锁允许读读共享，读写互斥，写写互斥。
+\subsection{读锁}
+获得条件：写锁没有被任意线程持有。
+
+排他性：对读线程是共享的，对写线程是排他的。
+
+作用：允许多个线程可以同时读取共享数据，保证在读共享数据时，没有其他线程对共享数据进行修改。
+\subsection{写锁}
+获得条件：该写锁未被其他线程持有，并且相应的读锁也未被其他线程持有。
+
+排他性：对读线程和写线程都是排他的。
+
+作用：保证写线程以独占的方式修改共享数据。
+\subsection{\dm{ReadWriteLock}接口}
+该接口的方法：\dm{readLock()}返回读锁，\dm{writeLock()}返回写锁。注意：这两个方法返回的是同一个锁对象的两个不同的角色，不是分别获得两个不同的锁。
+
+该接口的实现类：\dm{ReentrantReadWriteLock}
+\subsection{读写锁的基本使用方法}
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+//定义读写锁
+ReadWriteLock rwLock = new ReentrantReadWriteLock();
+//获得读锁
+Lock rLock  = rwLock.readLock();
+//获得写锁
+Lock wLock  = rwLock.writeLock();
+//读数据的方法
+rLock.lock();//先申请读锁
+try{
+    //读取共享数据
+}finally{
+    rLock.unlock();//释放读锁
+}
+
+//写数据的方法
+wLock.lock();//先申请写锁
+try{
+    //写入共享数据
+}finally{
+    wLock.unlock();//释放写锁
+}
+\end{Verbatim}
 
 
-\subsection{\dm{ReentrantReadWriteLock.WriteLock}}
+
+\subsubsection{读读共享}
+\dm{ReadWriteLock}读写锁可以实现多个线程同时读取共享数据，即读读是共享的，可以提高程序读取数据的效率。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+/**
+ * @program: DataStructures
+ * @description：演示ReadWriteLock演示读读共享即允许多多个线程同时获得读锁
+ * @author:戛剑生
+ * @creat: 2021-03-09 10:19:03
+ **/
+public class Test01 {
+    static class Service{
+        //先定义读写锁
+        ReadWriteLock rwLock = new ReentrantReadWriteLock();
+        //定义方法读取数据
+        public void readMethod(){
+            try {
+                rwLock.readLock().lock();//申请读锁。
+                System.out.println(Thread.currentThread().getName()
+                    + "获得读锁,开始读取数据的时间"
+                        + System.currentTimeMillis());
+                TimeUnit.SECONDS.sleep(3);//模拟读取数据的用时
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }finally {
+                rwLock.readLock().unlock();//释放读锁
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Service service = new Service() ;
+        for (int i = 0; i < 5; i++) {
+            new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    service.readMethod();//在线程中调用readMethod()读取数据
+                }
+            }).start();
+        }
+        //程序运行后，多个线程几乎可以同时获得读锁执行lock()后面的代码。
+    }
+}\end{Verbatim}
+\subsubsection{写写互斥}
+\dm{ReadWriteLock}读写锁中的写锁只允许有一个线程执行\dm{lock()}后面的代码。
+
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+/**
+ * @program: DataStructures
+ * @description：演示ReadWriteLock演示写写互斥即只允许一个线程同时获得写锁
+ * @author:戛剑生
+ * @creat: 2021-03-09 10:30:01
+ **/
+public class Test02 {
+    static class Service{
+        //先定义读写锁
+        ReadWriteLock rwLock = new ReentrantReadWriteLock();
+        //定义方法修改数据
+        public void write(){
+            try {
+                rwLock.writeLock().lock();//申请获得写锁
+                System.out.println(Thread.currentThread().getName()
+                    + "获得写锁，开始修改数据的时间"
+                        + System.currentTimeMillis());
+                System.out.println("修改数据中");
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }finally {
+                System.out.println(Thread.currentThread().getName()
+                    + "写入数据完毕的时间" + System.currentTimeMillis());
+                rwLock.writeLock().unlock();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Service service = new Service();
+        for (int i = 0; i < 5; i++) {
+            new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    service.write();
+                }
+            }).start();
+        }
+        //从执行时间看，同一时间只有一个线程获得写锁，实现了写写互斥
+    }
+}\end{Verbatim}
+\subsubsection{读写互斥}
+写锁时独占锁，是排它锁，读线程与写线程也是互斥的。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+/**
+ * @program: DataStructures
+ * @description：演示ReadWriteLock中的读写互斥 一个线程获得读锁时，写线程等待
+ * 一个线程获得写锁时，其他线程等待
+ * @author:戛剑生
+ * @creat: 2021-03-09 11:19:17
+ **/
+public class Test03 {
+    static class Service {
+        //先定义读写锁
+        ReadWriteLock rwLock = new ReentrantReadWriteLock();
+
+        //定义方法修改数据
+        public void write() {
+            try {
+                rwLock.writeLock().lock();//申请获得写锁
+                System.out.println(Thread.currentThread().getName()
+                    + "获得写锁，开始修改数据的时间"
+                        + System.currentTimeMillis());
+                System.out.println("修改数据中");
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println(Thread.currentThread().getName()
+                    + "写入数据完毕的时间" + System.currentTimeMillis());
+                rwLock.writeLock().unlock();
+            }
+        }
+
+        //定义方法读取数据
+        public void readMethod() {
+            try {
+                rwLock.readLock().lock();//申请读锁。
+                System.out.println(Thread.currentThread().getName()
+                    + "获得读锁,开始读取数据的时间"
+                        + System.currentTimeMillis());
+                TimeUnit.SECONDS.sleep(3);//模拟读取数据的用时
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println(Thread.currentThread().getName()
+                    + "数据读取结束的时间" + System.currentTimeMillis());
+                rwLock.readLock().unlock();//释放读锁
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Service service = new Service();
+        //定义一个线程读数据
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                service.readMethod();
+            }
+        }).start();
+        //定义一个线程写数据
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                service.write();
+            }
+        }).start();
+        //定义一个线程读数据
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                service.readMethod();
+            }
+        }).start();
+        //定义一个线程读数据
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                service.readMethod();
+            }
+        }).start();
+        //定义一个线程读数据
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                service.readMethod();
+            }
+        }).start();
+    }
+}\end{Verbatim}
+\chapter{线程管理}
+\section{线程组}
+类似于在计算机中使用文件夹来管理文件，也可以使用线程组来管理线程。在线程组中来定义一组相似（相关）的线程，在线程组中也可以定义子线程组。
+
+\dm{Thread}类有几个构造方法允许在创建线程时指定线程组，如果在创建线程时没有指定线程组则该线程属于父线程所在的线程组。
+
+JVM在创建\dm{main}线程时会为它指定一个线程组，因此每个Java线程都有一个线程组与之关联。可以调用线程的\dm{getThreadGroup}方法返回线程组。
+
+线程组开始是处于安全的考虑，设计用来区分不同的Applet,然而\dm{ThreadGroup}并未实现这一目标，在新开发的系统中，已经不常用线程组。现在一般 会将一组相关的线程存入一个数组或一个集合中。如果仅仅是用来区分线程时，可以使用线程名称来区分。大多情况下可以忽略线程组。
+
+\dm{main}线程组的父线程组是\dm{system}，线程组是自己的父线程组。
+
+\subsection{设置守护线程组}
+守护线程是为其他线程提供服务的，当JVM中只有守护线程时，守护线程会自动销毁，JVM会退出。
+
+调用线程组\dm{setDaemon(true)}可以把线程组设置为守护线程组，当守护线程组中没有任何活动线程时，线程组会自动销毁。
+
+注意线程组的守护属性，不影响线程组中线程的守护属性，或者说守护线程组中的线程可以使非守护线程。
+\section{捕获线程的执行异常}
+在线程的\dm{run}方法中，如果有受检异常必须进行捕获处理。如果想要获得\dm{run()}方法中的运行时异常信息，可以通过回调\dm{UncaughtExceptionHandler}接口获得哪个线程运行时出了异常。在\dm{Thread}类中有关处理运行异常的方法有：
+
+\dm{getDefaultUncaughtExceptionHandler()}（类方法）可以获得全局的（默认的）\dm{UncaughtExceptionHandler}
+
+\dm{getUncaughtExceptionHandler()}（实例方法）获得当前线程的\dm{UncaughtExceptionHandler}。
+
+\dm{setDefaultUncaughtExceptionHandler(Thread.UncaughtExceptionHandler eh)}设置全局的\\
+\dm{UncaughtExceptionHandler}。
+
+\dm{setUncaughtExceptionHandler(Thread.UncaughtExceptionHandler eh)}设置某个线程的的\\ \dm{UncaughtExceptionHandler}。
+
+当线程运行过程中出现异常，JVM会调用\dm{Thread}类的\dm{dispatchUncaughtException(Throwable e)}方法，该方法会调用\dm{getUncaughtExceptionHandler().uncaughtException(this,e)}。如果想要获得线程中出现异常的信息，就需要设置线程的\dm{UncaughtExceptionHandler}。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+/**
+ * @program: DataStructures
+ * @description:演示设置线程的UncaughtExceptionHandler回调接口
+ * @author:戛剑生
+ * @creat: 2021-03-09 15:43:25
+ **/
+public class Test01 {
+    public static void main(String[] args) {
+        //1.设置线程全局的回调接口
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                //t参数接收发生异常的线程，e就是该线程中的异常
+                System.out.println(t.getName() + "产生了异常" +e.getMessage());
+            }
+        });
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(Thread.currentThread().getName() + "开始运行");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    //线程中的受检异常必须捕获处理
+                    e.printStackTrace();
+                }
+                System.out.println(12/0);//产生算术异常
+            }
+        });
+        t1.setName("t1");
+        t1.start();
+
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String txt = null;
+                System.out.println(txt.length());//产生空指针异常
+            }
+        });
+
+        t2.setName("t2");
+        t2.start();
+        /**
+         * 实际开发中，这种异常处理的方式比较常用
+         * 尤其是异步执行的方法
+         * 如果线程产生了异常，JVM会调用dispatchUncaughtException(Throwable e)方法
+         * 在该方法中，调用了getUncaughtExceptionHandler().uncaughtException(this,e)
+         * 如果当前线程设置了UncaughtExceptionHandler()回调接口就调用它自己的
+         *      uncaughtException方法
+         *      如果没有设置则调用当前线程所在线程组的UncaughtExceptionHandler()方法
+         *      如果线程组也没有设置该回调接口，直接把异常信息定向到System.err中
+         */
+    }
+}\end{Verbatim}
+
+\section{注入Hook钩子线程}
+很多软件包括MySQL、Zookeeper等都存在Hook线程的校验机制，目的是校验进程是否已启动，防止重复启动程序。
+
+Hook线程也称为钩子线程，当JVM退出的时候会执行Hook线程。经常在程序启动的时候创建一个.lock文件，用.lock文件校验程序是否启动，在程序退出（JVM退出时）删除该.lock文件，在Hook线程中除了防止重新启动进程外，还可以做资源释放，尽量避免在Hook线程中进行复杂的操作。
+\section{线程池}
+\subsection{线程池的定义}
+可以以如下方式开启一个线程，当\dm{run}方法结束后，线程对象会被垃圾回收器释放。
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+new Thread(new Runnable() {
+    @Override
+    public void run() {
+        //线程要执行的任务
+    }
+}).start();
+\end{Verbatim}
+
+在实际的生产环境中，可能需要很多的线程来支撑整个应用，当线程数量非常多时，反而会耗尽CPU资源，如果不对线程进行控制和管理，反而会影响程序的性能。
+
+线程开销主要包括：创建与启动线程的开销；线程销毁的开销；线程调度的开销；线程总数受限于CPU处理器数量。
+
+线程池就是有效使用线程的一种常用的方式。线程池内部可以预先创建一定数量的工作线程。客户端代码直接将任务作为一个对象提交给线程池，线程池将这些任务缓存在工作队列中，线程池中的工作线程就不断地从队列中取出任务并执行。
+\subsection{JDK对线程池的支持}
+JDK提供了一套Executor框架，可以帮助开发人员有效的使用线程池。
+
+\subsection{线程池的基本使用}
+\dm{Executors}创建线程池的几个方法：\dm{newCachedThreadPool()}、\dm{newFixedThreadPool(int nThread)}、\dm{new SingleThreadExecutorService}，返回值都为\dm{ExecutorService}
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * @program: DataStructures
+ * @description 线程池的基本使用
+ * @author:戛剑生
+ * @creat: 2021-03-09 20:13:23
+ **/
+public class Test01 {
+    public static void main(String[] args) {
+        //创建一个线程池
+        //有5个线程
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
+        //向线程池中提交任务
+        for (int i = 0; i < 20; i++) {
+            fixedThreadPool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println(Thread.currentThread().getId()
+                        + "编号的线程正在执行！开始时间"
+                            +System.currentTimeMillis() );
+                    try {
+                        Thread.sleep(3000);//模拟执行任务的时长
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+    }
+}\end{Verbatim}
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @program: DataStructures
+ * @description 线程池的计划任务
+ * @author:戛剑生
+ * @creat: 2021-03-09 20:23:24
+ **/
+public class Test02 {
+
+    public static void main(String[] args) {
+        //创建一个有调度功能的线程池
+        //参数1：Runnable任务，参数2：延迟时间，参数3：时间单位
+        ScheduledExecutorService scheduledExecutorService =
+            Executors.newScheduledThreadPool(10);
+        //在延迟两秒后执行任务
+        scheduledExecutorService.schedule(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(Thread.currentThread().getId()
+                    + "---" + System.currentTimeMillis());
+            }
+        },2, TimeUnit.SECONDS);
+//        //以固定的频率执行任务
+//        //在3秒后执行任务，以后每隔5秒重新执行一次
+//        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.println(Thread.currentThread().getId()
+//                      + "---以固定频率开启任务：" +System.currentTimeMillis());
+//                try {
+//                    TimeUnit.SECONDS.sleep(1);//睡眠模拟任务执行时间
+//                    //如果任务执行时长超过了时间间隔
+//                    //则任务完成后立即开启下一个任务。
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        },3,5,TimeUnit.SECONDS);
+
+
+        //在上次任务结束后在固定的延迟后再执行该任务
+        scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(Thread.currentThread().getId()
+                    + "---以固定频率开启任务：" +System.currentTimeMillis());
+                try {
+                    TimeUnit.SECONDS.sleep(1);//睡眠模拟任务执行时间
+                    //则任务完成后等待固定时间间隔开启下一个任务。
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        },3,5,TimeUnit.SECONDS);//不管任务耗时多长
+        // 总是在任务结束后的5秒内再次开启新的任务
+
+    }
+}
+\end{Verbatim}
+\subsection{核心线程池的底层实现}
+查看\dm{Executors}工具类中\dm{newCachedThreadPool()}，\dm{newSingleThreadExecutor}，\dm{newFciedThreadPool()}原码：
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+//该线程池在极端情况下，每次提交新的任务都会创建新的线程执行
+//适合用来执行大量耗时短且提交频繁的任务
+public static ExecutorService newCachedThreadPool() {
+    return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+        60L, TimeUnit.SECONDS,
+            new SynchronousQueue<Runnable>());
+}
+
+//核心线程数等于最大线程数
+public static ExecutorService newFixedThreadPool(int nThreads, ThreadFactory threadFactory) {
+    return new ThreadPoolExecutor(nThreads, nThreads,
+        0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<Runnable>(),
+                                  threadFactory);
+}
+
+//
+public static ExecutorService newSingleThreadExecutor() {
+    return new FinalizableDelegatedExecutorService
+        (new ThreadPoolExecutor(1, 1,
+                                0L, TimeUnit.MILLISECONDS,
+                                new LinkedBlockingQueue<Runnable>()));
+}
+
+\end{Verbatim}
+
+\dm{Excutors}工具类中返回线程池的方法底层都使用了\dm{ThreadPoolExecutor}线程池。这些方法都是\dm{ThreadPoolExecutor}线程池的封装。
+
+\dm{ThreadPoolExecutor}线程池的构造方法：
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+public ThreadPoolExecutor(int corePoolSize,//指定线程池中核心线程的数量
+                          int maximumPoolSize,//指定线程池中最大线程数量
+                          long keepAliveTime,//当线程池中线程数量超过corePoolSize时
+                            //多余的空闲线程存活时长，即空闲线程在多长时间内销毁
+                          TimeUnit unit,//是上一个参数的单位
+                          BlockingQueue<Runnable> workQueue,//任务队列
+                          ThreadFactory threadFactory,//线程工厂用于创建线程的
+                          RejectedExecutionHandler handler//拒绝策略
+                                    //当任务太多来不及处理时，如何拒绝
+
+                          ) {
+}\end{Verbatim}
+
+说明：\dm{workQueue}工作队列是指提交未执行的任务队列。它是BlockingQueue接口的对象，仅用于存取\dm{Runnable}任务，根据队列功能分类，在\dm{ThreadPoolExecutor}构造方法中可以使用以下几种阻塞队列：
+\begin{itemize}
+  \item 直接提交队列：由\dm{synchronousQueue}对象提供，该队列没有容量，提交给线程池的任务不会被真实的保存，总是将新的任务提交给线程执行，如果没有空闲线程，则尝试创建新的线程，如果线程数量已经达到\dm{maximumPoolSize}规定的最大值则执行拒绝策略。
+  \item 有界任务队列：由\dm{ArrayBlockingQueue}对象实现，在创建\dm{ArrayBlockingQueue}对象时，可以指定一个容量。当有任务需要执行时，如果线程池中线程数小于\dm{corePoolSize}核心线程数，则创建新的线程。如果大于该数则加入等待队列。如果队列已满，则无法加入。在线程数小于\dm{maximumPoolSize}指定的最大线程数的前提下创建新的线程来执行，如果线程数大于\dm{maximumPoolSize}规定的最大值则执行拒绝策略。
+  \item 无界任务队列：由\dm{LinkedBlokingQueue}对象实现，与有界队列相比，除非系统资源耗尽否则无界队列不存在任务入队失败的情况。当有新的任务时，在系统线程数小于\dm{corePoolSize}核心线程数，则创建新的线程来执行任务，当线程池中的线程数量大于\dm{corePoolSize}核心线程数，则把任务加入阻塞队列。
+  \item 优先任务队列：通过\dm{PriorityBlockingQueue}实现的，是带有任务优先级的队列，是一个特殊的无界队列。不管是\dm{ArrayBlockingQueue}还是\dm{LinkedBlokingQueue}队列都是先进先出算法处理任务。在\\ \dm{PriorityBlockingQueue}队列中可以根据任务优先级顺序先后执行。
+\end{itemize}
+\subsection{拒绝策略}
+\dm{ThreadPoolExecutor}的最后一个参数指定了拒绝策略。当提交给线程池的任务数量超过实际的承载能力时，如何处理？
+
+即线程池中的线程已经用完了，等待队列也满了，无法为新提交的任务服务，可以通过拒绝策略来处理这个问题。
+
+JDK提供了4种拒绝策略：
+\begin{itemize}
+  \item \dm{AbortPolicy}策略：会抛出一个异常
+  \item \dm{CallerRunsPolicy}策略，只要线程池没有关闭，会在调用者线程中运行当前被丢弃的任务。
+  \item \dm{DiscardOldestPolicy}策略：会将任务队列中最老的任务丢弃，最老的任务指的是即将要执行的任务，尝试再次提交新任务。
+  \item \dm{DiscardPolicy}策略：直接丢弃这个无法处理的任务。
+\end{itemize}
+\dm{Executors}工具类提供的静态方法返回的线程池默认的拒绝策略是\dm{AbortPolicy}抛出异常。如果内置的拒绝策略无法满足实际需求，可以扩展\dm{RejectedExecutionHandler}接口。
+
+拒绝策略示例：
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.Random;
+import java.util.concurrent.*;
+
+/**
+ * @program: DataStructures
+ * @description：自定义拒绝策略
+ * @author:戛剑生
+ * @creat: 2021-03-10 08:46:04
+ **/
+public class Test03 {
+
+    public static void main(String[] args) {
+        //定义一个任务
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                int num = new Random().nextInt(4);
+                System.out.println(Thread.currentThread().getId()
+                    + "--" + System.currentTimeMillis()
+                        + "开始睡眠！" + num + "秒");
+                try {
+                    TimeUnit.SECONDS.sleep(num);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        //创建线程池，自定义拒绝策略
+        ThreadPoolExecutor threadPoolExecutor =
+                new ThreadPoolExecutor(5, 5, 0, TimeUnit.SECONDS,
+                    new LinkedBlockingQueue<>(10),
+                        Executors.defaultThreadFactory(),
+                            new RejectedExecutionHandler() {
+                    @Override
+                    public void rejectedExecution(Runnable r,
+                        ThreadPoolExecutor executor) {
+                        //r就是请求的任务
+                        //executor就是当前线程池
+                        System.out.println(r + "is discarding..");
+                        //不做任何处理，直接丢弃任务
+                        //实际开发可根据不同情况进行处理
+                    }
+                });
+        //向线程池提交若干任务
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+            threadPoolExecutor.submit(r);//向线程池提交任务
+        }
+    }
+}\end{Verbatim}
+\subsection{\dm{ThreadFactory}}
+线程池中的线程从哪来？来自于\dm{ThreadFactory}
+
+\dm{ThreadFactory}是一个接口，只有一个用来创建线程的方法：\dm{Thread newThread(Runnable r);}，当线程池需要创建线程时就会调用该方法。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.Random;
+import java.util.concurrent.*;
+
+/**
+ * @program: DataStructures
+ * @description自定义线程工厂
+ * @author:戛剑生
+ * @creat: 2021-03-10 10:01:20
+ **/
+public class Test04 {
+    public static void main(String[] args) {
+        //定义任务
+        Runnable r =   new Runnable() {
+            @Override
+            public void run() {
+                int num = new Random().nextInt(5);
+                System.out.println(Thread.currentThread().getId()
+                    + "--" + System.currentTimeMillis() + "开始睡眠" + num+
+                        "秒");
+                try {
+                    TimeUnit.SECONDS.sleep(num);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        //创建线程池，使用自定义线程工厂，采用默认的拒绝策略
+        ExecutorService executorService =
+            new ThreadPoolExecutor(5,5,0,TimeUnit.SECONDS,
+                new SynchronousQueue<>(),
+                    new ThreadFactory(){
+                        @Override
+                        public Thread newThread(Runnable r) {
+                            //根据参数r接收的任务，创建一个线程
+                            Thread t = new Thread(r);
+                            t.setDaemon(true);//设置为守护线程
+                                //当主线程运行结束后，线程池中的线程会自动退出
+                            System.out.println("创建了线程" + t);
+                            return t;
+                        }
+                });
+        //默认的拒绝策略是抛出异常
+        //上述创建的线程池为直接提交队列
+        //当给当前线程池提交的任务超过5个时，线程池默认抛出异常
+        for (int i = 0; i < 6; i++) {
+            executorService.submit(r);
+        }
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //主线程睡眠超时，主线程结束，线程池中的线程会自动退出
+    }
+}\end{Verbatim}
+\subsection{监控线程池}
+\dm{ThreadPoolExecutor}提供了一组方法用于监控线程池。
+
+\dm{int getActiveCount}获得线程池中当前活动线程的数量。
+
+\dm{long getCompletedTaskCount}返回线程池完成任务的数量。
+
+\dm{int getCorePoolsize}返回线程池中核心线程的数量。
+
+\dm{int getLargestPoolSize}返回线程池中曾经达到的线程的最大数。
+
+\dm{getMaxinumPoolSize}返回线程池的最大容量。
+
+\dm{getPoolSize}返回当前线程池的大小。
+
+\dm{BlockingQueue<Runnable> getQueue()}：返回线程池的阻塞队列。
+
+\dm{long getTaskCount()}返回线程池收到的任务总数。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.*;
+
+/**
+ * @program: DataStructures
+ * @description：监控线程池
+ * @author:戛剑生
+ * @creat: 2021-03-10 10:29:21
+ **/
+public class Test05 {
+    public static void main(String[] args) {
+        //定义任务
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(Thread.currentThread().getId()
+                    + "编号的线程开始执行。"+System.currentTimeMillis());
+
+                try {
+                    Thread.sleep(10000);//线程睡眠10秒模拟任务执行时长
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        //定义线程池
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2,5,0,
+            TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(5),
+                    Executors.defaultThreadFactory(),
+                        new ThreadPoolExecutor.DiscardPolicy());
+
+        //向线程池提交30个任务
+        for (int i = 0; i < 30; i++) {
+            threadPoolExecutor.submit(r);
+            System.out.println("当前线程池核心线程数："
+                + threadPoolExecutor.getCorePoolSize()
+                    +",最大线程数" + threadPoolExecutor.getMaximumPoolSize()
+                        + ",当前线程池大小：" + threadPoolExecutor.getPoolSize()
+                        +",活动线程数大小："+threadPoolExecutor.getActiveCount()
+                        +",共收到任务数："+threadPoolExecutor.getTaskCount()
+                        +",完成任务数："
+                        +threadPoolExecutor.getCompletedTaskCount()
+                        +",等待任务数：" + threadPoolExecutor.getQueue().size());
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("----------------------------------");
+        while (threadPoolExecutor.getActiveCount()>=0){
+            System.out.println("当前线程池核心线程数："
+            + threadPoolExecutor.getCorePoolSize()+",最大线程数"
+            + threadPoolExecutor.getMaximumPoolSize()
+            + ",当前线程池大小：" + threadPoolExecutor.getPoolSize()
+            +",活动线程数大小："+threadPoolExecutor.getActiveCount()
+            +",共收到任务数："+threadPoolExecutor.getTaskCount()
+            +",完成任务数："
+            +threadPoolExecutor.getCompletedTaskCount()
+            +",等待任务数：" + threadPoolExecutor.getQueue().size());
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}\end{Verbatim}
+\subsection{扩展线程池}
+有时需要对线程池进行扩展，如监控每个任务开始和结束时间，或者自定义一些其他的增强功能。
+
+\dm{ThreadPoolExecutor}线程池提供了两个方法：
+\begin{itemize}
+  \item \dm{protected void afterExecute(Runnable r,Throwable t)}
+  \item \dm{protected void beforeExecute(Thread t,Runnable r)}
+\end{itemize}
+
+在线程池执行某个任务前会调用\dm{beforeExecute}方法，在任务结束后（或者任务异常退出）会执行\dm{afterExecute}.
+
+查看\dm{ThreadPoolExecutor}源码，在该类中定义了一个内部类\dm{Worker}，\dm{ThreadPoolExecutor}线程池中的工作线程就是\dm{Worker}类的实例。\dm{Worker}实例在执行时也会调用\dm{beforeExecute}、\dm{afterExecute}方法。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.*;
+
+/**
+ * @program: DataStructures
+ * @description
+ * @author:戛剑生
+ * @creat: 2021-03-10 14:15:23
+ **/
+public class Test06 {
+    //定义一个任务类
+    private static class MyTask implements Runnable{
+        private String taskName;
+
+        public MyTask(String taskName) {
+            this.taskName = taskName;
+        }
+
+        public String getTaskName() {
+            return taskName;
+        }
+
+        @Override
+        public void run() {
+            System.out.println(taskName
+                + "正在被线程"+Thread.currentThread().getId()+"执行");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        //定义扩展线程池
+        //可以定义线程池类继承ThreadPoolExecutor
+        //在子类中重写beforeExecute()/afterExecute()方法
+
+        //也可以直接使用ThreadPoolExecutor内部类
+        ExecutorService executorService
+            = new ThreadPoolExecutor(5,5,0,TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>()){
+            //在内部类中重写开始方法
+            @Override
+            protected void beforeExecute(Thread t, Runnable r) {
+                System.out.println(t.getId()
+                    + "线程准备执行任务"+((MyTask)r).getTaskName());
+            }
+
+            @Override
+            protected void afterExecute(Runnable r, Throwable t) {
+                System.out.println(((MyTask)r).getTaskName()
+                    + "任务执行完毕");
+            }
+
+            @Override
+            protected void terminated() {
+                System.out.println("线程池退出！");
+            }
+        };
+
+        for (int i = 0; i < 5; i++) {
+            MyTask task = new MyTask("任务" + i);
+            executorService.execute(task);
+        }
+
+        //关闭线程池
+        //仅仅是说线程池不再接收新的任务，线程池中已接收的任务正常执行完毕
+        executorService.shutdown();
+    }
+}\end{Verbatim}
+
+\subsection{优化线程池数量}
+线程池大小对系统性能是有一定影响的，过大或者过小都会无法发挥最优的系统性能。线程池大小不需要做的非常精确，只需避免极大或极小的情况即可。一般来说，线程池大小需要考虑CPU的数量，内存大小等因素。在《Java Concurrency in Practice》书中给出一个估算线程池大小的公式：
+ 线程池大小 = CPU的数量*目标CPU的使用率*（1+等待时间/计算时间）。
+
+ \subsection{线程池死锁}
+ 如果在线程池中执行的任务A在执行过程中又向线程池提交了任务B，任务B添加到了线程池的等待队列中，如果任务A的结束需要等待任务B的执行结果，就有可能出现：线程池中所有的工作线程都处于等待任务处理结果，而这些任务在阻塞队列中等待执行，线程池中没有可以对阻塞队列中的任务进行处理的线程，这种等待会一直持续下去，从而造成死锁。
+
+ 适合给线程池提交相互独立的任务，而不是彼此依赖的任务，对于彼此依赖的任务，可以考虑分别提交给不同的线程池来执行。
+\subsection{线程池中的异常处理}
+使用\dm{ThreadPoolExecutor}进行\dm{submit}提交任务时，有的任务抛出了异常，但线程池并没有进行提示，即线程池把任务中的异常给吃掉了，可以把\dm{submit}提交改为\dm{execute}执行，也可以对\dm{ThreadPoolExecutor}线程池进行扩展，对提交的任务进行包装。
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @program: DataStructures
+ * @description：线程池可能会吃掉程序中的异常
+ * @author:戛剑生
+ * @creat: 2021-03-10 14:59:53
+ **/
+public class Test07 {
+    //定义一个类实现Runnable接口用于实现两个数相除
+    static class DivideTask implements Runnable {
+        private int x;
+        private int y;
+
+        public DivideTask(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName()
+                + "计算：" + x + " / " + y + " = " + (x / y));
+        }
+    }
+
+    public static void main(String[] args) {
+        //创建线程池
+        ThreadPoolExecutor executorService
+            = new ThreadPoolExecutor(0,Integer.MAX_VALUE,0, TimeUnit.SECONDS,
+                new SynchronousQueue<>());
+        //向线程池添加计算两个数相除的任务
+        for (int i = 0; i < 5; i++) {
+//            executorService.submit(new DivideTask(10,i));
+            executorService.execute(new DivideTask(10,i));
+        }
+        /**
+         * 运行程序只有四条计算结果，实际上线程池提交了5个计算任务
+         * 当i==0时，会产生算术异常，但线程池把该异常给吃掉了
+         * 导致我们对该异常一无所知
+         * 解决方法：
+         * 1.把submit()改为execute()
+         * 2.对线程池进行扩展，对submit方法进行包装
+         */
+    }
+}\end{Verbatim}
+
+2.对线程池进行扩展，对submit方法进行包装
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+/**
+ * @program: DataStructures
+ * @description：自定义线程池类，对ThreadPoolExecutor进行扩展
+ * @author:戛剑生
+ * @creat: 2021-03-10 14:59:53
+ **/
+public class Test08 {
+    //自定义线程池内，对任务进行包装
+    //
+    private static class TraceThreadPoolExecutor extends ThreadPoolExecutor{
+        public TraceThreadPoolExecutor(int corePoolSize,
+            int maximumPoolSize,
+                long keepAliveTime, TimeUnit unit,
+                    BlockingQueue<Runnable> workQueue) {
+            super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
+        }
+        //定义方法，对执行的任务进行包装
+        //接收两个参数：一是接收要执行的任务，二是Exception异常
+        public Runnable wrap(Runnable r,Exception exception){
+            return new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        r.run();
+                    }catch (Exception e){
+                        exception.printStackTrace();
+                        throw e;
+                    }
+                }
+            };
+        }
+        //重写submit方法
+
+        @Override
+        public Future<?> submit(Runnable task) {
+            return super.submit(wrap(task,new Exception("客户跟踪异常")));
+        }
+
+        @Override
+        public void execute(Runnable command) {
+            super.execute(wrap(command,new Exception("客户跟踪异常")));
+        }
+    }
+
+    //定义一个类实现Runnable接口用于实现两个数相除
+    static class DivideTask implements Runnable {
+        private int x;
+        private int y;
+
+        public DivideTask(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName()
+                + "计算：" + x + " / " + y + " = " + (x / y));
+        }
+    }
+
+    public static void main(String[] args) {
+//        //创建线程池
+//        ThreadPoolExecutor executorService
+    = new ThreadPoolExecutor(0,Integer.MAX_VALUE,0, TimeUnit.SECONDS,
+//                new SynchronousQueue<>());
+        //使用自定义线程池
+        TraceThreadPoolExecutor traceThreadPoolExecutor
+            = new TraceThreadPoolExecutor(0,Integer.MAX_VALUE,0,
+                TimeUnit.SECONDS,new SynchronousQueue<>());
+        //向线程池添加计算两个数相除的任务
+        for (int i = 0; i < 5; i++) {
+            traceThreadPoolExecutor.submit(new DivideTask(10,i));
+//            traceThreadPoolExecutor.execute(new DivideTask(10,i));
+        }
+        /**
+         * 运行程序只有四条计算结果，实际上线程池提交了5个计算任务
+         * 当i==0时，会产生算术异常，但线程池把该异常给吃掉了
+         * 导致我们对该异常一无所知
+         * 解决方法：
+         * 1.把submit()改为execute()
+         * 2.对线程池进行扩展，对submit方法进行包装
+         */
+    }
+}\end{Verbatim}
+\subsection{\dm{ForkJoinPool}线程池}
+分而治之是一个有效处理大数据的办法，著名的MapReduce就是采用这种分而治之的思想，简单点说，就说要处理1000个数据的能力，但是不具备处理1000个数据的能力，可以只处理10个数据，可以把这1000个数据分阶段处理100次，每次处理10个，把100次处理的结果合成，形成最后这1000个数据的处理结果。
+
+把一个大任务调用fork()方法分解为若干个小的任务，把小任务的处理结果调用join()合并为大任务的处理结果。
+
+系统对ForkJoinPool线程池进行了优化，提交的任务数量与线程的数量不一定是一对一的关系。在多数情况下，一个物理线程实际上需要处理多个逻辑任务：线程A把自己的任务执行完毕，线程B的任务队列中还有若干的任务等待执行，线程A会从线程B的等待队列中取任务帮助线程B完成；线程A在帮助B执行任务时，总是从线程B的等待队列底部开始取任务。
+
+\dm{ForkJoinPool}线程池中最常用的方法是：
+
+\dm{<T> ForkJoinTask<T> submit(ForkJoinTask<T> task)},向线程池提交一个\dm{ForkJoinTask}任务。\dm{ForkJoinTask}任务支持\dm{fork()}分解与\dm{join()}等待的任务。
+
+\dm{ForkJoinTask}有两个重要的子类：\dm{RecursiveAction},\dm{RecursiveTask}，区别在于\dm{RecursiveAction}没有返回值，\dm{RecursiveTask}可以带有返回值。
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+import java.util.ArrayList;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveTask;
+
+/**
+ * @program: DataStructures
+ * @description：演示ForkJoinPool线程池的使用
+ * 使用线程池模拟数列求和
+ * @author:戛剑生
+ * @creat: 2021-03-10 15:56:49
+ **/
+public class Test09 {
+    //计算数列的和需要返回结果
+    //可以定义一个任务继承RecursiveTask
+private static class CountTask extends RecursiveTask<Long>{
+        private static final int THRESHOLD = 10000;//定义数据规模的阈值
+        //即允许计算10000个数内的和,
+        //超过该阈值数列就要分解
+
+        private long start;//计算数列的起始值
+        private long end;//计算数列的结束值
+
+        //约定每次分解为100个小任务
+        private static final int TASKNUM = 100;
+
+        public CountTask(long start, long end) {
+            this.start = start;
+            this.end = end;
+        }
+
+        //重写RecursiveTask的compute()
+        @Override
+        protected Long compute() {
+            long sum = 0;
+            //判断任务是否需要继续分解
+            //当前数列end与start范围的数据超过阈值
+            //就需要继续分解
+            if (end - start < THRESHOLD){
+                for (long i = start; i <= end; i++) {
+                    sum += i;
+                }
+            }else{
+                //继续分解
+                //约定每次分解为100个小任务，计算每个任务的计算量
+                long step = (end - start + 1)/TASKNUM;
+                //创建一个任务集合
+                ArrayList<CountTask> subTaskList = new ArrayList<>();
+                long pos = start;//任务的起始位置
+                for (int i = 0; i < TASKNUM; i++) {
+                    long lastOne = pos + step;//每个任务的结束位置
+                    if (lastOne > end){
+                        lastOne = end;
+                    }
+                    //创建子任务
+                    CountTask countTask = new CountTask(pos,lastOne);
+                    //把任务添加到集合中
+                    subTaskList.add(countTask);
+                    //调用fork提交子任务
+                    countTask.fork();
+                    //调整下个任务的起始位置
+                    pos += step +1;
+                }
+                //等待所有的任务结束后，合并计算结果
+                for (CountTask task: subTaskList
+                     ) {
+                    sum += task.join();
+                }
+            }
+            return sum;
+        }
+    }
+
+    public static void main(String[] args) {
+        //创建ForkJoinPool线程池
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        //创建一个大的任务
+        CountTask task = new CountTask(0l,20003l);
+        ForkJoinTask<Long> result = forkJoinPool.submit(task);
+        try {
+            Long res = result.get();//调用任务的get()方法返回结果
+            System.out.println("计算数列结果为："+res);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+}\end{Verbatim}
+
+\chapter{保障线程安全的设计技术}
+从面向对象设计的角度出发介绍几种保障线程安全的设计技术。这些技术可以使得我们在不必借助锁的情况下保障线程安全。避免锁可能导致的问题和开销。
+
+\section{Java运行时存储空间}
+Java运行时（Java Runtime）空间可以分为栈区、堆区与方法区（非堆空间）。
+
+栈空间（Stack Space）为线程的执行准备的一段固定大小的存储空间，每个线程都有独立的线程栈空间，创建线程时就为线程分配栈空间，在线程栈中每调用一个方法就给方法分配一个栈帧。栈帧用于存储方法的局部变量，返回值等私有数据。即局部变量是存储在栈空间中的，基本类型变量也是存储在栈空间中，引用类型变量值也是存储在栈空间中，引用的对象存储在堆中，由于线程栈是相互独立的，一个线程不能访问另一个线程的空间，因此线程对局部变量以及只能通过当前线程的局部变量才能访问的对象进行的操作具有固定的线程安全性。
+
+堆空间（Heap Space）用于存储对象，是在JVM启动时分配的一块可以动态扩容的内存空间，创建对象时，在堆空间给对象分配存储空间，实例变量就是存储在堆空间中的，堆空间是多个线程可以共享的空间，因此实例变量可以被多个线程共享。即多个线程同时操作实例变量就可能存在线程安全问题。
+
+方法空间（非堆空间，Non-Heap Space）用于存储常量，类的元数据等，非堆空间也是在JVM启动时分配的一块可以动态扩容的内存空间。类的元数据包括静态变量，类有哪些方法以及这些方法的元数据（方法名，参数，返回值等），非堆空间也是多个线程可以共享的空间，访问非堆空间中的静态变量也可能存在线程安全问题。
+
+堆空间和非堆空间是线程可以共享的空间，即实例变量与静态变量是县城可以共享的，可能存在线程安全问题，栈空间是线程私有的存储空间，局部变量存储在栈空间中，局部变量具有固有的线程安全性。
+\section{无状态对象}
+对象就是数据及对数据操作的封装，对象所包含的数据称为对象的状态。实例变量与静态变量称为状态变量，如果一个类的同一个实例被多个线程同时共享，并不会使这些线程存在共享的状态，那么该类的实例称为无状态对象，反之如果一个类被多个线程共享会使这些线程存在共享状态，那么该类的实例就称为有状态对象。实际无状态对象就是不包含实例变量的对象，也不包含任何静态变量的对象。
+
+线程安全问题的前提是多个线程存在共享的数据，因此实现线程安全的一种办法就是避免在多个线程之间共享数据。使用无状态对象就是这种办法。
+\section{不可变对象}
+不可变对象指一经创建它的状态就保持不变的对象，不可变对象也具有固有的线程安全性。不可变对象可以被多个线程共享。当不可变对象现实实体的状态发生变化时，系统会创建一个新的不可变对象，就如\dm{String}字符串对象。一个不可变对象需要满足以下条件：
+\begin{itemize}
+  \item 类本身使用\dm{final}修饰，防止通过创建子类来改变它的定义
+  \item 所有的字段都是\dm{final}修饰的，\dm{final}字段在创建对象时，必须显示初始化，不能被修改
+  \item 如果字段引用了其他状态可变的对象（集合、数组）则这些字段必须是\dm{private}私有的。
+\end{itemize}
+不可变对象主要的应用场景：
+\begin{itemize}
+  \item 被建模对象的状态变化不频繁
+  \item 同时对一组数据进行写操作，可以应用不可变对象，即可以保障原子性也可以避免锁的使用。
+  \item 使用不可变对象作为安全可靠的Map键，HashMap键值对的存储位置与键的哈希码有关，如果键的内部状态发生变化会导致键的哈希码不同，可能会影响键值对的存储位置，如果HashMap的键是一个不可变对象，则hashCode()方法的返回值恒定，存储位置是固定的。
+\end{itemize}
+\section{线程特有对象}
+可以选择不共享非线程安全对象。对于非线程安全的对象，每个线程都创建一个该对象的实例，各个线程访问各自创建的实例，一个线程不能访问另外一个线程创建的实例。这种各个线程 创建各自的实例，一个实例只能被一个线程访问的对象就称为线程特有对象。线程特有对象既保障了对非线程安全对象的访问的线程安全，又避免了锁的开销，线程特有的对象也具有固有的线程安全性。
+
+\dm{ThreadLocal<T>}类相当于线程访问其特有对象的代理，即各个线程通过\dm{ThreadLoad}对象可以创建并访问各自的线程特有对象，泛型\dm{T}指定了线程特有的对象类型，一个线程可以使用不同的\dm{ThreadLocal}实例来创建并访问不同的线程特有对象。
+
+\dm{ThreadLocal}实例为每个访问它的线程都关联了一个该线程特有对象。\dm{ThreadLocal}实例都有当前线程与特有实例之间的一个关联。
+\section{装饰器模式}
+装饰器模式可以用来实现线程安全，它的基本思想是为非线程安全的的对象创建一个相应的线程安全的外包装对象，客户端代码不直接访问访问非线程安全对象而是直接访问它的外包装对象。外包装对象与非线程安全的对象具有相同的接口。即外包装对象与非线程安全的对象使用方式相同。而外包装对象内部通常会借助锁，以线程安全的方式调用相应的非线程安全对象的方法。
+
+在\dm{java.util.Collections}工具类中提供了一组\dm{synchronizedXXX(xxx)}方法，可以把不是线程安全的\dm{xxx}集合转换为线程安全的集合，它就是采用了这种装饰器模式。这个方法的方绘值就是指定集合的外包装对象。
+
+使用装饰器模式的一个好处：实现关注点分离。在这种设计中，实现同一组功能的对象的两个版本：非线程安全的对象与线程安全的对象，对于非线程安全的在设计时只关注要实现的功能，对于线程安全的版本只关注线程安全性。
+\chapter{锁的优化及注意事项}
+\section{有助于提高锁性能的几点建议}
+\subsection{减少锁持有的时间}
+
+对于使用锁进行并发控制的应用程序来说，如果单个线程持有锁的时间过长，会导致锁的竞争更加激烈，会影响系统的性能。在程序中需要尽可能减少线程对锁的持有时间，如下面代码：
+
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+public synchronized void syncMethod(){
+    ortherCode1();
+    mutexMethod();
+    ortherCode2();
+}
+\end{Verbatim}
+在\dm{syncMethod()}同步方法中，假设只有\dm{mutexMethod()}方法是需要同步的，\dm{ortherCode1()}与\sm{ortherCode2()}不需要同步，如果\dm{ortherCode1()}与\sm{ortherCode2()}需要花费较长的CPU时间，在并发量较大的情况下，这种同步方案会导致等待线程的大量增加。一个较好的的优化方案是，只在必要时进行同步，可以减少锁的持有时间，如把上面的代码改为：
+\begin{Verbatim}[frame=single,numbersep=5pt,xleftmargin=1.5em,xrightmargin=1.5em]
+public void syncMethod(){
+    ortherCode1();
+    synchronized(this) {
+        mutexMethod();//只对该方法进行同步
+    }
+    ortherCode2();
+}
+\end{Verbatim}
+\subsection{减小锁的粒度}
+一个锁保护的共享数据的数量大小称为锁的粒度。如果一个锁保护的共享数据的数量大就称该锁的粒度粗，否则就称该锁的粒度细。锁的粒度过粗会导致线程在申请锁时进行不必要的等待。
+
+减少锁粒度是一种削弱多线程锁竞争的一种手段。
+\subsection{使用读写分离锁来代替独占锁}
+使用\dm{ReadWriteLock}读写分离锁可以提高系统性能，使用读写分离锁也是减小锁粒度的一种特殊情况，第二条建议是从分割数据结构实现减小锁的粒度，那么读写锁是对系统功能点的分割。
+
+在多数情况下都允许多个线程同时读，在写的时候采用独占锁，在读多写少的情况下，使用读写锁可以大大提高系统的并发能力。
+
+\subsection{锁分离}
+将读写锁的思想进一步延伸就是锁分离，读写锁是根据读写操作功能上的不同进行了锁分离。根据应用程序功能的特点，可以对独占锁进行分离。
+\subsection{粗锁化}
+为了保证多线程之间的有效并发，会要求每个线程持有锁的时间尽量短，但是凡事都有一个度，如果对一个锁不断地请求、同步和释放，也会消耗系统资源。
+
+JVM在遇到一连串不断的对同一个锁进行请求和释放操作时，会把所有的锁整合成对锁的一次请求从而减少对锁的请求次数，这个操作叫锁的粗化。在开发过程中有意识的在合理的场合进行锁的粗化，尤其是在循环体内请求锁时。
+\section{JVM对锁的优化}
+\subsection{锁偏向}
+锁偏向是一种针对加锁操作的优化，如果一个线程获得了锁，那么锁就进入偏向模式，当这个线程再次请求锁时，无需再做任何同步操作，这样可以节省有关锁的申请时间提高了程序的性能。
+
+锁偏向在没有竞争的场合可以有较好的优化效果，对于锁竞争比较激烈的场景，效果不佳。锁竞争激烈的情况下可能是每次都是不同的线程来请求锁。这时锁偏向模式就失效了。
+\subsection{轻量级锁}
+如果锁偏向失败，JVM不会立即挂起线程，还会使用一种称为轻量级锁的优化手段。会将共享对象的头部作为指针，指向持有锁的线程堆栈内部，来判断一个线程是否持有对象锁，如果线程获得轻量级锁成功，就进入临界区。如果获得轻量级锁失败，表示其他线程抢到了锁，那么当前线程锁的请求就膨胀为重量级锁。当前线程就转为阻塞队列中变为阻塞状态。
+
+偏向锁、轻量级锁都是乐观锁，重量级锁是悲观锁，一个对象刚开始实例化时，没有任何线程访问它，它是可偏向的，即它认为只可能有一个线程来访问它，所以当第一个线程来访问它的时候，它会偏向这个线程。偏向第一个线程，这个线程在修改对象头成为偏向锁时使用CAS操作，将对象头中\dm{ThreadId}改为自己的\dm{id}，之后再访问这个对象时，只需对比ID即可。一有第二个线程访问该对象，因为偏向锁不会主动释放，所以第二个线程可以查看对象的偏向状态，当第二个线程访问对象时，表示在这个对象上已经存在竞争了，检查原来持有对象锁的线程是否存活，如果挂了则将对象变为无锁，然后重新偏向新的线程。然后原来的线程依然存活，则马上执行原来线程的栈，检查该对象的使用情况，如果仍然需要偏向锁，则偏向锁升级为轻量级锁。
+
+轻量级锁认为竞争存在，但是竞争的程度很轻，一般两个线程对同一个锁的操作会错开，或者稍微等待一下（自旋）另外一个线程就会释放锁。当自旋超过一定次数或者一个线程持有锁，一个线程在自旋，又来第三个线程访问时，轻量级锁会膨胀为重量级锁。重量级锁除了持有锁的线程外，其他线程都阻塞。
 \end{document} 
